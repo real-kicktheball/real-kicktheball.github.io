@@ -1,0 +1,53 @@
+{
+  "name": "black_nut",
+  "username": "real-kicktheball",
+  "url": "https://real-kicktheball.github.io",
+  "tagline": "나이츠 프론티어 활동 기록",
+  "description": "나이츠 프론티어를 진행하며 한 활동들의 기록.",
+  "about": "black_nut입니다. 나이츠 프론티어를 진행하면서 한 활동들을 이 블로그에 기록합니다.",
+  "categories": [
+    {
+      "id": "development",
+      "name": "개발",
+      "code": "01",
+      "symbol": "</>",
+      "description": "코딩 문제 풀이와 프로젝트 기록."
+    },
+    {
+      "id": "ctf",
+      "name": "CTF/Wargame",
+      "code": "02",
+      "symbol": "⚑",
+      "description": "CTF와 워게임 문제별 풀이."
+    },
+    {
+      "id": "bug-bounty",
+      "name": "Bug Bounty",
+      "code": "03",
+      "symbol": "⌘",
+      "description": "공개할 수 있는 취약점 분석 기록."
+    },
+    {
+      "id": "writing",
+      "name": "블로그/기술문서",
+      "code": "04",
+      "symbol": "≡",
+      "description": "블로그 설정과 기술 메모."
+    },
+    {
+      "id": "research",
+      "name": "논문/컨퍼런스",
+      "code": "05",
+      "symbol": "◇",
+      "description": "읽은 논문과 발표 정리."
+    },
+    {
+      "id": "challenges",
+      "name": "공모전/자격증",
+      "code": "06",
+      "symbol": "✧",
+      "description": "대회 참가 기록과 자격증 공부."
+    }
+  ],
+  "nickname": "black_nut"
+}
