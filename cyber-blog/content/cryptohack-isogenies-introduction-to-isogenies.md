@@ -8,17 +8,11 @@
 
 ## 최종 풀이 코드
 
-다음 코드를 `python`으로 실행한다. 첨부 파일을 사용하는 코드는 공식 URL에서 내려받는다.
-
 ```python
 degree = 65537
 kernel_size = degree  # separable isogeny
 print(kernel_size)
 ```
-
-## 검증 방법
-
-표준 출력이 아래 정답과 같은지 확인한다. 플랫폼 제출 상태는 별도로 기록한다.
 
 ## 최종 정답
 

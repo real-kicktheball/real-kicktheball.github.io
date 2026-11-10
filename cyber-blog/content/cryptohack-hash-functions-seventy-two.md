@@ -8,8 +8,6 @@ bcrypt는 입력 키를 72바이트까지만 사용한다. 테넌트 식별자�
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. `mixed_up`은 약 수백 번의 해시 질의를 하므로 실행에 수분 걸릴 수 있다.
-
 ```python
 import socket, json, string, re
 user = 'k.barrymore@corp.bluerock.example'
@@ -26,14 +24,6 @@ with socket.create_connection(('socket.cryptohack.org',13433),timeout=10) as soc
             break
     else:
         raise RuntimeError('first password character not found')
-```
-
-## 검증 방법
-
-코드가 공식 서비스의 응답에서 아래 플래그를 출력하는지 확인한다.
-
-```text
-crypto{53v3n7y_7w0_by73_c31l1n6}
 ```
 
 ## 최종 플래그

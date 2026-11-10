@@ -16,10 +16,6 @@ cert=x509.load_der_x509_certificate(requests.get(u).content)
 print(cert.public_key().public_numbers().n)
 ```
 
-## 검증 방법
-
-위 코드를 Python 3에서 실행하여 아래 결과를 확인한다. 문제 페이지의 제출 상태에서도 정답 처리됨을 확인했다.
-
 ## 최종 플래그
 
 ```text

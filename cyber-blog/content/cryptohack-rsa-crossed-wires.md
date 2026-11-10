@@ -47,16 +47,6 @@ assert pow(m,E,N)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 다시 실행해 아래 결과를 얻었다. 복원한 p,q의 곱, 본인 공개·비밀지수 관계, 모든 친구의 공통 N, 재암호화 결과를 확인한다.
-
-```text
-crypto{3ncrypt_y0ur_s3cr3t_w1th_y0ur_fr1end5_publ1c_k3y}
-```
-
 ## 최종 플래그
 
 `crypto{3ncrypt_y0ur_s3cr3t_w1th_y0ur_fr1end5_publ1c_k3y}`

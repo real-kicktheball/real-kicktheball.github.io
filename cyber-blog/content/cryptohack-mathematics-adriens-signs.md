@@ -20,16 +20,6 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. Legendre 값이 1/−1로 분리되는지 검사하고, 복원한 바이트를 UTF-8 문자열로 읽는다.
-
-```text
-crypto{p4tterns_1n_re5idu3s}
-```
-
 ## 최종 플래그
 
 `crypto{p4tterns_1n_re5idu3s}`

@@ -8,8 +8,6 @@
 
 ## 최종 풀이 코드
 
-`SageMath`와 Sage의 Python 환경에 `pycryptodome`, `requests`가 필요하다. `sage -python solve.py`로 실행한다.
-
 ```python
 from sage.all import *
 from Crypto.Cipher import AES
@@ -26,14 +24,6 @@ S=n*B;key=hashlib.sha1(str(int(S[0])).encode()).digest()[:16]
 iv=bytes.fromhex('07e2628b590095a5e332d397b8a59aa7');ct=bytes.fromhex('8220b7c47b36777a737f5ef9caa2814cf20c1c1ef496ec21a9b4833da24a008d0870d3ac3a6ad80065c138a2ed6136af')
 print(unpad(AES.new(key,AES.MODE_CBC,iv).decrypt(ct),16).decode())
 
-```
-
-## 검증 방법
-
-코드의 `assert`가 성립하고 아래 출력이 나오는지 확인한다. AES 문제에서는 PKCS#7 패딩 해제가 성공해야 한다.
-
-```text
-crypto{n07_4ll_curv3s_4r3_s4f3_curv3s}
 ```
 
 ## 최종 플래그

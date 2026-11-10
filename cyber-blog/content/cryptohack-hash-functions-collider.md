@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3에서 실행한다. `collider`는 `requests`, `md0`는 `pycryptodome`이 필요하다.
-
 ```python
 import requests, hashlib, json, socket, re
 base = 'https://raw.githubusercontent.com/corkami/collisions/master/examples/'
@@ -23,14 +21,6 @@ with socket.create_connection(('socket.cryptohack.org',13389),timeout=10) as soc
         io.write(json.dumps({'document':doc.hex()}).encode()+b'\n')
         reply = json.loads(io.readline())
 print(re.search(r'crypto\{[^}]+\}',reply['error']).group(0))
-```
-
-## 검증 방법
-
-코드를 실행해 플래그가 출력되는지 확인한다. `collider`는 두 문서가 다른데도 MD5가 동일함을 `assert`하고, `md0`는 공식 서비스의 `get_flag` 응답을 확인한다.
-
-```text
-crypto{m0re_th4n_ju5t_p1g30nh0le_pr1nc1ple}
 ```
 
 ## 최종 플래그

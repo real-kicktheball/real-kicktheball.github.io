@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-`pip install numpy pycryptodome` 후 Python 3에서 실행한다. 탐색은 고정 시드로 재현 가능하다.
-
 ```python
 import json,random,socket,string,numpy as np
 from Crypto.Util.number import isPrime
@@ -27,10 +25,6 @@ with socket.create_connection(('socket.cryptohack.org',13400),timeout=10) as soc
  print(json.loads(f.readline())['msg'])
 
 ```
-
-## 검증 방법
-
-고정 시드에서는 암호 `I5s3kC5Sc1g`, 합 853, NumPy 곱 7070923416514165751이 나온다. 두 수는 모두 소수이며 서버 응답은 아래 플래그다.
 
 ## 최종 플래그
 

@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-아래를 `solve.sage`로 저장하고 `sage solve.sage`로 실행한다.
-
 ```python
 import requests
 
@@ -33,12 +31,6 @@ flag = decoded.split(b'}', 1)[0] + b'}'
 assert flag.startswith(b'crypto{')
 print(flag.decode())
 ```
-
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-복원한 행렬을 다시 31337제곱해 암호문과 정확히 일치함을 확인했다. 추출한 비트열은 정상적인 `crypto{...}` 형식을 갖는다.
 
 ## 최종 플래그
 

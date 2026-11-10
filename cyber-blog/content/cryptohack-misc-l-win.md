@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 공식 출력 파일을 받아 복원한다.
-
 ```python
 from urllib.request import urlopen
 bits=list(map(int,urlopen('https://cryptohack.org/static/challenges/output_7e5c4d93fa5d065d105e32efd7ef9682.txt').read().decode().strip()))
@@ -31,10 +29,6 @@ flag_bits=''.join(str(s[i]) for i in range(-768,-384))
 flag=int(flag_bits,2).to_bytes(48,'big')
 print(flag.decode())
 ```
-
-## 검증 방법
-
-Berlekamp–Massey에서 얻은 연결 다항식이 관측된 출력 전체를 만족하는지, 역방향으로 얻은 48바이트가 아래 플래그와 같은지 확인한다.
 
 ## 최종 플래그
 

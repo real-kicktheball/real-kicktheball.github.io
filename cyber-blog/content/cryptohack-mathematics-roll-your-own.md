@@ -23,16 +23,6 @@ with socket.create_connection(('socket.cryptohack.org',13403),timeout=10) as soc
     print(json.loads(io.readline().decode().split('What is my private key: ')[1])['flag'])
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-선택한 매개변수가 서버 조건을 만족하는지, 복원한 비밀값으로 공개값이 다시 만들어지는지 검사했다. 서버가 플래그를 반환했다.
-
-```text
-crypto{Grabbing_Flags_with_Pascal_Paillier}
-```
-
 ## 최종 플래그
 
 `crypto{Grabbing_Flags_with_Pascal_Paillier}`

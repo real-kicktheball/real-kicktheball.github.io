@@ -15,10 +15,6 @@ ciphertext=bytes.fromhex('d14f146aa42b4fb6a1c40842298f12dd')
 print(AES.new(key,AES.MODE_ECB).decrypt(ciphertext).decode())
 ```
 
-## 검증 결과
-
-재현 코드 실행 또는 문제의 정의 확인으로 아래 결과를 얻었다. 문제 페이지의 정답 처리 상태까지 확인했다.
-
 ## 최종 플래그
 
 ```text

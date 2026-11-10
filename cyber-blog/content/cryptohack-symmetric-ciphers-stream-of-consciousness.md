@@ -37,10 +37,6 @@ assert re.fullmatch(rb'crypto\{[A-Za-z0-9_]+\}',flag),flag
 print(flag.decode())
 ```
 
-## 검증 방법
-
-Python 3에서 위 코드를 실행해 서버 응답 또는 복호화 결과가 아래 플래그와 일치하는지 확인한다.
-
 ## 최종 플래그
 
 ```text

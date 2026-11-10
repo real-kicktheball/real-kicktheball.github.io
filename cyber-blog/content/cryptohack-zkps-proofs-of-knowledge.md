@@ -8,8 +8,6 @@ Schnorr 지식 증명에서 증인 $w$가 첨부 소스에 그대로 있다. $r=
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 실행 시 공식 서버와 통신하고 검증식도 검사한다.
-
 ```python
 import socket, json, ast
 from urllib.request import urlopen
@@ -49,10 +47,6 @@ send(f,{'z':z})
 print(recv(f)['flag'])
 s.close()
 ```
-
-## 검증 방법
-
-코드 내 `assert`가 관련 수학식을 검증한다. 공식 소켓 서버의 응답 또는 복원한 증인에서 아래 플래그가 출력되는 것을 확인한다.
 
 ## 최종 플래그
 

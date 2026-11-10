@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3에서 실행한다. `merkletrees`는 `requests`가 필요하다.
-
 ```python
 import socket, json, re
 # 8x8 전치의 역원도 같은 전치다. 아래 두 메시지는 첫 라운드 S-box 입력만 0x50/0x80으로 다르다.
@@ -22,14 +20,6 @@ with socket.create_connection(('socket.cryptohack.org',13395),timeout=10) as soc
     sock.sendall(json.dumps({'a':a.hex(),'b':b.hex()}).encode()+b'\n')
     reply = sock.recv(4096).decode()
 print(re.search(r'crypto\{[^}]+\}',reply).group(0))
-```
-
-## 검증 방법
-
-스크립트를 실행하여 아래 출력이 나오는지 확인한다. `stuffing`은 역변환한 블록의 scramble 결과가 0임을 `assert`한다. `no_difference`는 공식 서비스의 충돌 판정을 확인한다.
-
-```text
-crypto{n0_d1ff_n0_pr0bl3m}
 ```
 
 ## 최종 플래그

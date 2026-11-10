@@ -16,10 +16,6 @@ masked=bytes.fromhex('04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf')
 print(bytes(a^b^c for a,b,c in zip(masked,k1,k2k3)).decode())
 ```
 
-## 검증 방법
-
-위 코드를 Python 3에서 실행하여 아래 결과를 확인한다. 문제 페이지의 제출 상태에서도 정답 처리됨을 확인했다.
-
 ## 최종 플래그
 
 ```text

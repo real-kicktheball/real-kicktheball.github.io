@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3에서 실행한다. Missing Modulus는 `pip install numpy`가 필요하며 계산 전에 `OPENBLAS_NUM_THREADS=1` 설정을 권장한다.
-
 ```python
 import socket,json,collections,time
 q=127
@@ -38,10 +36,6 @@ with socket.create_connection(('socket.cryptohack.org',13390),timeout=15) as soc
  print(flag.decode())
 
 ```
-
-## 검증 방법
-
-반복 수집한 같은 위치의 복원 바이트가 서로 일치하는지 검사했다. 출력은 아래 플래그와 일치한다.
 
 ## 최종 플래그
 

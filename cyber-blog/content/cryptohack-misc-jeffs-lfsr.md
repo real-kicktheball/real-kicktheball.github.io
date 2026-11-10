@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-`pip install z3-solver pycryptodome` 후 Python 3에서 실행한다. 공식 출력 파일을 직접 가져온다.
-
 ```python
 import ast,hashlib,z3
 from functools import reduce
@@ -51,10 +49,6 @@ if res==z3.sat:
  print(flag.decode())
 
 ```
-
-## 검증 방법
-
-Z3 모델은 256개 출력 제약을 모두 만족한다. 해당 키로 AES-CBC를 복호화하고 PKCS#7 패딩 검사를 통과하는지 확인한다.
 
 ## 최종 플래그
 

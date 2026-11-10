@@ -26,16 +26,6 @@ flag=re.search(rb'crypto\{[^}]+\}',long_to_bytes(m)).group().decode()
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 평문 후보를 다시 16제곱해 암호문과 일치하는지 검사한다. 문장 내부에서 플래그를 추출한다.
-
-```text
-crypto{m0dul4r_squ4r3_r00t}
-```
-
 ## 최종 플래그
 
 `crypto{m0dul4r_squ4r3_r00t}`

@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 공식 첨부 파일을 내려받아 플래그를 재구성한다.
-
 ```python
 from urllib.request import urlopen
 import ast, re
@@ -29,10 +27,6 @@ value = sum(bit<<index for index,bit in enumerate(bits))
 flag = value.to_bytes((value.bit_length()+7)//8,'big')
 print(flag.decode())
 ```
-
-## 검증 방법
-
-`pow(2,(q-1)//2,q)==q-1`을 확인한다. 공식 출력의 399개 암호문에서 399비트를 복원했으며 최종 바이트가 아래 플래그다.
 
 ## 최종 플래그
 

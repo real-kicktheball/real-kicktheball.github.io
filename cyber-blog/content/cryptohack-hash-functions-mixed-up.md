@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. `mixed_up`은 약 수백 번의 해시 질의를 하므로 실행에 수분 걸릴 수 있다.
-
 ```python
 import socket,json,hashlib,re,time
 L=len(b'crypto{???????????????????????????????}')
@@ -32,14 +30,6 @@ with socket.create_connection(('socket.cryptohack.org',13402),timeout=10) as s:
  assert flag.startswith('crypto{') and flag.endswith('}')
  print(flag)
 
-```
-
-## 검증 방법
-
-코드가 공식 서비스의 응답에서 아래 플래그를 출력하는지 확인한다.
-
-```text
-crypto{y0u_c4n7_m1x_3v3ry7h1n6_1n_l1f3}
 ```
 
 ## 최종 플래그

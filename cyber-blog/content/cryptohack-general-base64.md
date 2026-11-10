@@ -14,10 +14,6 @@ h = "72bca9b68fc16ac7beeb8f849dca1d8a783e8acf9679bf9269f7bf"
 print(base64.b64encode(bytes.fromhex(h)).decode())
 ```
 
-## 검증 방법
-
-위 코드를 Python 3에서 실행하여 아래 결과를 확인한다. 문제 페이지의 제출 상태에서도 정답 처리됨을 확인했다.
-
 ## 최종 플래그
 
 ```text

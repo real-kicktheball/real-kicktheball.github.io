@@ -26,16 +26,6 @@ assert flag.startswith('crypto{')
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-복원한 `b`로 공개값 B를 재계산해 일치함을 확인했다. AES-CBC 복호화의 PKCS#7 패딩도 유효하다.
-
-```text
-crypto{b3_c4r3ful_w1th_y0ur_n0tati0n}
-```
-
 ## 최종 플래그
 
 `crypto{b3_c4r3ful_w1th_y0ur_n0tati0n}`

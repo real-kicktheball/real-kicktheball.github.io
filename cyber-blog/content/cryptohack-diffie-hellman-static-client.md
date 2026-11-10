@@ -36,16 +36,6 @@ with socket.create_connection(('socket.cryptohack.org',13373),timeout=10) as soc
     print(decrypt(shared,ciphertext))
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 새 서버 세션에 접속해 아래 결과를 얻었다. Bob에게서 받은 새 B로 원래 Alice의 암호문을 복호화하여 플래그 형식을 확인했다.
-
-```text
-crypto{n07_3ph3m3r4l_3n0u6h}
-```
-
 ## 최종 플래그
 
 `crypto{n07_3ph3m3r4l_3n0u6h}`

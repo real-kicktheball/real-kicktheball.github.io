@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 및 `requests` 패키지가 필요하다. 코드를 실행하면 실습 서버에서 플래그를 직접 받아 출력한다.
-
 ```python
 import requests, json, base64, hmac, hashlib, urllib.parse, re
 
@@ -33,14 +31,6 @@ def flag_from(response):
     return re.search(r'crypto\{[^}]+\}', response['response']).group(0)
 forged = token({'username':'attacker','admin':True}, 'HS256', b'secret')
 print(flag_from(endpoint('jwt-secrets', 'authorise', forged)))
-```
-
-## 검증 방법
-
-코드를 실행해 `authorise`의 `response` 필드에서 아래 플래그가 출력되는지 확인한다. 서버의 공개된 소스에서 권한 검사 조건과 토큰 생성 방식을 대조할 수 있다.
-
-```text
-crypto{jwt_secret_keys_must_be_protected}
 ```
 
 ## 최종 플래그

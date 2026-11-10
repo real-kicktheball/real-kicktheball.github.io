@@ -8,8 +8,6 @@ CSIDH 비밀 지수 벡터 $[2,3,4]$는 각각 3-, 5-, 7-isogeny의 양의 방�
 
 ## 최종 풀이 코드
 
-아래 코드를 `solve.sage`로 저장하고 `sage solve.sage`로 실행한다.
-
 ```python
 F=GF(419)
 E0=EllipticCurve(F,[1,0])
@@ -27,10 +25,6 @@ for ell,exponent in [(3,2),(5,3),(7,4)]:
 A=E.montgomery_model().a2()
 print(A)
 ```
-
-## 검증 방법
-
-코드의 `assert`가 커널과 isogeny의 차수를 검사한다. 결과가 아래 플래그와 일치한다.
 
 ## 최종 플래그
 

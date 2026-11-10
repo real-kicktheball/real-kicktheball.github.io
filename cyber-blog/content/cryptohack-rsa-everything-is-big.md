@@ -42,16 +42,6 @@ else:
     raise ValueError('Wiener attack failed')
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 다시 실행해 아래 결과를 얻었다. 인수 p,q의 곱이 N인지, 복호화한 m을 재암호화했을 때 c인지 확인한다.
-
-```text
-crypto{s0m3th1ng5_c4n_b3_t00_b1g}
-```
-
 ## 최종 플래그
 
 `crypto{s0m3th1ng5_c4n_b3_t00_b1g}`

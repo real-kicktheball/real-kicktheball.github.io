@@ -8,18 +8,8 @@
 
 ## 최종 풀이 코드
 
-curl, openssl 또는 tshark가 필요하다.
-
 ```bash
 openssl s_client -connect tls1.cryptohack.org:443 -servername tls1.cryptohack.org -tls1_2 </dev/null 2>/dev/null | openssl x509 -noout -issuer
-```
-
-## 검증 방법
-
-코드를 실행해 아래 출력의 핵심 값과 비교한다. 문제 페이지에 동일한 값을 제출하면 채점 결과를 확인할 수 있다.
-
-```text
-Let's Encrypt
 ```
 
 ## 최종 답

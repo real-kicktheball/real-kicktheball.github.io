@@ -32,16 +32,6 @@ with socket.create_connection(('socket.cryptohack.org',13376),timeout=10) as soc
     print(ask({'option':'verify','msg':admin.hex(),'signature':hex(signature)})['response'])
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 복원한 서명을 공개키로 검증해 admin=True 정수와 같음을 확인한 뒤 서버 verify 응답을 받았다.
-
-```text
-crypto{m4ll34b1l17y_c4n_b3_d4n63r0u5}
-```
-
 ## 최종 플래그
 
 `crypto{m4ll34b1l17y_c4n_b3_d4n63r0u5}`

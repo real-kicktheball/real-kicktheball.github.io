@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 공식 소스와 암호문을 직접 받아 처리한다.
-
 ```python
 import ast,json
 from urllib.request import urlopen
@@ -41,10 +39,6 @@ for gap in range(1,1002):
    quit()
 
 ```
-
-## 검증 방법
-
-복원한 $P$가 $N$을 나누는지, 계산한 $Q=N/P$가 LCG 전이식과 일치하는지 검사한 다음 RSA 개인 지수로 복호화한다.
 
 ## 최종 플래그
 

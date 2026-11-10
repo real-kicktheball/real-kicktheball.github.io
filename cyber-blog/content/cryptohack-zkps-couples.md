@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 공식 서버에 접속한다.
-
 ```python
 import socket, json
 p=21888242871839275222246405745257275088696311157297823662689037894645226208583
@@ -24,10 +22,6 @@ with socket.create_connection(('socket.cryptohack.org',13415),timeout=10) as soc
     result=ask({'option':'do_proof','G':'(1,2,1)','hsh':'0'})
     print(result['msg'])
 ```
-
-## 검증 방법
-
-서버가 `Internal z changed!`를 응답하고, 이어 `do_proof`에 아래 플래그를 돌려주는지 확인한다.
 
 ## 최종 플래그
 

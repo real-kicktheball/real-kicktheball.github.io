@@ -8,8 +8,6 @@
 
 ## 최종 풀이 코드
 
-`pip install pycryptodome` 후 아래 코드를 `solve.sage`로 저장하고 `sage solve.sage`로 실행한다. 코드가 공식 출력 파일을 직접 가져온다.
-
 ```python
 from sage.all import *
 from urllib.request import urlopen
@@ -35,10 +33,6 @@ iv=bytes.fromhex(re.search(r"iv = '(.*?)'",text).group(1))
 ct=bytes.fromhex(re.search(r"ct = '(.*?)'",text).group(1))
 print(unpad(AES.new(key,AES.MODE_CBC,iv).decrypt(ct),16).decode())
 ```
-
-## 검증 방법
-
-`assert R==a*P+b*Q and S==c*P+d*Q`가 두 개의 2차원 이산로그를 검증한다. 이어서 패딩을 검사하며 복호화한 결과가 아래 플래그인지 확인한다.
 
 ## 최종 플래그
 

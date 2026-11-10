@@ -25,16 +25,6 @@ flag=long_to_bytes(m).decode()
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 재암호화한 정수가 원래 암호문과 같은지 확인한다.
-
-```text
-crypto{0n3_pr1m3_41n7_pr1m3_l0l}
-```
-
 ## 최종 플래그
 
 `crypto{0n3_pr1m3_41n7_pr1m3_l0l}`

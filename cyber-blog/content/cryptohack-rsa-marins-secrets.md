@@ -26,16 +26,6 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 두 인수의 형태와 소수성을 확인하고 복호화한 값을 재암호화했다.
-
-```text
-crypto{Th3se_Pr1m3s_4r3_t00_r4r3}
-```
-
 ## 최종 플래그
 
 `crypto{Th3se_Pr1m3s_4r3_t00_r4r3}`

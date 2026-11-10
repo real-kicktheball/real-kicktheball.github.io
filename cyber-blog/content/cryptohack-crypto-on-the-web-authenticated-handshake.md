@@ -8,8 +8,6 @@ TLS 1.3의 Client Finished 검증값은 `HMAC(finished_key, SHA384(transcript))`
 
 ## 최종 풀이 코드
 
-Python 3, requests, scapy, pycryptodome가 필요하다.
-
 ```python
 import requests, tempfile
 from pathlib import Path
@@ -68,14 +66,6 @@ with tempfile.TemporaryDirectory() as work:
  finished=hmac.new(client_finished_key,hashlib.sha384(b''.join(messages)).digest(),hashlib.sha384).digest()
  print(finished.hex())
 
-```
-
-## 검증 방법
-
-코드를 실행해 아래 출력의 핵심 값과 비교한다. 문제 페이지에 동일한 값을 제출하면 채점 결과를 확인할 수 있다.
-
-```text
-b51d7b5fb12aa3d692140d8f1f80732610e99411ca0f6d928b0f60570cbc778e672457a729d7cf3b58bc174f00dc5d30
 ```
 
 ## 최종 답

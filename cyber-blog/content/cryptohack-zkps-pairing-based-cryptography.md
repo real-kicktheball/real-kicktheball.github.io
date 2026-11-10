@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-`pip install py-ecc` 후 Python 3에서 실행한다. 공식 출력 파일을 직접 가져온다.
-
 ```python
 from ast import literal_eval
 from urllib.request import urlopen
@@ -26,10 +24,6 @@ flag=value.to_bytes((value.bit_length()+7)//8,'big')
 print(flag.decode())
 
 ```
-
-## 검증 방법
-
-각 행의 G1/G2 좌표와 FQ12 값을 다시 구성해 페어링을 직접 계산한다. 복원한 비트열의 바이트 변환 결과가 아래 플래그다.
 
 ## 최종 플래그
 

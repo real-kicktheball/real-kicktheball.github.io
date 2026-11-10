@@ -8,8 +8,6 @@ Shamir 3-of-7처럼 보이지만 다항식 계수가 난수가 아니라 앞선 
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 네트워크가 필요한 코드는 공식 서버에 접속한다.
-
 ```python
 from ast import literal_eval
 from hashlib import sha256
@@ -24,10 +22,6 @@ flag=secret.to_bytes((secret.bit_length()+7)//8,'big')
 assert int.from_bytes(sha256(flag).digest(),'big')==x
 print(flag.decode())
 ```
-
-## 검증 방법
-
-코드의 출력이 아래 플래그와 같은지 확인한다. Armory에서는 $x=SHA256(secret)$ 검사도 수행한다.
 
 ## 최종 플래그
 

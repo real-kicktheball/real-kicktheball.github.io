@@ -41,16 +41,6 @@ with socket.create_connection(('socket.cryptohack.org',13379),timeout=10) as soc
     print(decrypt(pow(B,a,p),ciphertext))
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 새 서버 세션에 접속해 아래 결과를 얻었다. 구한 이산로그 a를 다시 거듭제곱해 Alice 공개값과 일치하는지 확인하고 CBC 암호문을 복호화했다.
-
-```text
-crypto{d0wn6r4d35_4r3_d4n63r0u5}
-```
-
 ## 최종 플래그
 
 `crypto{d0wn6r4d35_4r3_d4n63r0u5}`

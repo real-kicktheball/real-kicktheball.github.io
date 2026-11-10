@@ -8,8 +8,6 @@
 
 ## 최종 풀이 코드
 
-Python 3 표준 라이브러리만 사용한다. 실행하면 공식 `output.txt`를 받아 최종 정답을 출력한다.
-
 ```python
 from ast import literal_eval
 from urllib.request import urlopen
@@ -25,10 +23,6 @@ delta=round(q/p)
 t=(data['b']-sum(a*s for a,s in zip(data['A'],data['S'])))%q
 print(round(t/delta)%p)
 ```
-
-## 검증 방법
-
-코드를 실행하여 아래 출력과 비교한다. 동일한 값을 CryptoHack에 제출한 후 해당 문제에 **solved** 표시가 나타나는 것도 확인했다.
 
 ## 최종 정답
 

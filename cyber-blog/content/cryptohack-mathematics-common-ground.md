@@ -26,16 +26,6 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 계산한 g의 해시로 CBC 복호화하고 PKCS#7 패딩 및 플래그 형식을 확인한다.
-
-```text
-crypto{n0_r34$0n_t0_b05h3r_w1th_l4rG3_GCD}
-```
-
 ## 최종 플래그
 
 `crypto{n0_r34$0n_t0_b05h3r_w1th_l4rG3_GCD}`

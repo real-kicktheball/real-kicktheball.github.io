@@ -8,8 +8,6 @@
 
 ## 최종 풀이 코드
 
-Python 3에서 실행한다. 필요한 외부 패키지는 `ecc4`에만 `pycryptodome`이다.
-
 ```python
 import hashlib
 p, a, b = 9739, 497, 1768
@@ -41,14 +39,6 @@ def mul(n, P):
 S = mul(1829, (815,3190))
 assert on_curve(S)
 print(hashlib.sha1(str(S[0]).encode()).hexdigest())
-```
-
-## 검증 방법
-
-코드를 실행해 아래 결과와 일치하는지 확인한다. 이어서 위 원문 링크에서 같은 값을 제출하면 정답 처리된다. 코드 안의 `assert`는 문제에서 제공한 테스트 벡터나 수학적 조건을 확인한다.
-
-```text
-80e5212754a824d3a4aed185ace4f9cac0f908bf
 ```
 
 ## 최종 플래그

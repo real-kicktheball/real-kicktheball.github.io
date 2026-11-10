@@ -52,10 +52,6 @@ with socket.create_connection(('socket.cryptohack.org',13406),timeout=20) as s:
  print('FLAG',pt[:-pt[-1]].decode())
 ```
 
-## 검증 방법
-
-`python3`으로 코드를 실행해 서버의 암호문에서 아래 플래그를 출력하는지 확인한다. 단위 비트 128개의 결과가 가역행렬(`rank=128`)임도 코드에서 검증한다.
-
 ## 최종 플래그
 
 ```text

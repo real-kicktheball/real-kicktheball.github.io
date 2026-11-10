@@ -23,16 +23,6 @@ assert exact and m**3==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 복원한 m의 세제곱이 암호문 c와 정확히 일치한다.
-
-```text
-crypto{N33d_m04R_p4dd1ng}
-```
-
 ## 최종 플래그
 
 `crypto{N33d_m04R_p4dd1ng}`

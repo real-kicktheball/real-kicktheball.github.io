@@ -38,16 +38,6 @@ for (i,a),(j,b) in itertools.combinations(keys.items(),2):
 raise ValueError('Flag not found')
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-실행 시 두 공개키에서 4096비트 공통 인수를 찾았고, 복원한 개인키로 OAEP 복호화에 성공했다.
-
-```text
-crypto{3ucl1d_w0uld_b3_pr0ud}
-```
-
 ## 최종 플래그
 
 `crypto{3ucl1d_w0uld_b3_pr0ud}`

@@ -8,8 +8,6 @@
 
 ## 최종 풀이 코드
 
-다음 코드를 `sage -python`으로 실행한다. 첨부 파일을 사용하는 코드는 공식 URL에서 내려받는다.
-
 ```python
 from sage.all import GF, EllipticCurve
 F=GF(1912812599)
@@ -17,10 +15,6 @@ E=EllipticCurve(F,[312589632,654443578])
 M=E.montgomery_model()
 print(int(M.a2()))
 ```
-
-## 검증 방법
-
-표준 출력이 아래 정답과 같은지 확인한다. 플랫폼 제출 상태는 별도로 기록한다.
 
 ## 최종 정답
 

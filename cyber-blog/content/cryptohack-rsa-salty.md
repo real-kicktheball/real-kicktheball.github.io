@@ -22,16 +22,6 @@ assert int.from_bytes(flag.encode(),'big')==c
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 다시 정수로 바꾸어 암호문과 일치하는지 확인한다.
-
-```text
-crypto{saltstack_fell_for_this!}
-```
-
 ## 최종 플래그
 
 `crypto{saltstack_fell_for_this!}`

@@ -25,16 +25,6 @@ with socket.create_connection(('socket.cryptohack.org',13374),timeout=10) as soc
     print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 서명 결과를 공개지수로 다시 거듭제곱해 get_secret의 암호문과 일치하는지 확인한다.
-
-```text
-crypto{d0n7_516n_ju57_4ny7h1n6}
-```
-
 ## 최종 플래그
 
 `crypto{d0n7_516n_ju57_4ny7h1n6}`

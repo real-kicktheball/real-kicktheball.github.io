@@ -28,16 +28,6 @@ with socket.create_connection(('socket.cryptohack.org',13391),timeout=10) as soc
     print(re.search(r'crypto\{[^}]+\}',result).group())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 공격자가 고른 N,e로 원본 서명을 계산한 값이 원하는 메시지 인코딩과 같음을 확인하고 서버의 성공 응답을 받았다.
-
-```text
-crypto{dupl1c4t3_s1gn4tur3_k3y_s3l3ct10n}
-```
-
 ## 최종 플래그
 
 `crypto{dupl1c4t3_s1gn4tur3_k3y_s3l3ct10n}`

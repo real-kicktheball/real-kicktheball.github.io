@@ -52,10 +52,6 @@ p=bytes(a^b for a,b in zip(flagct,block(initial)))
 print('FLAG',p.decode())
 ```
 
-## 검증 방법
-
-Python 3에서 위 코드를 실행해 서버 응답의 최종 플래그가 아래 문자열과 일치하는지 확인한다.
-
 ## 최종 플래그
 
 ```text

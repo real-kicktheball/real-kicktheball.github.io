@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3에서 실행한다. `curveball`과 `ps3`에는 `ecdsa` 패키지, `digestive`에는 `requests` 패키지가 필요하다.
-
 ```python
 import socket,json,hashlib,re
 from ecdsa.ecdsa import generator_192
@@ -29,14 +27,6 @@ with socket.create_connection(('socket.cryptohack.org',13381),timeout=10) as soc
  reply=json.loads(io.readline())
  print(reply['flag'])
 
-```
-
-## 검증 방법
-
-스크립트를 실행해 아래 출력과 일치하는지 확인한다. `curveball`은 `2g=Q`, `digestive`는 서명 대상의 앞 24바이트가 동일함을 `assert`한다.
-
-```text
-crypto{ECDSA_700_345y_70_5cr3wup}
 ```
 
 ## 최종 플래그

@@ -1,5 +1,5 @@
 ---
-{"title":"Fast Primes","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"생성 코드가 소수 구조를 제한한다. 본 문서는 공개 FactorDB에 등록된 인수를 조회해 개인키를 복원하는 재현 가능한 경로다. 구조를 이용한 직접 인수분해를 구현한 것은 아니므로 그 한계를 구분한다.","section":["CryptoHack","RSA"]}
+{"title":"Fast Primes","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"생성 코드가 소수의 구조를 제한하고 있다. N의 인수가 FactorDB에 등록되어 있어서 이를 조회해 개인키를 복원했다.","section":["CryptoHack","RSA"]}
 ---
 
 ## 풀이 원리
@@ -26,16 +26,6 @@ private=RSA.construct((public.n,public.e,d,p,q))
 flag=PKCS1_OAEP.new(private).decrypt(ct).decode()
 assert flag.startswith('crypto{')
 print(flag)
-```
-
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-인수 두 개의 곱을 n과 대조하고, 복원한 평문을 RSA로 재암호화해 c와 일치함을 확인했다. 공개 인수 조회에 네트워크가 필요하다.
-
-```text
-crypto{p00R_3570n14}
 ```
 
 ## 최종 플래그

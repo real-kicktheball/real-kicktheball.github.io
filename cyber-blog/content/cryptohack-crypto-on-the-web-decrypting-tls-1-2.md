@@ -8,8 +8,6 @@ TLS 1.2 캡처는 정적 RSA 키 교환을 사용한다. `ClientKeyExchange`의 
 
 ## 최종 풀이 코드
 
-Python 3, requests, scapy, pycryptodome, tshark가 필요하다.
-
 ```python
 import requests, tempfile, subprocess, re
 from pathlib import Path
@@ -67,14 +65,6 @@ with tempfile.TemporaryDirectory() as work:
  output=subprocess.check_output(['tshark','-r',str(pcap),'-o','tls.keylog_file:'+str(keylog),'-Y','http2.data.data','-T','fields','-e','http2.data.data'],stderr=subprocess.DEVNULL,text=True)
  plaintext=b''.join(bytes.fromhex(x.strip()) for x in output.splitlines() if x.strip())
  print(re.search(rb'crypto\{[^}]+\}',plaintext).group(0).decode())
-```
-
-## 검증 방법
-
-코드를 실행해 아래 출력의 핵심 값과 비교한다. 문제 페이지에 동일한 값을 제출하면 채점 결과를 확인할 수 있다.
-
-```text
-crypto{weaknesses_of_non_ephemeral_key_exchange}
 ```
 
 ## 최종 답

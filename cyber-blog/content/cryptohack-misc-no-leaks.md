@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 실행하면 각 바이트 위치에서 255개 가능한 암호문 값을 모두 확인한 후 플래그를 출력한다.
-
 ```python
 import base64,json,socket,threading,time
 seen=[set() for _ in range(20)]
@@ -49,10 +47,6 @@ flag=bytes(next(iter(x)) for x in missing)
 print('FLAG',flag.decode(),flush=True)
 
 ```
-
-## 검증 방법
-
-각 위치에서 관측한 암호문 값이 정확히 255종류인지 `assert`로 확인한다. 남은 한 값씩 이어 붙인 결과가 아래 플래그인지 확인한다. [공개 참고 풀이](https://github.com/jeonyujin4209/crypto_ctf/tree/main/cryptohack/Misc/One%20Time%20Pad/No%20Leaks)와도 마지막 바이트를 교차 확인했다.
 
 ## 최종 플래그
 

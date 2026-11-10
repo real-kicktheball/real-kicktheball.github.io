@@ -36,10 +36,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
 print('FLAG',known)
 ```
 
-## 검증 방법
-
-코드를 실행해 각 단계에서 최솟값 후보가 하나로 좁혀지는지 확인하고, 아래 플래그가 출력되는지 확인한다.
-
 ## 최종 플래그
 
 ```text

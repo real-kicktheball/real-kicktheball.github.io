@@ -1,10 +1,10 @@
 ---
-{"title":"Unencryptable","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"첨부 데이터가 RSA 암호화 후 그대로인 고정점임을 먼저 확인한다. 이 문서의 재현 코드는 공개 FactorDB에 등록된 N의 인수를 조회해 개인키를 복원한다. 고정점 정보만으로 인수분해하는 별도 암호해석은 구현하지 않았다.","section":["CryptoHack","Mathematics"]}
+{"title":"Unencryptable","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"첨부 데이터는 RSA로 암호화해도 값이 바뀌지 않는 고정점이다. N의 인수가 FactorDB에 등록되어 있어서 이를 조회해 개인키를 복원했다.","section":["CryptoHack","Mathematics"]}
 ---
 
 ## 풀이 원리
 
-첨부 데이터가 RSA 암호화 후 그대로인 고정점임을 먼저 확인한다. 이 문서의 재현 코드는 공개 FactorDB에 등록된 `N`의 인수를 조회해 개인키를 복원한다. 고정점 정보만으로 인수분해하는 별도 암호해석은 구현하지 않았다.
+첨부 데이터는 RSA로 암호화해도 값이 바뀌지 않는 고정점이다. `N`의 인수가 FactorDB에 등록되어 있어서 이를 조회해 개인키를 복원했다.
 
 ## 최종 풀이 코드
 
@@ -28,16 +28,6 @@ d=pow(e,-1,(p-1)*(q-1))
 m=pow(c,d,n)
 assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
-```
-
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-공개된 DATA가 실제 고정점인지, 조회한 인수의 곱이 N인지, 복호화한 값을 다시 RSA 암호화했을 때 원래 c인지 확인했다.
-
-```text
-crypto{R3m3mb3r!_F1x3d_P0iNts_aR3_s3crE7s_t00}
 ```
 
 ## 최종 플래그

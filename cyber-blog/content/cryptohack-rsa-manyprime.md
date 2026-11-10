@@ -29,16 +29,6 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-코드를 실행해 아래 결과를 얻었다. 코드의 `assert`로 인수의 소수성, 곱, 복호화 후 재암호화 관계를 검사했다. FactorDB 조회 결과를 이용했으므로 실행 시 네트워크가 필요하다.
-
-```text
-crypto{700_m4ny_5m4ll_f4c70r5}
-```
-
 ## 최종 답
 
 `crypto{700_m4ny_5m4ll_f4c70r5}`

@@ -8,8 +8,6 @@ OTP 키가 암호화 시점의 Unix 초를 큰 바이트 순서로 인코딩한 
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. 네트워크가 필요한 코드는 공식 서버에 접속한다.
-
 ```python
 import socket, json, time, hashlib
 
@@ -29,10 +27,6 @@ for sec in range(before-30,after+31):
         print(pt.decode())
         break
 ```
-
-## 검증 방법
-
-코드의 출력이 아래 플래그와 같은지 확인한다. Armory에서는 $x=SHA256(secret)$ 검사도 수행한다.
 
 ## 최종 플래그
 

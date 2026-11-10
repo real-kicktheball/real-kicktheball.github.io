@@ -34,16 +34,6 @@ else:
     raise ValueError('No shared message')
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-복원한 정수 `m`을 각 법에서 다시 세제곱해 선택한 암호문 세 개와 모두 일치함을 확인했다.
-
-```text
-crypto{1f_y0u_d0nt_p4d_y0u_4r3_Vuln3rabl3}
-```
-
 ## 최종 플래그
 
 `crypto{1f_y0u_d0nt_p4d_y0u_4r3_Vuln3rabl3}`

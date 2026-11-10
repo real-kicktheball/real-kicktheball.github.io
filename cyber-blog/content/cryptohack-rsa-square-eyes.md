@@ -25,16 +25,6 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. p²=n 및 RSA 재암호화를 확인한다.
-
-```text
-crypto{squar3_r00t_i5_f4st3r_th4n_f4ct0r1ng!}
-```
-
 ## 최종 플래그
 
 `crypto{squar3_r00t_i5_f4st3r_th4n_f4ct0r1ng!}`

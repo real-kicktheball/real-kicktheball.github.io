@@ -8,8 +8,6 @@ HMAC-SHA256은 블록 크기 64바이트보다 긴 키를 먼저 SHA256으로 �
 
 ## 최종 익스플로잇
 
-Python 3 표준 라이브러리만 사용한다. `mixed_up`은 약 수백 번의 해시 질의를 하므로 실행에 수분 걸릴 수 있다.
-
 ```python
 import socket, json, re
 with socket.create_connection(('socket.cryptohack.org',13434),timeout=10) as sock:
@@ -21,14 +19,6 @@ with socket.create_connection(('socket.cryptohack.org',13434),timeout=10) as soc
     io.write(json.dumps({'passphrase_hex':prehash}).encode()+b'\n')
     reply=json.loads(io.readline())
     print(re.search(r'crypto\{[^}]+\}',reply['msg']).group(0))
-```
-
-## 검증 방법
-
-코드가 공식 서비스의 응답에서 아래 플래그를 출력하는지 확인한다.
-
-```text
-crypto{hm4c_47e_my_l0n6_k3y}
 ```
 
 ## 최종 플래그

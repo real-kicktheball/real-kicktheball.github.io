@@ -8,8 +8,6 @@ DH 공유 비밀값을 SHA-1로 해시한 앞 16바이트를 AES-128 키로 삼�
 
 ## 최종 풀이 코드
 
-필요 패키지: `python3`, `pycryptodome`, `sympy`(코드에서 사용하는 경우).
-
 ```python
 import hashlib
 from Crypto.Cipher import AES
@@ -26,16 +24,6 @@ ct=bytes.fromhex('39c99bf2f0c14678d6a5416faef954b5893c316fc3c48622ba1fd6a9fe85f3
 flag=unpad(AES.new(key,AES.MODE_CBC,iv).decrypt(ct),16).decode()
 assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
-```
-
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-코드를 실행하여 아래 결과를 얻었다. 코드 안의 `assert`로 핵심 관계를 확인했다. 출력값을 문제의 조건에 다시 대입해 확인한다.
-
-```text
-crypto{sh4r1ng_s3cret5_w1th_fr13nd5}
 ```
 
 ## 최종 답

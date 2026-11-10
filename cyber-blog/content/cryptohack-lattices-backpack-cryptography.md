@@ -8,8 +8,6 @@
 
 ## 최종 익스플로잇
 
-아래 코드를 `solve.sage`로 저장하고 `sage solve.sage`로 실행한다. 공식 `output.txt`를 직접 가져온다.
-
 ```python
 from sage.all import *
 from urllib.request import urlopen
@@ -36,10 +34,6 @@ for row in M.rows():
     print(out.decode(),flush=True);quit()
 print('not found',flush=True)
 ```
-
-## 검증 방법
-
-복원 비트에 대해 `sum(bits[k]*a[k]) == ct`를 확인한다. 실행 결과는 아래 플래그다.
 
 ## 최종 플래그
 

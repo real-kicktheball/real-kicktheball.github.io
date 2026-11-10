@@ -25,16 +25,6 @@ with socket.create_connection(('socket.cryptohack.org',13375),timeout=10) as soc
     print(json.loads(io.readline())['flag'])
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-근의 세제곱 하위 바이트가 목표 문자열과 일치하는지 확인했고, 서버가 플래그를 반환했다.
-
-```text
-crypto{y0ur_v0t3_i5_my_v0t3}
-```
-
 ## 최종 플래그
 
 `crypto{y0ur_v0t3_i5_my_v0t3}`

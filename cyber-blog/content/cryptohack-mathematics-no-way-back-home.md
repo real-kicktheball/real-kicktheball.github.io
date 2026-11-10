@@ -28,16 +28,6 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 재실행해 아래 결과를 얻었다. 복구한 v의 두 합동 조건, AES 패딩, 플래그 형식을 확인한다.
-
-```text
-crypto{1nv3rt1bl3_k3y_3xch4ng3_pr0t0c0l}
-```
-
 ## 최종 플래그
 
 `crypto{1nv3rt1bl3_k3y_3xch4ng3_pr0t0c0l}`

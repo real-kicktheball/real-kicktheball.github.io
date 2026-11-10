@@ -20,16 +20,6 @@ assert all(values[i]*x%p==values[i+1] for i in range(len(values)-1))
 print(f'crypto{{{p},{x}}}')
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-`python3`로 코드를 실행했다. 코드의 `assert`로 모든 연속 거듭제곱 관계 또는 두 원래 합동식을 확인한다.
-
-```text
-crypto{919,209}
-```
-
 ## 최종 답
 
 `crypto{919,209}`

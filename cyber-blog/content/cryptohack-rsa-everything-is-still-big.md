@@ -26,16 +26,6 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 검증
-
-CryptoHack 계정에 답을 제출하고 성공을 확인했다.
-
-인수 두 개의 곱을 n과 대조하고, 복원한 평문을 RSA로 재암호화해 c와 일치함을 확인했다. 공개 인수 조회에 네트워크가 필요하다.
-
-```text
-crypto{bon3h5_4tt4ck_i5_sr0ng3r_th4n_w13n3r5}
-```
-
 ## 최종 플래그
 
 `crypto{bon3h5_4tt4ck_i5_sr0ng3r_th4n_w13n3r5}`
