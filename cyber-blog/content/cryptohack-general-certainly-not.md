@@ -1,0 +1,31 @@
+---
+{"title":"CERTainly not","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"DER로 인코딩된 X.509 인증서에서 RSA 공개키의 모듈러스 n을 추출한다.","section":["CryptoHack","General"]}
+---
+
+- 문제: [CERTainly not](https://cryptohack.org/challenges/general/#certainly)
+- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
+- [2048b-rsa-example-cert.der](https://cryptohack.org/static/challenges/2048b-rsa-example-cert_3220bd92e30015fe4fbeb84a755e7ca5.der)
+
+## 풀이 원리
+
+DER로 인코딩된 X.509 인증서에서 RSA 공개키의 모듈러스 `n`을 추출한다.
+
+## 최종 풀이 코드
+
+```python
+import requests
+from cryptography import x509
+u='https://cryptohack.org/static/challenges/2048b-rsa-example-cert_3220bd92e30015fe4fbeb84a755e7ca5.der'
+cert=x509.load_der_x509_certificate(requests.get(u).content)
+print(cert.public_key().public_numbers().n)
+```
+
+## 검증 방법
+
+위 코드를 Python 3에서 실행하여 아래 결과를 확인한다. 문제 페이지의 제출 상태에서도 정답 처리됨을 확인했다.
+
+## 최종 플래그
+
+```text
+22825373692019530804306212864609512775374171823993708516509897631547513634635856375624003737068034549047677999310941837454378829351398302382629658264078775456838626207507725494030600516872852306191255492926495965536379271875310457319107936020730050476235278671528265817571433919561175665096171189758406136453987966255236963782666066962654678464950075923060327358691356632908606498231755963567382339010985222623205586923466405809217426670333410014429905146941652293366212903733630083016398810887356019977409467374742266276267137547021576874204809506045914964491063393800499167416471949021995447722415959979785959569497
+```

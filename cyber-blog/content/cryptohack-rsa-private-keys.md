@@ -1,0 +1,38 @@
+---
+{"title":"Private Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA 비밀지수 d는 e의 φ(N) 법 역원이다.","section":["CryptoHack","RSA"]}
+---
+
+## 문제
+
+- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_4
+- 입력: CryptoHack 문제 본문 및 첨부파일.
+
+## 풀이 원리
+
+RSA 비밀지수 d는 e의 φ(N) 법 역원이다.
+
+## 최종 풀이 코드
+
+필요 패키지: `python3`, `pycryptodome`, `sympy`(코드에서 사용하는 경우).
+
+```python
+p=857504083339712752489993810777
+q=1029224947942998075080348647219
+e=65537
+phi=(p-1)*(q-1)
+d=pow(e,-1,phi)
+assert e*d % phi == 1
+print(d)
+```
+
+## 검증
+
+CryptoHack 계정에 정답을 제출해 성공을 확인했다. 코드를 실행하여 아래 결과를 얻었다. 코드 안의 `assert`로 핵심 관계를 확인했다. 출력값을 문제의 조건에 다시 대입해 확인한다.
+
+```text
+121832886702415731577073962957377780195510499965398469843281
+```
+
+## 최종 답
+
+`121832886702415731577073962957377780195510499965398469843281`

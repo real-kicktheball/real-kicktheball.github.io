@@ -1,0 +1,48 @@
+---
+{"title":"Twisted CSIDH Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"3-isogeny 그래프의 양의 방향 주기를 먼저 구한다. 시작점의 j-불변량이 27번 후에 되돌아오므로 한 번 역방향 걷기는 양의 방향 26번과 같다. 그 공역의 Montgomery 계수가 261이다.","section":["CryptoHack","Isogenies"]}
+---
+
+분야: Isogenies / road_to_csidh  
+문제: https://cryptohack.org/challenges/isogenies/#five_iso_csidh_twist  
+검증: 2026-11-10, SageMath에서 위수·isogeny 차수·공역 계수 확인. CryptoHack 계정 정답 처리 확인
+
+## 풀이 방법
+
+3-isogeny 그래프의 양의 방향 주기를 먼저 구한다. 시작점의 $j$-불변량이 27번 후에 되돌아오므로 한 번 역방향 걷기는 양의 방향 26번과 같다. 그 공역의 Montgomery 계수가 261이다.
+
+## 최종 풀이 코드
+
+아래 코드를 `solve.sage`로 저장하고 `sage solve.sage`로 실행한다.
+
+```python
+F=GF(419)
+E0=EllipticCurve(F,[1,0])
+
+def step(E,ell):
+    K=(E.order()//ell)*E.gens()[0]
+    assert K.order()==ell
+    phi=E.isogeny(K)
+    assert phi.degree()==ell
+    return phi.codomain()
+E=E0
+for cycle in range(1,80):
+    E=step(E,3)
+    if E.j_invariant()==E0.j_invariant():
+        break
+assert cycle==27
+E=E0
+for _ in range(cycle-1):
+    E=step(E,3)
+A=E.montgomery_model().a2()
+print(A)
+```
+
+## 검증 방법
+
+코드의 `assert`가 커널과 isogeny의 차수를 검사한다. 결과가 아래 플래그와 일치한다.
+
+## 최종 플래그
+
+```text
+261
+```
