@@ -2,9 +2,6 @@
 {"title":"Seventy-Two","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"bcrypt는 입력 키를 72바이트까지만 사용한다. 테넌트 식별자와 k.barrymore@corp.bluerock.example 계정명을 붙이면 비밀번호 앞까지 이미 71바이트다. 32바이트 랜덤 비밀번호 중 첫 글자만 bcrypt에 반영된…","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#seventy_two
-- 검증: 공식 소켓 서비스가 아래 플래그 반환
-
 ## 풀이 원리
 
 bcrypt는 입력 키를 72바이트까지만 사용한다. 테넌트 식별자와 `k.barrymore@corp.bluerock.example` 계정명을 붙이면 비밀번호 앞까지 이미 71바이트다. 32바이트 랜덤 비밀번호 중 첫 글자만 bcrypt에 반영된다. 62개 문자 후보를 시도하면 뒤의 31바이트는 어떤 값이든 로그인된다.

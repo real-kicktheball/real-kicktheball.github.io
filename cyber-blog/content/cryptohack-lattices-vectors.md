@@ -2,10 +2,6 @@
 {"title":"Vectors","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"벡터의 선형 결합을 먼저 계산하고 마지막에 내적을 취한다. 2v-w=(3,12,6)이므로 3(2v-w)=(9,36,18)이고 2u=(14,14,4)이다. 내적은 126+504+72=702다.","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lattices  
-문제: https://cryptohack.org/challenges/post-quantum/#vectors  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 벡터의 선형 결합을 먼저 계산하고 마지막에 내적을 취한다. $2v-w=(3,12,6)$이므로 $3(2v-w)=(9,36,18)$이고 $2u=(14,14,4)$이다. 내적은 $126+504+72=702$다.

@@ -2,10 +2,6 @@
 {"title":"JWT Sessions","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"JWT는 통상 HTTP Authorization 헤더의 Bearer 토큰으로 서버에 보낸다. 이 문제는 헤더 이름을 요구한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#jwt-sessions
-- 분야: Crypto on the Web / jwt
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 JWT는 통상 HTTP `Authorization` 헤더의 Bearer 토큰으로 서버에 보낸다. 이 문제는 헤더 이름을 요구한다.

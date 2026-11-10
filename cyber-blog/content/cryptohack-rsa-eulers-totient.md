@@ -2,11 +2,6 @@
 {"title":"Euler's Totient","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"두 소수의 곱에 대한 오일러 피함수는 (p−1)(q−1)이다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_3
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 두 소수의 곱에 대한 오일러 피함수는 (p−1)(q−1)이다.

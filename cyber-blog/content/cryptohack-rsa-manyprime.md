@@ -2,11 +2,6 @@
 {"title":"Manyprime","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"법 n의 소인수를 FactorDB API에서 조회한다. 인수의 소수성과 곱을 확인한 다음 φ(n)을 계산하여 e의 역원 d로 복호화한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#manyprime
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_5a478a5d4764257d0bbdfaed340fcbdd.txt)
-
 ## 풀이 원리
 
 법 n의 소인수를 FactorDB API에서 조회한다. 인수의 소수성과 곱을 확인한 다음 φ(n)을 계산하여 e의 역원 d로 복호화한다.

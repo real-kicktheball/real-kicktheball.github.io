@@ -2,11 +2,6 @@
 {"title":"DLOG on the Surface","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"곡선의 두 기저 P,Q에 대해 Weil pairing의 쌍선형성을 이용한다. g=e_n(P,Q)라면 e_n(R,Q)=g^a이고 e_n(P,R)=g^b다. 같은 방식으로 S의 계수 c,d도 구한다. n=p+1=2^{127}이므로 이 군의 이산…","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_background  
-문제: https://cryptohack.org/challenges/isogenies/#2d_dlog  
-데이터: https://cryptohack.org/static/challenges/output_a9fcd0db30822de938de639df287ab54.txt  
-검증: 2026-11-10, SageMath 로컬 실행 확인. CryptoHack 계정 제출 대기
-
 ## 풀이 방법
 
 곡선의 두 기저 $P,Q$에 대해 Weil pairing의 쌍선형성을 이용한다. $g=e_n(P,Q)$라면 $e_n(R,Q)=g^a$이고 $e_n(P,R)=g^b$다. 같은 방식으로 $S$의 계수 $c,d$도 구한다. $n=p+1=2^{127}$이므로 이 군의 이산로그는 Pohlig–Hellman 방식으로 쉽게 계산된다. 복원한 네 정수의 십진 문자열을 이어 붙여 SHA-256 키를 만들고 AES-CBC를 복호화한다.

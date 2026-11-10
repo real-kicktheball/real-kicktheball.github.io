@@ -2,11 +2,6 @@
 {"title":"Computing Shared Secrets","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"Alice의 공개값 A에 자신의 비밀지수 b를 거듭제곱한다. g^b가 제공된 B와 맞는지도 검사한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh-starter-4
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 Alice의 공개값 A에 자신의 비밀지수 b를 거듭제곱한다. g^b가 제공된 B와 맞는지도 검사한다.

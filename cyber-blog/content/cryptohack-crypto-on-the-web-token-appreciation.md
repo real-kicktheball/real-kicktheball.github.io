@@ -2,10 +2,6 @@
 {"title":"Token Appreciation","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"JWT는 암호문이 아니다. 점으로 나뉜 두 번째 부분을 URL-safe Base64로 복호화하면 payload의 flag 필드가 보인다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#token-appreciation
-- 분야: Crypto on the Web / jwt
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 JWT는 암호문이 아니다. 점으로 나뉜 두 번째 부분을 URL-safe Base64로 복호화하면 payload의 `flag` 필드가 보인다.

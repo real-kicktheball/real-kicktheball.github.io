@@ -2,10 +2,6 @@
 {"title":"Hex","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"16진수 문자열을 바이트로 해석하고 UTF-8로 디코딩한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Hex](https://cryptohack.org/challenges/general/#enc2)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 16진수 문자열을 바이트로 해석하고 UTF-8로 디코딩한다.

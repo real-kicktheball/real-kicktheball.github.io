@@ -2,11 +2,6 @@
 {"title":"Common Ground","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"거듭제곱수의 최대공약수는 gcd(N^a−1,N^b−1)=N^gcd(a,b)−1이다. 작은 지수 gcd(a,b)만 계산하면 AES 키를 얻는다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#common_ground
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_85c88af89392f8b36082f6bbfc3c451f.txt)
-
 ## 풀이 원리
 
 거듭제곱수의 최대공약수는 gcd(N^a−1,N^b−1)=N^gcd(a,b)−1이다. 작은 지수 gcd(a,b)만 계산하면 AES 키를 얻는다.

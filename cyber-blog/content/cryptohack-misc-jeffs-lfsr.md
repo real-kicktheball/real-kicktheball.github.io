@@ -2,12 +2,6 @@
 {"title":"Jeff's LFSR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"세 LFSR의 출력은 각 초기 상태 비트에 대한 GF(2) 선형식이다. 각 시점의 선형식을 정수 비트마스크로 만들고, Geffe 결합기의 출력 if selector then stream1 else stream2를 Z3 제약으로 표현한다. 2…","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc / lfsr  
-문제: https://cryptohack.org/challenges/misc/#jeff  
-소스: https://cryptohack.org/static/challenges/jeff_6f0cbc35544fb45343cd6ee532358f89.py  
-데이터: https://cryptohack.org/static/challenges/output_d5e714c9cb62f14696f21db9c5a4a2e5.txt  
-검증: 2026-11-10, Z3로 256 출력비트 전부 만족하는 69비트 초기 상태를 복원하고 AES-CBC 복호화 확인. CryptoHack 계정 제출 대기
-
 ## 풀이 방법
 
 세 LFSR의 출력은 각 초기 상태 비트에 대한 GF(2) 선형식이다. 각 시점의 선형식을 정수 비트마스크로 만들고, Geffe 결합기의 출력 `if selector then stream1 else stream2`를 Z3 제약으로 표현한다. 256개 관측 비트에서 69개 초기 비트를 구한다. 얻은 상태를 정수로 이어 붙인 뒤 문제 소스처럼 십진 문자열의 SHA-1 앞 16바이트를 AES 키로 사용한다.

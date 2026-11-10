@@ -2,11 +2,6 @@
 {"title":"Modular Binomials","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"p 법에서 c1=(3q)^e1, c2=(7q)^e2이므로 7^(e1e2)·c1^e2−3^(e1e2)·c2^e1은 p로 나누어진다. 이 값과 N의 최대공약수가 p다. q=N/p로 복구한다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#bionomials
-- 첨부: [data.txt](https://cryptohack.org/static/challenges/data_04a0fe134cf31a6c941377aad75db81c.txt)
-
 ## 풀이 원리
 
 p 법에서 c1=(3q)^e1, c2=(7q)^e2이므로 7^(e1e2)·c1^e2−3^(e1e2)·c2^e1은 p로 나누어진다. 이 값과 N의 최대공약수가 p다. q=N/p로 복구한다.

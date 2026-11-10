@@ -2,11 +2,6 @@
 {"title":"Couples","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"set_internal_z는 입력 z에 대해 x^{z+7}-x^3\\pmod p의 역원을 내부 값으로 저장한다. z=p-5를 선택하면 지수 z+7=p+2이고, 페르마 소정리로 x^{p+2}=x^3\\pmod p다. 분모가 0인데 자체 inver…","section":["CryptoHack","ZKPs"]}
 ---
 
-분야: ZKPs / zkp-challenges  
-문제: https://cryptohack.org/challenges/zkp/#couples  
-소스: https://cryptohack.org/static/challenges/13415_a2dc0b5a478b678eb0d2cc27a5688140.py  
-검증: 2026-11-10, 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 `set_internal_z`는 입력 $z$에 대해 $x^{z+7}-x^3\pmod p$의 역원을 내부 값으로 저장한다. $z=p-5$를 선택하면 지수 $z+7=p+2$이고, 페르마 소정리로 $x^{p+2}=x^3\pmod p$다. 분모가 0인데 자체 `inverse` 함수가 오류 대신 0을 반환하여 내부 `z=0`이 된다. 그 결과 BLS 양쪽 페어링이 항등원이 되므로, 유효한 곡선 점 `(1,2,1)`과 임의 해시값 0으로 검사를 통과한다.

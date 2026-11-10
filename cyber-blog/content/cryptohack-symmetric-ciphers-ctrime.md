@@ -2,9 +2,6 @@
 {"title":"CTRIME","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"서비스는 선택한 평문과 비밀 플래그를 이어 붙인 뒤 zlib로 압축하고 CTR로 암호화한다. CTR은 길이를 숨기지 않으므로, 입력에 플래그 접두사를 붙여 압축 길이를 비교하면 다음 바이트가 일치하는 후보가 짧아진다. DEFLATE의 바이트…","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [CTRIME](https://cryptohack.org/challenges/aes/#ctrime)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
 ## 풀이 원리
 
 서비스는 선택한 평문과 비밀 플래그를 이어 붙인 뒤 zlib로 압축하고 CTR로 암호화한다. CTR은 길이를 숨기지 않으므로, 입력에 플래그 접두사를 붙여 압축 길이를 비교하면 다음 바이트가 일치하는 후보가 짧아진다. DEFLATE의 바이트 단위 출력에서 동점이 생기면 앞에 무관한 `X`를 0~5바이트 넣어 경계를 바꿔 비교한다.

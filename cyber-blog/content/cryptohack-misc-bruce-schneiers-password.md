@@ -2,11 +2,6 @@
 {"title":"Bruce Schneier's Password","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"서버는 암호의 ASCII 코드 합과 곱이 모두 소수인지 검사한다. NumPy의 int64 곱은 오버플로하므로, 실제 곱이 합성수여도 오버플로된 64비트 정수는 소수가 될 수 있다. 홀수 ASCII 문자만 선택해 곱이 홀수가 되게 하고, 대소…","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc / passwords  
-문제: https://cryptohack.org/challenges/misc/#schneierfact842  
-소스: https://cryptohack.org/static/challenges/13400_dcf3cb755904e5c762a1dff3b4db64ff.py  
-검증: 2026-11-10, NumPy int64 합·곱 검사 및 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 서버는 암호의 ASCII 코드 합과 곱이 모두 소수인지 검사한다. NumPy의 `int64` 곱은 오버플로하므로, 실제 곱이 합성수여도 오버플로된 64비트 정수는 소수가 될 수 있다. 홀수 ASCII 문자만 선택해 곱이 홀수가 되게 하고, 대소문자·숫자 조건을 만족하는 11글자 문자열을 반복 생성하여 합과 오버플로 곱이 모두 소수인 값을 찾는다.

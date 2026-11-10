@@ -2,9 +2,6 @@
 {"title":"Secure Protocols","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"서버 인증서의 issuer에서 조직(O) 필드를 확인한다. 실습 도메인의 TLS 인증서 발급 조직은 Let's Encrypt다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#secure-protocols
-- 검증: 실제 TLS 1.2 핸드셰이크에서 아래 값 확인
-
 ## 풀이 원리
 
 서버 인증서의 `issuer`에서 조직(O) 필드를 확인한다. 실습 도메인의 TLS 인증서 발급 조직은 Let's Encrypt다.

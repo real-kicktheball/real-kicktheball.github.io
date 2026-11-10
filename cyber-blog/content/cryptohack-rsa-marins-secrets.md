@@ -2,11 +2,6 @@
 {"title":"Marin's Secrets","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"생성 함수가 2^k−1 형태의 메르센 소수만 만든다. 공개된 메르센 소수 지수 목록의 후보를 n에 대입해 인수를 찾고, 남은 인수도 2의 거듭제곱보다 1 작은 형태임을 검사한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#marin
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_f194012343666ced1a6699d196c8adc5.txt)
-
 ## 풀이 원리
 
 생성 함수가 2^k−1 형태의 메르센 소수만 만든다. 공개된 메르센 소수 지수 목록의 후보를 n에 대입해 인수를 찾고, 남은 인수도 2의 거듭제곱보다 1 작은 형태임을 검사한다.

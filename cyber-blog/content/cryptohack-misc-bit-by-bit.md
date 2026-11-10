@@ -2,12 +2,6 @@
 {"title":"Bit by Bit","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"소스에서 각 비트는 padding << (1 + bit)로 암호화된다. padding=256^e와 ElGamal 공유 비밀은 모두 이차 잉여이고, 이 소수에서 2는 이차 비잉여다. 따라서 bit=0이면 평문의 Legendre 기호가 -1, …","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc / elgamal  
-문제: https://cryptohack.org/challenges/misc/#bit  
-소스: https://cryptohack.org/static/challenges/source_b7cb6015e70a394f3e58fdf2a61aa06f.py  
-데이터: https://cryptohack.org/static/challenges/output_1078aca02f2ab796a8c51773f3c332ee.txt  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 제출 대기
-
 ## 풀이 방법
 
 소스에서 각 비트는 `padding << (1 + bit)`로 암호화된다. `padding=256^e`와 ElGamal 공유 비밀은 모두 이차 잉여이고, 이 소수에서 2는 이차 비잉여다. 따라서 bit=0이면 평문의 Legendre 기호가 -1, bit=1이면 +1이다. ElGamal 암호문의 두 번째 성분은 이 기호를 그대로 보존한다. 모든 `c2`의 Legendre 기호를 계산하고 원래 비트 순서인 최하위 비트부터 조립한다.

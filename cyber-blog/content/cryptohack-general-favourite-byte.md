@@ -2,10 +2,6 @@
 {"title":"Favourite byte","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"단일 바이트 키는 256개뿐이다. 각 후보로 복호화하고 플래그 접두사 crypto{가 나타나는지 확인한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Favourite byte](https://cryptohack.org/challenges/general/#xorkey0)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 단일 바이트 키는 256개뿐이다. 각 후보로 복호화하고 플래그 접두사 `crypto{`가 나타나는지 확인한다.

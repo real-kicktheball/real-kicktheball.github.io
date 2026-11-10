@@ -2,10 +2,6 @@
 {"title":"Parameter Injection","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"중간자 위치에서 Alice의 A와 Bob의 B를 모두 1로 교체한다. 양쪽이 계산한 공유 비밀도 1이므로 공개된 IV와 암호문을 복호화할 수 있다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#parameter_injection
-
 ## 풀이 원리
 
 중간자 위치에서 Alice의 A와 Bob의 B를 모두 1로 교체한다. 양쪽이 계산한 공유 비밀도 1이므로 공개된 IV와 암호문을 복호화할 수 있다.

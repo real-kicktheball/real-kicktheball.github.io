@@ -2,10 +2,6 @@
 {"title":"Image Point Arithmetic","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"군 준동형 성질로 \\phi(P+Q)=\\phi(P)+\\phi(Q)다. 두 상의 좌표로 유한체 위 타원곡선 덧셈 공식을 적용한다. 서로 다른 x-좌표이므로 기울기는 (y_2-y_1)/(x_2-x_1)이다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_background  
-문제: https://cryptohack.org/challenges/isogenies/#c_group_homomorphism  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 군 준동형 성질로 $\phi(P+Q)=\phi(P)+\phi(Q)$다. 두 상의 좌표로 유한체 위 타원곡선 덧셈 공식을 적용한다. 서로 다른 $x$-좌표이므로 기울기는 $(y_2-y_1)/(x_2-x_1)$이다.

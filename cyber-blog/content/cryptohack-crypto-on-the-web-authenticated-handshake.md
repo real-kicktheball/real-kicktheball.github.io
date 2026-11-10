@@ -2,9 +2,6 @@
 {"title":"Authenticated Handshake","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3의 Client Finished 검증값은 HMAC(finished_key, SHA384(transcript))이다. 첨부 키로그에서 서버와 클라이언트 Handshake Traffic Secret을 읽고, 서버 기록을 AES-25…","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#authenticated-handshake
-- 검증: 공식 제공 PCAP과 키 자료에서 아래 값 확인
-
 ## 풀이 원리
 
 TLS 1.3의 Client Finished 검증값은 `HMAC(finished_key, SHA384(transcript))`이다. 첨부 키로그에서 서버와 클라이언트 Handshake Traffic Secret을 읽고, 서버 기록을 AES-256-GCM으로 복호화하여 전체 핸드셰이크 메시지를 모은다. 서버 Finished HMAC부터 대조해 파싱과 키 유도를 검증한 뒤 클라이언트 Finished 값을 계산한다.

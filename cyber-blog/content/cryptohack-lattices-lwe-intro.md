@@ -2,10 +2,6 @@
 {"title":"LWE Intro","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"오차가 없으면 표본은 AS=b인 선형 방정식계다. 행 기본 연산으로 S를 구하는 Gaussian elimination(가우스 소거법)을 쓴다.","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lwe  
-문제: https://cryptohack.org/challenges/post-quantum/#lwe-intro  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 오차가 없으면 표본은 $AS=b$인 선형 방정식계다. 행 기본 연산으로 $S$를 구하는 Gaussian elimination(가우스 소거법)을 쓴다.

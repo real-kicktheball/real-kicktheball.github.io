@@ -2,11 +2,6 @@
 {"title":"Private Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA 비밀지수 d는 e의 φ(N) 법 역원이다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_4
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 RSA 비밀지수 d는 e의 φ(N) 법 역원이다.

@@ -2,11 +2,6 @@
 {"title":"Too Honest","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"서버가 0\\le e<2^{128} 범위를 검사하지 않는다. 범위 밖의 e=2^{1024}를 보내면 응답 z=r+e w에서 r<2^{768}<e이므로 정수 나눗셈 z//e가 증인 w를 정확히 드러낸다. 처음 바이트의 }까지가 플래그다.","section":["CryptoHack","ZKPs"]}
 ---
 
-분야: ZKPs / zkp-intro  
-문제: https://cryptohack.org/challenges/zkp/#sigma-too-honest  
-소스: https://cryptohack.org/static/challenges/13429_2520b4ebce10bd8b830bc5dc3d67da2b.py  
-검증: 2026-11-10, 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 서버가 $0\le e<2^{128}$ 범위를 검사하지 않는다. 범위 밖의 $e=2^{1024}$를 보내면 응답 $z=r+e w$에서 $r<2^{768}<e$이므로 정수 나눗셈 $z//e$가 증인 $w$를 정확히 드러낸다. 처음 바이트의 `}`까지가 플래그다.

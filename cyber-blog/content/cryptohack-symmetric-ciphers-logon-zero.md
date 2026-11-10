@@ -2,10 +2,6 @@
 {"title":"Logon Zero","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"CFB-8에서 IV와 모든 암호문 바이트를 0으로 지정하면 내부 상태가 계속 0이므로 복호화된 12바이트가 하나의 값 b로 반복된다. 토큰 마지막 4바이트가 비밀번호 길이가 되고 앞 8바이트가 새 비밀번호가 된다. b=0이면 빈 비밀번호, …","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Logon Zero](https://cryptohack.org/challenges/aes/#logon-zero)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [13399.py](https://cryptohack.org/static/challenges/13399_2c5dba2a8180a137c65b9dff313d88b5.py)
-
 ## 풀이 원리
 
 CFB-8에서 IV와 모든 암호문 바이트를 0으로 지정하면 내부 상태가 계속 0이므로 복호화된 12바이트가 하나의 값 `b`로 반복된다. 토큰 마지막 4바이트가 비밀번호 길이가 되고 앞 8바이트가 새 비밀번호가 된다. `b=0`이면 빈 비밀번호, `1≤b<128`이면 해당 ASCII 문자를 8번 반복한 비밀번호다. 후보를 시도하고 필요하면 연결의 키를 재설정한다.

@@ -2,10 +2,6 @@
 {"title":"Three Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"제공된 3차 점 K를 커널 생성자로 사용한다. E.isogeny(K)가 Vélu 공식으로 isogeny를 만들고 공역 곡선에서 j-불변량을 읽는다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / road_to_sidh  
-문제: https://cryptohack.org/challenges/isogenies/#three_isogenies  
-검증: 2026-11-10, SageMath에서 isogeny 차수와 공역 $j$-불변량 계산 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 제공된 3차 점 $K$를 커널 생성자로 사용한다. `E.isogeny(K)`가 Vélu 공식으로 isogeny를 만들고 공역 곡선에서 $j$-불변량을 읽는다.

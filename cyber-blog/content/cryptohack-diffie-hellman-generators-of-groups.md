@@ -2,11 +2,6 @@
 {"title":"Generators of Groups","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"원시근 판정: p−1의 각 서로 다른 소인수 q에 대해 g^((p−1)/q) != 1이어야 한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh-starter-2
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 원시근 판정: p−1의 각 서로 다른 소인수 q에 대해 g^((p−1)/q) != 1이어야 한다.

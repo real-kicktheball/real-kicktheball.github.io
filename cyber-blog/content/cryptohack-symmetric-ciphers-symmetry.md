@@ -2,10 +2,6 @@
 {"title":"Symmetry","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"OFB 모드는 같은 키와 IV로 암호화 함수를 다시 호출하면 XOR 키스트림이 상쇄된다. 반환된 첫 16바이트가 IV이다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Symmetry](https://cryptohack.org/challenges/aes/#symmetry)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 OFB 모드는 같은 키와 IV로 암호화 함수를 다시 호출하면 XOR 키스트림이 상쇄된다. 반환된 첫 16바이트가 IV이다.

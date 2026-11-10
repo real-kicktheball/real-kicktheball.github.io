@@ -2,10 +2,6 @@
 {"title":"Curves and Logs","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"상대 공개점에 자신의 비밀 스칼라 1829를 곱한다. 공유점의 x 좌표를 10진수 문자열로 바꾸어 SHA-1을 계산한다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ecc3
-- 분야: Elliptic Curves / ecc-starter
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 상대 공개점에 자신의 비밀 스칼라 1829를 곱한다. 공유점의 x 좌표를 10진수 문자열로 바꾸어 SHA-1을 계산한다.

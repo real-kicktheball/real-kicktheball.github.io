@@ -2,11 +2,6 @@
 {"title":"Non-Interactive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"Fiat–Shamir 변환에서 챌린지는 a의 SHA-512 해시로 정해진다. 첨부 소스에 있는 증인 w를 사용해 a=g^r, e=H(a)\\bmod 2^{511}, z=r+ew\\bmod q를 계산한다.","section":["CryptoHack","ZKPs"]}
 ---
 
-분야: ZKPs / zkp-intro  
-문제: https://cryptohack.org/challenges/zkp/#sigma-nizk  
-소스: https://cryptohack.org/static/challenges/13428_1607c0c5ffb6d27cc09b7a9fd1fab436.py  
-검증: 2026-11-10, 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 Fiat–Shamir 변환에서 챌린지는 $a$의 SHA-512 해시로 정해진다. 첨부 소스에 있는 증인 $w$를 사용해 $a=g^r$, $e=H(a)\bmod 2^{511}$, $z=r+ew\bmod q$를 계산한다.

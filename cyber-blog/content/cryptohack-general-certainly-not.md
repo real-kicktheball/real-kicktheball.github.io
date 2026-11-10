@@ -2,10 +2,6 @@
 {"title":"CERTainly not","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"DER로 인코딩된 X.509 인증서에서 RSA 공개키의 모듈러스 n을 추출한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [CERTainly not](https://cryptohack.org/challenges/general/#certainly)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [2048b-rsa-example-cert.der](https://cryptohack.org/static/challenges/2048b-rsa-example-cert_3220bd92e30015fe4fbeb84a755e7ca5.der)
-
 ## 풀이 원리
 
 DER로 인코딩된 X.509 인증서에서 RSA 공개키의 모듈러스 `n`을 추출한다.

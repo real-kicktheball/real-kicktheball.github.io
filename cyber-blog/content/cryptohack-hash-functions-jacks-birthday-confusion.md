@@ -2,10 +2,6 @@
 {"title":"Jack's Birthday Confusion","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"서로 다른 n개 입력의 해시가 모두 다를 확률은 ∏(1-i/2048)이다. 충돌 확률이 75% 이상이 되는 최초 n은 76이다.","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#birthday2
-- 분야: Hash Functions / probability
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 서로 다른 n개 입력의 해시가 모두 다를 확률은 `∏(1-i/2048)`이다. 충돌 확률이 75% 이상이 되는 최초 n은 76이다.

@@ -2,10 +2,6 @@
 {"title":"Pad Thai","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"CBC 복호화 후 PKCS#7 패딩 성공 여부를 돌려주는 오라클이다. 메시지는 32자리 16진수 문자로 구성됨이 소스에 드러나므로 각 평문 바이트 후보는 16개다. 뒤에서부터 원하는 패딩값으로 이전 암호 블록을 조정하고, 성공하는 후보를 하…","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Pad Thai](https://cryptohack.org/challenges/aes/#pad_thai)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [13421.py](https://cryptohack.org/static/challenges/13421_2801f3744d21e8fbd0e7bfbef59f1fe2.py)
-
 ## 풀이 원리
 
 CBC 복호화 후 PKCS#7 패딩 성공 여부를 돌려주는 오라클이다. 메시지는 32자리 16진수 문자로 구성됨이 소스에 드러나므로 각 평문 바이트 후보는 16개다. 뒤에서부터 원하는 패딩값으로 이전 암호 블록을 조정하고, 성공하는 후보를 하나씩 확정한다.

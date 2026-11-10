@@ -2,9 +2,6 @@
 {"title":"TLS Handshake","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"같은 캡처의 ServerHello 핸드셰이크 메시지(type 2)에서 32바이트 Random 필드를 추출한다. 패킷 12에 해당한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#tls-handshake
-- 검증: 공식 제공 PCAP과 키 자료에서 아래 값 확인
-
 ## 풀이 원리
 
 같은 캡처의 `ServerHello` 핸드셰이크 메시지(type 2)에서 32바이트 `Random` 필드를 추출한다. 패킷 12에 해당한다.

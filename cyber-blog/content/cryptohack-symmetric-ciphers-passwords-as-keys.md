@@ -2,10 +2,6 @@
 {"title":"Passwords as Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"키는 /usr/share/dict/words의 단어 하나를 MD5 해시한 값이다. 공개 단어 목록의 모든 후보에 대해 MD5→AES-ECB 복호화를 시도해 플래그 형식을 찾는다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Passwords as Keys](https://cryptohack.org/challenges/aes/#passwords_as_keys)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 키는 `/usr/share/dict/words`의 단어 하나를 MD5 해시한 값이다. 공개 단어 목록의 모든 후보에 대해 MD5→AES-ECB 복호화를 시도해 플래그 형식을 찾는다.

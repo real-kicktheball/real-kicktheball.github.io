@@ -2,10 +2,6 @@
 {"title":"Blinding Light","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"금지된 admin=True 메시지 정수 m을 임의의 가역 r로 블라인딩하여 m·r^e mod N을 서명시킨다. 서명값에 r의 역원을 곱하면 원래 m에 대한 유효한 서명이 된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_blinding
-
 ## 풀이 원리
 
 금지된 admin=True 메시지 정수 m을 임의의 가역 r로 블라인딩하여 m·r^e mod N을 서명시킨다. 서명값에 r의 역원을 곱하면 원래 m에 대한 유효한 서명이 된다.

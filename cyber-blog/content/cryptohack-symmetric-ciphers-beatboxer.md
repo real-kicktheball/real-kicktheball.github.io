@@ -2,10 +2,6 @@
 {"title":"Beatboxer","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"S-box가 GF(2)에서 선형 변환과 상수의 합이므로 이 AES 변형 전체가 E(P)=A·P⊕b 형태의 아핀 함수다. 키는 상수항 b만 바꾼다. 실제 서비스에 0 블록을 한 번 암호화시켜 b를 구하고, 공개된 알고리즘을 0 키로 실행하여 …","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Beatboxer](https://cryptohack.org/challenges/aes/#beatboxer)
-- 첨부: [13406.py](https://cryptohack.org/static/challenges/13406_d7fa07291de630ace1055895f9ae208b.py)
-- 검증: 서버에서 플래그 직접 획득; 플랫폼 제출 확인 전
-
 ## 풀이 원리
 
 S-box가 GF(2)에서 선형 변환과 상수의 합이므로 이 AES 변형 전체가 `E(P)=A·P⊕b` 형태의 아핀 함수다. 키는 상수항 `b`만 바꾼다. 실제 서비스에 0 블록을 한 번 암호화시켜 `b`를 구하고, 공개된 알고리즘을 0 키로 실행하여 128개 단위 비트 입력의 출력을 얻는다. 이 출력이 선형변환 `A`의 열이다. GF(2) 가우스 소거로 역행렬을 계산해 플래그 암호문 각 블록을 복원한다.

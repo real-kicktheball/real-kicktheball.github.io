@@ -2,12 +2,6 @@
 {"title":"RSA Backdoor Viability","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"소수 생성식 p=(427s²+1)/4는 특수 구조를 가진다. 여기서는 그 구조의 직접 공격을 구현하지 않고 FactorDB에 공개된 인수를 조회해 개인키를 재구성했다. 인수의 곱과 특수 생성식 관계를 확인한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_backdoor
-- 첨부: [complex_primes.py](https://cryptohack.org/static/challenges/complex_primes_2d261cc3ab7fb63530d172e045861190.py)
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_57c296f30a4d023c3c29f9b311da7c85.txt)
-
 ## 풀이 원리
 
 소수 생성식 p=(427s²+1)/4는 특수 구조를 가진다. 여기서는 그 구조의 직접 공격을 구현하지 않고 FactorDB에 공개된 인수를 조회해 개인키를 재구성했다. 인수의 곱과 특수 생성식 관계를 확인한다.

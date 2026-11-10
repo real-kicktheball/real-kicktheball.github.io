@@ -2,10 +2,6 @@
 {"title":"Scalar Multiplication","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"스칼라를 이진수로 읽으며 필요한 점만 더하는 double-and-add를 구현한다. 테스트 벡터를 맞춘 다음 [7863]P를 구한다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ecc2
-- 분야: Elliptic Curves / ecc-starter
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 스칼라를 이진수로 읽으며 필요한 점만 더하는 double-and-add를 구현한다. 테스트 벡터를 맞춘 다음 `[7863]P`를 구한다.

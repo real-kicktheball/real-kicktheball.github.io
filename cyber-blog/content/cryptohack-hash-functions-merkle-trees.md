@@ -2,10 +2,6 @@
 {"title":"Merkle Trees","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"각 줄의 네 잎 해시 (a,b,c,d)에서 SHA256(SHA256(ab)SHA256(cd))가 제시된 루트와 같은지 검사한다. 같으면 1, 다르면 0으로 모아 바이트로 바꾼다. 생성기에서 거짓 증명은 b에 난수 8바이트를 덧붙여 만든다. …","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#merkletrees
-- 첨부 파일: https://cryptohack.org/static/challenges/generate_15fce6199904ba00202bb32d01a11551.py
-- 검증: 첨부 output.txt와 생성 코드의 Merkle 검증 방식으로 플래그 복원
-
 ## 풀이 원리
 
 각 줄의 네 잎 해시 `(a,b,c,d)`에서 `SHA256(SHA256(a||b)||SHA256(c||d))`가 제시된 루트와 같은지 검사한다. 같으면 1, 다르면 0으로 모아 바이트로 바꾼다. 생성기에서 거짓 증명은 `b`에 난수 8바이트를 덧붙여 만든다. 플래그의 첫 비트가 0이라 출력 줄 수는 303개이며, 정수로 바꾼 뒤 최소 필요 길이인 38바이트로 복원한다.

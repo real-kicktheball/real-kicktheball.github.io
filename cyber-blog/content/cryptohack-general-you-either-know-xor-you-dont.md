@@ -2,10 +2,6 @@
 {"title":"You either know, XOR you don't","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"알려진 플래그 접두사 crypto{와 암호문의 XOR로 키 앞 7바이트 myXORke를 얻는다. 반복 패턴에서 여덟 번째 바이트 y를 확인해 반복키 myXORkey로 복호화한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [You either know, XOR you don't](https://cryptohack.org/challenges/general/#xorkey1)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 알려진 플래그 접두사 `crypto{`와 암호문의 XOR로 키 앞 7바이트 `myXORke`를 얻는다. 반복 패턴에서 여덟 번째 바이트 `y`를 확인해 반복키 `myXORkey`로 복호화한다.

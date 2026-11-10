@@ -2,10 +2,6 @@
 {"title":"Special Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"시작 곡선의 유한체 점군은 크기 420인 순환군이다. 생성자에 420/5를 곱해 위수 5인 점을 만들고 5-isogeny를 취한다. 공역을 Montgomery 형태로 바꾸면 A=199다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / road_to_csidh  
-문제: https://cryptohack.org/challenges/isogenies/#special_isogenies  
-검증: 2026-11-10, SageMath에서 위수·isogeny 차수·공역 계수 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 시작 곡선의 유한체 점군은 크기 420인 순환군이다. 생성자에 $420/5$를 곱해 위수 5인 점을 만들고 5-isogeny를 취한다. 공역을 Montgomery 형태로 바꾸면 $A=199$다.

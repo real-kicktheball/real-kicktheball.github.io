@@ -2,10 +2,6 @@
 {"title":"The Matrix","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"평문 비트열을 50×50의 가역 행렬 M으로 만든 후 C=M^31337을 공개한다. GL(50, 2)에 속하는 모든 행렬의 차수는 lcm(2^1−1, …, 2^50−1) × 64의 약수이다. 31337은 이 값과 서로소이므로 역지수 d를 구…","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#matrix
-
 ## 풀이 원리
 
 평문 비트열을 50×50의 가역 행렬 `M`으로 만든 후 `C=M^31337`을 공개한다. `GL(50, 2)`에 속하는 모든 행렬의 차수는 `lcm(2^1−1, …, 2^50−1) × 64`의 약수이다. `31337`은 이 값과 서로소이므로 역지수 `d`를 구해 `C^d=M`을 복원한다. 생성 코드가 비트를 `msg[i::50]`으로 행에 분배하므로 복원할 때는 열을 먼저 읽는다.

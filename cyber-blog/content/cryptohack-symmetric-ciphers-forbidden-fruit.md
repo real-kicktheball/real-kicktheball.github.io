@@ -2,10 +2,6 @@
 {"title":"Forbidden Fruit","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"GCM에서 nonce를 재사용하므로 두 개의 선택 평문에 대한 태그 차분에서 GHASH의 H²를 복원할 수 있다. 같은 길이의 평문을 암호화해 키스트림을 구한 뒤, 금지 문자열 give me the flag의 암호문과 올바른 태그를 만들어 …","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Forbidden Fruit](https://cryptohack.org/challenges/aes/#forbidden_fruit)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 GCM에서 nonce를 재사용하므로 두 개의 선택 평문에 대한 태그 차분에서 GHASH의 `H²`를 복원할 수 있다. 같은 길이의 평문을 암호화해 키스트림을 구한 뒤, 금지 문자열 `give me the flag`의 암호문과 올바른 태그를 만들어 복호화 API로 보낸다.

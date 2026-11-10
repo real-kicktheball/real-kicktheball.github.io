@@ -2,10 +2,6 @@
 {"title":"XOR Properties","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"최종 식에서 KEY2가 중간 두 식에 두 번 등장해 상쇄된다. 따라서 FLAG = (FLAG^K1^K3^K2) ^ K1 ^ (K2^K3)이다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [XOR Properties](https://cryptohack.org/challenges/general/#xor1)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 최종 식에서 KEY2가 중간 두 식에 두 번 등장해 상쇄된다. 따라서 `FLAG = (FLAG^K1^K3^K2) ^ K1 ^ (K2^K3)`이다.

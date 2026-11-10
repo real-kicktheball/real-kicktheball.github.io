@@ -2,10 +2,6 @@
 {"title":"Collider","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"문서 저장소의 키가 MD5 해시다. 사전의 기존 문서에 대한 두 번째 원상을 찾을 필요는 없다. 먼저 공격자가 고른 MD5 충돌 쌍의 첫 문서를 등록하고, 같은 연결에서 다른 문서를 등록한다. 두 문서의 바이트열은 다르지만 MD5가 같아 충…","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#collider
-- 검증: 공식 소켓 서비스가 아래 플래그를 반환; CryptoHack 채점 Success!
-- MD5 충돌 테스트 벡터: https://github.com/corkami/collisions/tree/master/examples
-
 ## 풀이 원리
 
 문서 저장소의 키가 MD5 해시다. 사전의 기존 문서에 대한 두 번째 원상을 찾을 필요는 없다. 먼저 공격자가 고른 MD5 충돌 쌍의 첫 문서를 등록하고, 같은 연결에서 다른 문서를 등록한다. 두 문서의 바이트열은 다르지만 MD5가 같아 충돌 처리 경로에서 플래그가 나온다. 충돌 쌍은 corkami의 공개 테스트 벡터를 사용했다.

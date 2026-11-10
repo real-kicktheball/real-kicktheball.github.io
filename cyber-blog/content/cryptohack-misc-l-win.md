@@ -2,11 +2,6 @@
 {"title":"L-Win","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"출력 2048비트는 길이 384인 LFSR의 연속 비트다. Berlekamp–Massey 알고리즘으로 최소 연결 다항식을 복원하면 선형 복잡도 384와 점화식의 계수를 얻는다. 최고차 계수가 1이라 출력 시점 이전으로 점화식을 역방향 적용할…","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc / lfsr  
-문제: https://cryptohack.org/challenges/misc/#lwin  
-데이터: https://cryptohack.org/static/challenges/output_7e5c4d93fa5d065d105e32efd7ef9682.txt  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 출력 2048비트는 길이 384인 LFSR의 연속 비트다. Berlekamp–Massey 알고리즘으로 최소 연결 다항식을 복원하면 선형 복잡도 384와 점화식의 계수를 얻는다. 최고차 계수가 1이라 출력 시점 이전으로 점화식을 역방향 적용할 수 있다. 서버는 초기 플래그 상태를 넣고 16×48=768번 클록한 뒤 출력을 시작했으므로, 시간 인덱스 -768부터 -385까지의 384비트를 복원하면 원래 플래그다.

@@ -2,11 +2,6 @@
 {"title":"Unencryptable","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"첨부 데이터가 RSA 암호화 후 그대로인 고정점임을 먼저 확인한다. 이 문서의 재현 코드는 공개 FactorDB에 등록된 N의 인수를 조회해 개인키를 복원한다. 고정점 정보만으로 인수분해하는 별도 암호해석은 구현하지 않았다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#unencryptable
-- 첨부: [source.py](https://cryptohack.org/static/challenges/source_b1dbaf88b6cbdfcc484a693074e668d1.py), [output.txt](https://cryptohack.org/static/challenges/output_d8d7a60bdc52b56d3be6f24a000f40cd.txt)
-
 ## 풀이 원리
 
 첨부 데이터가 RSA 암호화 후 그대로인 고정점임을 먼저 확인한다. 이 문서의 재현 코드는 공개 FactorDB에 등록된 `N`의 인수를 조회해 개인키를 복원한다. 고정점 정보만으로 인수분해하는 별도 암호해석은 구현하지 않았다.

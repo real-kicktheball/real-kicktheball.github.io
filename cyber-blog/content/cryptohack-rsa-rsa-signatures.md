@@ -2,11 +2,6 @@
 {"title":"RSA Signatures","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"문자열을 SHA-256으로 해시하고 그 바이트를 정수로 해석해 비밀지수로 서명한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_6
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 문자열을 SHA-256으로 해시하고 그 바이트를 정수로 해석해 비밀지수로 서명한다.

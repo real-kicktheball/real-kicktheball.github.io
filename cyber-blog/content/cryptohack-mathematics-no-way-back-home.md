@@ -2,12 +2,6 @@
 {"title":"No Way Back Home","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"전송된 vka=v·kA, vkb=v·kB, vkakb=v·kA·kB에서 v를 법 q로 복원한다. v는 p의 배수이므로 p 법에서 0이며, 중국인의 나머지 정리로 원래 v를 얻는다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#no-way-back-home
-- 첨부: [nowayback.py](https://cryptohack.org/static/challenges/nowayback_9e0beb8fb2bbb103771ee735a890e387.py)
-- 첨부: [out.txt](https://cryptohack.org/static/challenges/out_549f6bbac5f815ee3f197c2248a352cd.txt)
-
 ## 풀이 원리
 
 전송된 vka=v·kA, vkb=v·kB, vkakb=v·kA·kB에서 v를 법 q로 복원한다. v는 p의 배수이므로 p 법에서 0이며, 중국인의 나머지 정리로 원래 v를 얻는다.

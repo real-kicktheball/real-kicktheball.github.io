@@ -2,10 +2,6 @@
 {"title":"Modular Arithmetic 1","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"각 수를 지정된 모듈러로 나눈 나머지 가운데 작은 수를 제출한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Modular Arithmetic 1](https://cryptohack.org/challenges/general/#ma0)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 각 수를 지정된 모듈러로 나눈 나머지 가운데 작은 수를 제출한다.

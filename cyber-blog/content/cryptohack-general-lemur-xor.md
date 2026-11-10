@@ -2,11 +2,6 @@
 {"title":"Lemur XOR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"두 PNG 파일을 파일 바이트 단위로 XOR하면 PNG 압축 구조가 깨진다. 두 그림을 RGB로 디코딩한 뒤 대응하는 채널값끼리 XOR하여 새 이미지를 만든다. 이미지에 플래그가 표시된다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Lemur XOR](https://cryptohack.org/challenges/general/#xorimg1)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [lemur.png](https://cryptohack.org/static/challenges/lemur_ed66878c338e662d3473f0d98eedbd0d.png)
-- [flag.png](https://cryptohack.org/static/challenges/flag_7ae18c704272532658c10b5faad06d74.png)
-
 ## 풀이 원리
 
 두 PNG 파일을 파일 바이트 단위로 XOR하면 PNG 압축 구조가 깨진다. 두 그림을 RGB로 디코딩한 뒤 대응하는 채널값끼리 XOR하여 새 이미지를 만든다. 이미지에 플래그가 표시된다.

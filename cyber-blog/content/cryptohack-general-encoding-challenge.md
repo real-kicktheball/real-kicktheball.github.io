@@ -2,11 +2,6 @@
 {"title":"Encoding Challenge","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"서버가 100번 보내는 JSON 인코딩을 type에 맞춰 해제하고 decoded 값으로 회신한다. 최종 응답에 플래그가 들어 있다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Encoding Challenge](https://cryptohack.org/challenges/general/#enc_interactive)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [13377.py](https://cryptohack.org/static/challenges/13377_86793614535c47dea371d2f0e406dbd9.py)
-- [pwntools_example.py](https://cryptohack.org/static/challenges/pwntools_example_f93ca6ccef2def755aa8f6d9aa6e9c5b.py)
-
 ## 풀이 원리
 
 서버가 100번 보내는 JSON 인코딩을 `type`에 맞춰 해제하고 `decoded` 값으로 회신한다. 최종 응답에 플래그가 들어 있다.

@@ -2,11 +2,6 @@
 {"title":"Honest Verifier Zero Knowledge","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"증인을 몰라도 챌린지 e가 먼저 공개되면 유효한 대화 기록을 시뮬레이션할 수 있다. 임의의 z를 정하고 a=g^z y^{-e}\\bmod p로 계산해 보내면 검증식이 자동으로 성립한다.","section":["CryptoHack","ZKPs"]}
 ---
 
-분야: ZKPs / zkp-intro  
-문제: https://cryptohack.org/challenges/zkp/#sigma-shvzk  
-소스: https://cryptohack.org/static/challenges/13427_ee325da3215875e43f67b397f8d111c7.py  
-검증: 2026-11-10, 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 증인을 몰라도 챌린지 $e$가 먼저 공개되면 유효한 대화 기록을 시뮬레이션할 수 있다. 임의의 $z$를 정하고 $a=g^z y^{-e}\bmod p$로 계산해 보내면 검증식이 자동으로 성립한다.

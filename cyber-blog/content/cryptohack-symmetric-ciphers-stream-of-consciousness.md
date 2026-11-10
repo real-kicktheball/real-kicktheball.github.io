@@ -2,10 +2,6 @@
 {"title":"Stream of Consciousness","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"매 요청마다 고정된 CTR 키스트림으로 22개 문장 중 하나를 암호화한다. 여러 암호문을 모으면 같은 위치의 문자들이 같은 키 바이트와 XOR되므로 영어 글자 빈도 기반 점수로 키스트림을 추정할 수 있다. crypto{ 접두사가 나타나는 행…","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Stream of Consciousness](https://cryptohack.org/challenges/aes/#stream_consciousness)
-- 검증: 서버에서 플래그 직접 획득; 플랫폼 제출 확인 전
-
-
 ## 풀이 원리
 
 매 요청마다 고정된 CTR 키스트림으로 22개 문장 중 하나를 암호화한다. 여러 암호문을 모으면 같은 위치의 문자들이 같은 키 바이트와 XOR되므로 영어 글자 빈도 기반 점수로 키스트림을 추정할 수 있다. `crypto{` 접두사가 나타나는 행을 찾아 첫 바이트의 대소문자 오차를 교정한다.

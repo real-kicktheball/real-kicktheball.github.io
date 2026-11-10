@@ -2,11 +2,6 @@
 {"title":"Legendre Symbol","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"오일러 판정식으로 이차잉여를 찾는다. p ≡ 3 (mod 4)이므로 a^((p+1)/4)가 제곱근이다. 큰 근을 고른다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#root1
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 오일러 판정식으로 이차잉여를 찾는다. p ≡ 3 (mod 4)이므로 a^((p+1)/4)가 제곱근이다. 큰 근을 고른다.

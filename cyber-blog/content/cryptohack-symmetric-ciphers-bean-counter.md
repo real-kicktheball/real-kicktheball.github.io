@@ -2,10 +2,6 @@
 {"title":"Bean Counter","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"카운터 구현의 step_up=False에서 값이 증가하지 않아 모든 블록에 같은 AES 키스트림이 XOR된다. PNG 파일의 알려진 16바이트 헤더로 키스트림을 구해 전체 파일을 복원한다. 복원된 이미지에 플래그가 보인다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Bean Counter](https://cryptohack.org/challenges/aes/#bean_counter)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 카운터 구현의 `step_up=False`에서 값이 증가하지 않아 모든 블록에 같은 AES 키스트림이 XOR된다. PNG 파일의 알려진 16바이트 헤더로 키스트림을 구해 전체 파일을 복원한다. 복원된 이미지에 플래그가 보인다.

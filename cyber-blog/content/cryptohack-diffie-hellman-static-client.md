@@ -2,10 +2,6 @@
 {"title":"Static Client","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"Bob이 정적 비밀지수 b를 재사용한다. 원래 Alice 공개값 A를 새 세션의 생성원 g로 넘기면 Bob의 새 공개값은 A^b, 즉 원래 세션의 공유 비밀이다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh_static
-
 ## 풀이 원리
 
 Bob이 정적 비밀지수 b를 재사용한다. 원래 Alice 공개값 A를 새 세션의 생성원 g로 넘기면 Bob의 새 공개값은 A^b, 즉 원래 세션의 공유 비밀이다.

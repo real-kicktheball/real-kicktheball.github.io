@@ -2,11 +2,6 @@
 {"title":"Ron was Wrong, Whit is Right","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"각 RSA 키가 OAEP를 사용해도 두 키의 법이 같은 소인수를 공유하면 두 법의 최대공약수로 그 소수를 얻는다. 모든 공개키 쌍의 gcd(n_i,n_j)를 계산하고, 공통 인수를 찾으면 각 개인키를 재구성해 OAEP 암호문을 복호화한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#ron_was_wrong
-- 첨부: [keys_and_messages.zip](https://cryptohack.org/static/challenges/keys_and_messages_701dba5b1a84cb168547ec18227a7740.zip)
-
 ## 풀이 원리
 
 각 RSA 키가 OAEP를 사용해도 두 키의 법이 같은 소인수를 공유하면 두 법의 최대공약수로 그 소수를 얻는다. 모든 공개키 쌍의 `gcd(n_i,n_j)`를 계산하고, 공통 인수를 찾으면 각 개인키를 재구성해 OAEP 암호문을 복호화한다.

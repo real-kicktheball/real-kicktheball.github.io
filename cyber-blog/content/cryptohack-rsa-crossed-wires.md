@@ -2,11 +2,6 @@
 {"title":"Crossed Wires","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"친구들이 모두 동일한 법 N에 대해 순차적으로 공개지수 e_i를 적용했다. 주어진 본인 비밀키 d와 공개지수 65537에서 ed−1이 φ(N)의 배수임을 이용해 N을 인수분해한다. 친구들의 지수 곱 E의 φ(N) 법 역원으로 한 번에 복호화…","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#wires
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_434cbf2b937bac1177bed299b2049a92.txt)
-
 ## 풀이 원리
 
 친구들이 모두 동일한 법 N에 대해 순차적으로 공개지수 e_i를 적용했다. 주어진 본인 비밀키 d와 공개지수 65537에서 ed−1이 φ(N)의 배수임을 이용해 N을 인수분해한다. 친구들의 지수 곱 E의 φ(N) 법 역원으로 한 번에 복호화한다.

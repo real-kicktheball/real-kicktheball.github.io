@@ -2,10 +2,6 @@
 {"title":"Confusion through Substitution","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"제공된 역 S-box로 상태 행렬의 각 바이트를 역치환한다. 첨부 소스에서 역 S-box 상수만 읽어 사용한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Confusion through Substitution](https://cryptohack.org/challenges/aes/#aes4)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [sbox.py](https://cryptohack.org/static/challenges/sbox_8fc04ffb95faf5a5e6959195d5e2d94e.py)
-
 ## 풀이 원리
 
 제공된 역 S-box로 상태 행렬의 각 바이트를 역치환한다. 첨부 소스에서 역 S-box 상수만 읽어 사용한다.

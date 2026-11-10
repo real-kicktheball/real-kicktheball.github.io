@@ -2,11 +2,6 @@
 {"title":"Successive Powers","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"연속 거듭제곱 a_i는 a_i·a_(i+2)−a_(i+1)²가 모두 p의 배수다. 여러 식의 최대공약수로 p를 얻고, x=a_(i+1)·a_i⁻¹ mod p를 구한다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#powers
-
-
 ## 풀이 원리
 
 연속 거듭제곱 a_i는 a_i·a_(i+2)−a_(i+1)²가 모두 p의 배수다. 여러 식의 최대공약수로 p를 얻고, x=a_(i+1)·a_i⁻¹ mod p를 구한다.

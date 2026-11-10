@@ -2,9 +2,6 @@
 {"title":"Decrypting TLS 1.3","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3에서는 서버 개인키만으로 세션을 복호화할 수 없다. 첨부된 NSS keylog의 세션 비밀을 tshark에 주어 HTTP/2 DATA 프레임을 복호화한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#decrypting-tls13
-- 검증: 공식 제공 PCAP과 키 자료에서 아래 값 확인
-
 ## 풀이 원리
 
 TLS 1.3에서는 서버 개인키만으로 세션을 복호화할 수 없다. 첨부된 NSS keylog의 세션 비밀을 tshark에 주어 HTTP/2 DATA 프레임을 복호화한다.

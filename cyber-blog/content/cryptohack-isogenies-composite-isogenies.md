@@ -2,10 +2,6 @@
 {"title":"Composite Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"생성자 K의 위수는 3^{13}이다. 매 단계에서 현재 K에 3^{e-1}을 곱해 3차 커널을 만들고, 3-isogeny를 적용한 다음 K를 새 공역으로 보낸다. 13단계를 마치면 원하는 합성 isogeny의 공역이 나온다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / road_to_sidh  
-문제: https://cryptohack.org/challenges/isogenies/#comp_isogenies  
-검증: 2026-11-10, SageMath에서 isogeny 차수와 공역 $j$-불변량 계산 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 생성자 $K$의 위수는 $3^{13}$이다. 매 단계에서 현재 $K$에 $3^{e-1}$을 곱해 3차 커널을 만들고, 3-isogeny를 적용한 다음 $K$를 새 공역으로 보낸다. 13단계를 마치면 원하는 합성 isogeny의 공역이 나온다.

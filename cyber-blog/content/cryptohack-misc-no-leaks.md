@@ -2,11 +2,6 @@
 {"title":"No Leaks","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"서버는 매번 새 OTP를 쓰지만 ciphertext[i] == flag[i]인 경우 응답을 버린다. XOR 암호문에서 이 조건은 OTP 바이트가 0인 경우다. 따라서 허용된 응답의 각 암호문 바이트는 256개 값 중 플래그 바이트만 제외한 …","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc / otp  
-문제: https://cryptohack.org/challenges/misc/#noleaks  
-소스: https://cryptohack.org/static/challenges/13370_f382761c27b6c87f4222a1c417a00acd.py  
-검증: 2026-11-10, 암호문 약 1800개를 병렬 수집해 20/20바이트의 누락값을 확정. CryptoHack 계정 제출 대기
-
 ## 풀이 방법
 
 서버는 매번 새 OTP를 쓰지만 `ciphertext[i] == flag[i]`인 경우 응답을 버린다. XOR 암호문에서 이 조건은 OTP 바이트가 0인 경우다. 따라서 허용된 응답의 각 암호문 바이트는 256개 값 중 **플래그 바이트만 제외한** 나머지 255개에 걸쳐 분포한다. 같은 위치의 암호문 바이트를 많이 모아 단 한 번도 나타나지 않은 값이 플래그 바이트임을 확인한다. 12개 연결을 병렬로 사용해 수집 시간을 줄인다.

@@ -2,10 +2,6 @@
 {"title":"Triple DES","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"두 DES 약한 키는 각각 암호화가 자기 역연산이다. 두 키를 조합한 2-key Triple DES도 자기 역연산이므로 encrypt_flag 결과를 같은 키의 encrypt에 다시 넣으면 원문이 나온다. 서비스의 IV 전후 XOR도 이 성…","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Triple DES](https://cryptohack.org/challenges/aes/#triple_des)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 두 DES 약한 키는 각각 암호화가 자기 역연산이다. 두 키를 조합한 2-key Triple DES도 자기 역연산이므로 `encrypt_flag` 결과를 같은 키의 `encrypt`에 다시 넣으면 원문이 나온다. 서비스의 IV 전후 XOR도 이 성질을 유지한다.

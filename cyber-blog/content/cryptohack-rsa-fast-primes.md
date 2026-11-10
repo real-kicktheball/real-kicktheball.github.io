@@ -2,13 +2,6 @@
 {"title":"Fast Primes","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"생성 코드가 소수 구조를 제한한다. 본 문서는 공개 FactorDB에 등록된 인수를 조회해 개인키를 복원하는 재현 가능한 경로다. 구조를 이용한 직접 인수분해를 구현한 것은 아니므로 그 한계를 구분한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#fast_primes
-- 첨부: [fast_primes.py](https://cryptohack.org/static/challenges/fast_primes_d50f598035bc3bedfa9fcff8cc08ece7.py)
-- 첨부: [key.pem](https://cryptohack.org/static/challenges/key_17a08b7040db46308f8b9a19894f9f95.pem)
-- 첨부: [ciphertext.txt](https://cryptohack.org/static/challenges/ciphertext_98a448b6bbcd080909d235e5da5e9d56.txt)
-
 ## 풀이 원리
 
 생성 코드가 소수 구조를 제한한다. 본 문서는 공개 FactorDB에 등록된 인수를 조회해 개인키를 복원하는 재현 가능한 경로다. 구조를 이용한 직접 인수분해를 구현한 것은 아니므로 그 한계를 구분한다.

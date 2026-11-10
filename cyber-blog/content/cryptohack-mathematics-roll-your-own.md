@@ -2,11 +2,6 @@
 {"title":"Roll your Own","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"매개변수를 직접 고를 수 있다. n=q², g=q+1을 주면 이항정리에 따라 (1+q)^q ≡ 1 (mod q²)라서 검사를 통과한다. 공개값은 h=(1+q)^x ≡ 1+xq (mod q²)이므로 x=(h−1)/q가 그대로 드러난다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#roll_your_own
-- 첨부: [13403.py](https://cryptohack.org/static/challenges/13403_3fc14872be8c0172d0c72a81b6fc9b12.py)
-
 ## 풀이 원리
 
 매개변수를 직접 고를 수 있다. `n=q²`, `g=q+1`을 주면 이항정리에 따라 `(1+q)^q ≡ 1 (mod q²)`라서 검사를 통과한다. 공개값은 `h=(1+q)^x ≡ 1+xq (mod q²)`이므로 `x=(h−1)/q`가 그대로 드러난다.

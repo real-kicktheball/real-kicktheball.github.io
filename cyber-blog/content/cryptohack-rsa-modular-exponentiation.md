@@ -2,11 +2,6 @@
 {"title":"Modular Exponentiation","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"모듈러 거듭제곱을 계산한다. Python의 세 인수 pow는 중간 큰 정수를 만들지 않는다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_1
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 모듈러 거듭제곱을 계산한다. Python의 세 인수 pow는 중간 큰 정수를 만들지 않는다.

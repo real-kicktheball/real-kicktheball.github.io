@@ -2,11 +2,6 @@
 {"title":"RSA Decryption","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"앞 문제의 비밀지수로 RSA 암호문을 복호화한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_starter_5
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 앞 문제의 비밀지수로 RSA 암호문을 복호화한다.

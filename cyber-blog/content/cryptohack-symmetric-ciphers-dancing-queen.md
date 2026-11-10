@@ -2,11 +2,6 @@
 {"title":"Dancing Queen","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"제공된 ChaCha20 변형은 20라운드 후 원래 상태를 더하는 feedforward를 생략했다. 알려진 평문과 암호문의 XOR로 64바이트 키스트림을 얻고, 역 quarter-round를 역순으로 적용해 초기 상태와 비밀키를 복원한다. 두…","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Dancing Queen](https://cryptohack.org/challenges/aes/#dancing-queen)
-- 검증: 서버에서 플래그 직접 획득; 플랫폼 제출 확인 전
-- [chacha20.py](https://cryptohack.org/static/challenges/chacha20_c76e2a43164af8b6ecb0e145415ab931.py)
-- [output.txt](https://cryptohack.org/static/challenges/output_108f5c189506fcb4309410776af3117d.txt)
-
 ## 풀이 원리
 
 제공된 ChaCha20 변형은 20라운드 후 원래 상태를 더하는 feedforward를 생략했다. 알려진 평문과 암호문의 XOR로 64바이트 키스트림을 얻고, 역 quarter-round를 역순으로 적용해 초기 상태와 비밀키를 복원한다. 두 번째 IV로 플래그를 복호화한다.

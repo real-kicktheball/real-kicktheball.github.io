@@ -2,12 +2,6 @@
 {"title":"Adrien's Signs","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"소수 p≡3 mod 4에서는 −1이 이차 비잉여다. a의 거듭제곱은 이차잉여이고, 음수로 바꾼 값은 비잉여이므로 Legendre 판정으로 비트 1과 0을 구분한다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#adrien
-- 첨부: [source.py](https://cryptohack.org/static/challenges/source_734d7e14251f950935f83d228f8694ab.py)
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_80fc6398d2fd9f272186d0af510323f9.txt)
-
 ## 풀이 원리
 
 소수 p≡3 mod 4에서는 −1이 이차 비잉여다. a의 거듭제곱은 이차잉여이고, 음수로 바꾼 값은 비잉여이므로 Legendre 판정으로 비트 1과 0을 구분한다.

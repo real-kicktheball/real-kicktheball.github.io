@@ -2,9 +2,6 @@
 {"title":"Montgomery's Ladder","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"문제의 곡선은 Curve25519의 Montgomery 형식 y²=x³+486662x²+x (mod 2²⁵⁵−19)이다. x 좌표만 필요한 스칼라배이므로 y를 복원하지 않고 사영좌표 (X:Z)로 ladder를 계산한다. 각 비트에서 xADD…","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ladder
-- 검증: Montgomery x 좌표 전용 ladder 코드 실행
-
 ## 풀이 원리
 
 문제의 곡선은 Curve25519의 Montgomery 형식 `y²=x³+486662x²+x (mod 2²⁵⁵−19)`이다. x 좌표만 필요한 스칼라배이므로 y를 복원하지 않고 사영좌표 `(X:Z)`로 ladder를 계산한다. 각 비트에서 `xADD`와 `xDBL`을 한 번씩 수행한다. 마지막에 `X/Z mod p`를 구하면 요구한 10진 x 좌표다.

@@ -2,9 +2,6 @@
 {"title":"Smooth Criminal","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"곡선 군의 차수를 소인수분해하면 큰 인수가 없고 Pohlig–Hellman으로 이산로그를 빠르게 계산할 수 있다. Alice 공개키 A=nG에서 n을 복원한 뒤 Bob 공개키 B에 곱해 공유점의 x 좌표를 구한다. 이를 10진 문자열로 SH…","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#criminal
-- 검증: 공식 첨부 데이터에서 공개점 또는 수학적 관계를 재검증하고 플래그 복원
-
 ## 풀이 원리
 
 곡선 군의 차수를 소인수분해하면 큰 인수가 없고 Pohlig–Hellman으로 이산로그를 빠르게 계산할 수 있다. Alice 공개키 `A=nG`에서 `n`을 복원한 뒤 Bob 공개키 `B`에 곱해 공유점의 x 좌표를 구한다. 이를 10진 문자열로 SHA-1 해시한 앞 16바이트가 AES-CBC 키다.

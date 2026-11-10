@@ -2,9 +2,6 @@
 {"title":"Exceptional Curves","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"군의 차수를 직접 계산하면 #E(Fp)=p인 anomalous curve다. 소수 차수라도 Smart의 p-adic lifting 공격으로 ECDLP가 풀린다. Sage의 점 .log()가 이를 처리하며 복원된 개인키로 ECDH와 AES-C…","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#exceptional
-- 검증: 공식 첨부 데이터에서 공개점 또는 수학적 관계를 재검증하고 플래그 복원
-
 ## 풀이 원리
 
 군의 차수를 직접 계산하면 `#E(Fp)=p`인 anomalous curve다. 소수 차수라도 Smart의 p-adic lifting 공격으로 ECDLP가 풀린다. Sage의 점 `.log()`가 이를 처리하며 복원된 개인키로 ECDH와 AES-CBC 복호화를 수행한다.

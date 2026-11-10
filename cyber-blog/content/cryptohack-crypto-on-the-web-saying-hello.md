@@ -2,9 +2,6 @@
 {"title":"Saying Hello","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.2로 버전을 제한해 서버와 핸드셰이크한다. 서버가 선택한 단일 cipher suite를 OpenSSL 표기법으로 읽는다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#saying-hello
-- 검증: 실제 TLS 1.2 핸드셰이크에서 아래 값 확인
-
 ## 풀이 원리
 
 TLS 1.2로 버전을 제한해 서버와 핸드셰이크한다. 서버가 선택한 단일 cipher suite를 OpenSSL 표기법으로 읽는다.

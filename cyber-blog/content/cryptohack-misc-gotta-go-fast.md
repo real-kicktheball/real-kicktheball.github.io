@@ -2,10 +2,6 @@
 {"title":"Gotta Go Fast","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"OTP 키가 암호화 시점의 Unix 초를 큰 바이트 순서로 인코딩한 뒤 SHA-256을 취해 만들어진다. 플래그를 요청하기 직전·직후 시간을 기록하고 근처 초를 전수 조사한다. 복호화한 바이트가 crypto{로 시작하고 }로 끝나는 값을 채…","section":["CryptoHack","Misc"]}
 ---
 
-분야: Misc  
-문제: https://cryptohack.org/challenges/misc/#gofast  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 OTP 키가 암호화 시점의 Unix 초를 큰 바이트 순서로 인코딩한 뒤 SHA-256을 취해 만들어진다. 플래그를 요청하기 직전·직후 시간을 기록하고 근처 초를 전수 조사한다. 복호화한 바이트가 `crypto{`로 시작하고 `}`로 끝나는 값을 채택한다.

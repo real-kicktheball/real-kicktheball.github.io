@@ -2,10 +2,6 @@
 {"title":"Factoring","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"150비트 법은 공개된 소인수분해 결과를 FactorDB API에서 조회할 수 있다. 두 소수의 곱이 원래 법과 같은지, 각 인수가 실제 소수인지 독립 확인했다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#rsa_factoring
-
 ## 풀이 원리
 
 150비트 법은 공개된 소인수분해 결과를 FactorDB API에서 조회할 수 있다. 두 소수의 곱이 원래 법과 같은지, 각 인수가 실제 소수인지 독립 확인했다.

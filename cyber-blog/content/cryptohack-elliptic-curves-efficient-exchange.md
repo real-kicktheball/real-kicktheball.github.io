@@ -2,10 +2,6 @@
 {"title":"Efficient Exchange","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"전달된 x 좌표로부터 곡선의 우변을 계산한다. p ≡ 3 mod 4이므로 y = rhs^((p+1)/4) mod p로 y를 복원한다. 어느 부호를 선택해도 공유점의 x 좌표가 같으며, 그 SHA-1 앞 16바이트가 AES-CBC 키다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ecc4
-- 분야: Elliptic Curves / ecc-starter
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 전달된 x 좌표로부터 곡선의 우변을 계산한다. `p ≡ 3 mod 4`이므로 `y = rhs^((p+1)/4) mod p`로 y를 복원한다. 어느 부호를 선택해도 공유점의 x 좌표가 같으며, 그 SHA-1 앞 16바이트가 AES-CBC 키다.

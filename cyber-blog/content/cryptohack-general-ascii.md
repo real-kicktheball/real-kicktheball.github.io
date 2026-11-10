@@ -2,10 +2,6 @@
 {"title":"ASCII","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"주어진 ASCII 정수 배열의 각 원소에 chr을 적용한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [ASCII](https://cryptohack.org/challenges/general/#enc1)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 주어진 ASCII 정수 배열의 각 원소에 `chr`을 적용한다.

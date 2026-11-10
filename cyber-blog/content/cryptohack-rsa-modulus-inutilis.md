@@ -2,11 +2,6 @@
 {"title":"Modulus Inutilis","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"e=3이고 메시지가 법에 비해 짧아 c=m³가 모듈러 환원되지 않았다. 정수 세제곱근을 취한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#modulus_inutilis
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_30cff153b7432055fc947fc5abdb57d3.txt)
-
 ## 풀이 원리
 
 e=3이고 메시지가 법에 비해 짧아 c=m³가 모듈러 환원되지 않았다. 정수 세제곱근을 취한다.

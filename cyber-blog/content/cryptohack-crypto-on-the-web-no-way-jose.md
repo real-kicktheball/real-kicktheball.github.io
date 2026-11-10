@@ -2,10 +2,6 @@
 {"title":"No Way JOSE","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"서버가 JWT 헤더의 alg: none을 허용하고 서명 검증을 끈다. 관리자 권한을 가진 payload를 서명 없이 만들어 authorise에 보낸다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#no-way-jose
-- 실습: https://web.cryptohack.org/no-way-jose/
-- 검증: 공식 실습 서버의 `authorise` 응답에 아래 플래그가 포함됨; CryptoHack 채점 Success!
-
 ## 풀이 원리
 
 서버가 JWT 헤더의 `alg: none`을 허용하고 서명 검증을 끈다. 관리자 권한을 가진 payload를 서명 없이 만들어 `authorise`에 보낸다.

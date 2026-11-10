@@ -2,10 +2,6 @@
 {"title":"Round Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"AddRoundKey는 상태 바이트와 같은 위치의 라운드키 바이트를 XOR한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Round Keys](https://cryptohack.org/challenges/aes/#aes3)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [add_round_key.py](https://cryptohack.org/static/challenges/add_round_key_b67b9a529ae739156107a74b14adde98.py)
-
 ## 풀이 원리
 
 AddRoundKey는 상태 바이트와 같은 위치의 라운드키 바이트를 XOR한다.

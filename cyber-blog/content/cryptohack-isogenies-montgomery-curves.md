@@ -2,10 +2,6 @@
 {"title":"Montgomery Curves","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"곡선의 2-꼬임점을 원점으로 옮겨 Montgomery 형태로 만든다. SageMath의 montgomery_model()은 이 좌표변환과 계수 정규화를 수행하며, 출력 곡선의 a_2가 요구된 A다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_background  
-문제: https://cryptohack.org/challenges/isogenies/#b_compute_montgomery  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 곡선의 2-꼬임점을 원점으로 옮겨 Montgomery 형태로 만든다. SageMath의 `montgomery_model()`은 이 좌표변환과 계수 정규화를 수행하며, 출력 곡선의 $a_2$가 요구된 $A$다.

@@ -2,11 +2,6 @@
 {"title":"Bringing It All Together","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"첨부파일의 16바이트 AES-128 키와 암호문을 읽는다. AES-ECB 단일 블록 복호화는 확장키를 역순으로 적용하는 정규 AES 역라운드와 같다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Bringing It All Together](https://cryptohack.org/challenges/aes/#aes6)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [aes_decrypt.py](https://cryptohack.org/static/challenges/aes_decrypt_f491744105801ec03d6a6f7a0e7f8101.py)
-- [LICENSE](https://cryptohack.org/static/challenges/LICENSE_651b0602addd2b4bfa5d69ad7fca2dd5)
-
 ## 풀이 원리
 
 첨부파일의 16바이트 AES-128 키와 암호문을 읽는다. AES-ECB 단일 블록 복호화는 확장키를 역순으로 적용하는 정규 AES 역라운드와 같다.

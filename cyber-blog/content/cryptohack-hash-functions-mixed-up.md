@@ -2,9 +2,6 @@
 {"title":"Mixed Up","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"shuffle 함수는 mixed_and의 각 바이트를 mixed_xor의 인덱스로 사용한다. 모든 입력 바이트를 0으로 두면 결과는 난수 한 바이트가 39번 반복된 값이다. 특정 위치 j에 한 비트 마스크만 설정하면 flag[j] & mas…","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#mixed_up
-- 검증: 공식 소켓 서비스가 아래 플래그 반환
-
 ## 풀이 원리
 
 `shuffle` 함수는 `mixed_and`의 각 바이트를 `mixed_xor`의 인덱스로 사용한다. 모든 입력 바이트를 0으로 두면 결과는 난수 한 바이트가 39번 반복된 값이다. 특정 위치 j에 한 비트 마스크만 설정하면 `flag[j] & mask`가 0일 때만 여전히 같은 바이트의 반복이 된다. 가능한 256개 반복 문자열의 SHA256을 미리 계산하고, 각 위치의 8비트를 선택 입력으로 검사한다. 난수 우연 일치를 줄이려고 각 양성 결과를 두 번 확인한다.

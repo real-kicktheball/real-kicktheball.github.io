@@ -2,10 +2,6 @@
 {"title":"Export-grade","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"지원 알고리즘을 DH64 하나로 바꾸어 협상을 낮춘다. 64비트 법의 이산로그는 SymPy로 계산할 수 있으므로 Alice의 비밀지수를 구해 Bob 공개값으로 공유 비밀을 복원한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#export_grade
-
 ## 풀이 원리
 
 지원 알고리즘을 DH64 하나로 바꾸어 협상을 낮춘다. 64비트 법의 이산로그는 SymPy로 계산할 수 있으므로 Alice의 비밀지수를 구해 Bob 공개값으로 공유 비밀을 복원한다.

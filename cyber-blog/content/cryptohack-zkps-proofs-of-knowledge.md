@@ -2,11 +2,6 @@
 {"title":"Proofs of Knowledge","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"Schnorr 지식 증명에서 증인 w가 첨부 소스에 그대로 있다. r=0을 선택하여 a=g^r=1을 보내고, 서버의 임의 챌린지 e에 대해 z=e w\\bmod q를 계산한다. 검증식 g^z=a y^e\\bmod p가 성립한다.","section":["CryptoHack","ZKPs"]}
 ---
 
-분야: ZKPs / zkp-intro  
-문제: https://cryptohack.org/challenges/zkp/#sigma-intro  
-소스: https://cryptohack.org/static/challenges/13425_eae1ef15ed9cf9c7ea84ae9e7e27ccab.py  
-검증: 2026-11-10, 공식 소켓 서버에서 플래그 획득. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 Schnorr 지식 증명에서 증인 $w$가 첨부 소스에 그대로 있다. $r=0$을 선택하여 $a=g^r=1$을 보내고, 서버의 임의 챌린지 $e$에 대해 $z=e w\bmod q$를 계산한다. 검증식 $g^z=a y^e\bmod p$가 성립한다.

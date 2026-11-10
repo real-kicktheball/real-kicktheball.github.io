@@ -2,9 +2,6 @@
 {"title":"Decrypting TLS 1.2","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.2 캡처는 정적 RSA 키 교환을 사용한다. ClientKeyExchange의 암호화된 premaster secret을 첨부 RSA 개인키로 복호화한다. 양쪽 Hello에서 Extended Master Secret 확장이 협상되므…","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#decrypting-tls12
-- 검증: 공식 제공 PCAP과 키 자료에서 아래 값 확인
-
 ## 풀이 원리
 
 TLS 1.2 캡처는 정적 RSA 키 교환을 사용한다. `ClientKeyExchange`의 암호화된 premaster secret을 첨부 RSA 개인키로 복호화한다. 양쪽 Hello에서 Extended Master Secret 확장이 협상되므로 `PRF(premaster, "extended master secret", SHA384(핸드셰이크 메시지))`로 master secret을 구한다. 이를 NSS keylog 형식으로 저장하고 tshark로 HTTP/2 데이터를 복호화한다.

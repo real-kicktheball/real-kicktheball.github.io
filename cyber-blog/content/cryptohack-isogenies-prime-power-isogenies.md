@@ -2,10 +2,6 @@
 {"title":"Prime Power Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"매 단계에서 현재 곡선의 \\\\mathbb{F}_{419}-유리 7-꼬임점을 만들어 7-isogeny를 적용한다. 시작 곡선의 j-불변량이 처음 다시 나타나는 시점이 27번째다. 이때 Montgomery 계수도 0으로 돌아오는지 확인한다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / road_to_csidh  
-문제: https://cryptohack.org/challenges/isogenies/#prime_power  
-검증: 2026-11-10, SageMath에서 위수·isogeny 차수·공역 계수 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 매 단계에서 현재 곡선의 $\\mathbb{F}_{419}$-유리 7-꼬임점을 만들어 7-isogeny를 적용한다. 시작 곡선의 $j$-불변량이 처음 다시 나타나는 시점이 27번째다. 이때 Montgomery 계수도 0으로 돌아오는지 확인한다.

@@ -2,11 +2,6 @@
 {"title":"Computing Public Values","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"주어진 비밀지수 a와 생성원 g=2를 p 법으로 거듭제곱해 공개값 A를 구한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh-starter-3
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 주어진 비밀지수 a와 생성원 g=2를 p 법으로 거듭제곱해 공개값 A를 구한다.

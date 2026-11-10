@@ -2,11 +2,6 @@
 {"title":"Script Kiddie","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"첨부 코드의 ^는 거듭제곱이 아니라 비트별 XOR다. B = g ^ b에서 b = B ^ g를 바로 얻고, shared = A ^ b를 계산한다. 그 값을 SHA-1로 해시한 앞 16바이트가 AES 키다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#scriptkiddie
-- 첨부: [script.py](https://cryptohack.org/static/challenges/script_70449139467b5442a859d310e6945690.py), [output.txt](https://cryptohack.org/static/challenges/output_92cc8b7f0db768b53291efbf969ca3ca.txt)
-
 ## 풀이 원리
 
 첨부 코드의 `^`는 거듭제곱이 아니라 비트별 XOR다. `B = g ^ b`에서 `b = B ^ g`를 바로 얻고, `shared = A ^ b`를 계산한다. 그 값을 SHA-1로 해시한 앞 16바이트가 AES 키다.

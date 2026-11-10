@@ -2,10 +2,6 @@
 {"title":"ECB CBC WTF","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"CBC의 P_i=D_K(C_i) XOR C_(i-1) 식을 사용한다. 주어진 ECB 복호화 API로 각 CBC 암호 블록의 D_K(C_i)를 구한 뒤 앞 블록 또는 IV와 XOR한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [ECB CBC WTF](https://cryptohack.org/challenges/aes/#ecbcbcwtf)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 CBC의 `P_i=D_K(C_i) XOR C_(i-1)` 식을 사용한다. 주어진 ECB 복호화 API로 각 CBC 암호 블록의 `D_K(C_i)`를 구한 뒤 앞 블록 또는 IV와 XOR한다.

@@ -2,9 +2,6 @@
 {"title":"Long Story Short","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"HMAC-SHA256은 블록 크기 64바이트보다 긴 키를 먼저 SHA256으로 줄인다. 공개한 SHA256(passphrase) 지문은 원래 128바이트 구절의 PBKDF2-HMAC-SHA256과 동일한 HMAC 키가 된다. 지문 32바이트…","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#long_story_short
-- 검증: 공식 소켓 서비스가 아래 플래그 반환
-
 ## 풀이 원리
 
 HMAC-SHA256은 블록 크기 64바이트보다 긴 키를 먼저 SHA256으로 줄인다. 공개한 `SHA256(passphrase)` 지문은 원래 128바이트 구절의 PBKDF2-HMAC-SHA256과 동일한 HMAC 키가 된다. 지문 32바이트를 `passphrase_hex`로 보내면 동일 AES 키가 유도되어 금고가 열린다.

@@ -2,11 +2,6 @@
 {"title":"Square Eyes","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"법 n=p²이므로 p=√n이고 φ(n)=p(p−1)이다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#square
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_00dace150c0bc52f7abf03fc3e9529d2.txt)
-
 ## 풀이 원리
 
 법 n=p²이므로 p=√n이고 φ(n)=p(p−1)이다.

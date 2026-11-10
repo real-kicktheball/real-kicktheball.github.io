@@ -2,10 +2,6 @@
 {"title":"Additive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"덧셈군에서는 공개값이 A=a·g, B=b·g이므로 a=A·g⁻¹ mod p를 계산할 수 있다. 공유 비밀은 A·B·g⁻¹ mod p다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh_additive
-
 ## 풀이 원리
 
 덧셈군에서는 공개값이 A=a·g, B=b·g이므로 a=A·g⁻¹ mod p를 계산할 수 있다. 공유 비밀은 A·B·g⁻¹ mod p다.

@@ -2,12 +2,6 @@
 {"title":"Everything is Still Big","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"이 문제의 작은 비밀지수는 Wiener 경계 밖에 있으므로 단순 연분수 공격이 통하지 않는다. 여기서는 공개 인수분해 데이터베이스 FactorDB의 등록된 두 소인수를 조회해 RSA 개인키를 재구성했다. 이는 원래 의도된 Boneh–Durf…","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#big2
-- 첨부: [source.py](https://cryptohack.org/static/challenges/source_359e2ea194f56fb72f63e7dff31b54ee.py)
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_f554de954a6cd0a94142afc264107558.txt)
-
 ## 풀이 원리
 
 이 문제의 작은 비밀지수는 Wiener 경계 밖에 있으므로 단순 연분수 공격이 통하지 않는다. 여기서는 공개 인수분해 데이터베이스 FactorDB의 등록된 두 소인수를 조회해 RSA 개인키를 재구성했다. 이는 원래 의도된 Boneh–Durfee 공격 구현을 대체한 풀이임을 명시한다.

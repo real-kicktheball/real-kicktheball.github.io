@@ -2,10 +2,6 @@
 {"title":"The j-invariant","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"짧은 Weierstrass 곡선 y^2=x^3+ax+b의 j-불변량은 1728\\cdot 4a^3/(4a^3+27b^2)\\pmod p이다. 분모의 역원을 곱하면 127이 나온다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_background  
-문제: https://cryptohack.org/challenges/isogenies/#j_invariant  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 짧은 Weierstrass 곡선 $y^2=x^3+ax+b$의 $j$-불변량은 $1728\cdot 4a^3/(4a^3+27b^2)\pmod p$이다. 분모의 역원을 곱하면 127이 나온다.

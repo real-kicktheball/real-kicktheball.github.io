@@ -2,10 +2,6 @@
 {"title":"Bytes and Big Integers","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"큰 정수를 big-endian 바이트열로 변환하면 ASCII 플래그가 나온다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Bytes and Big Integers](https://cryptohack.org/challenges/general/#enc4)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 큰 정수를 big-endian 바이트열로 변환하면 ASCII 플래그가 나온다.

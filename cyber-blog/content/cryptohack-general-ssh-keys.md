@@ -2,10 +2,6 @@
 {"title":"SSH Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"SSH 공개키의 Base64 내부 표현에서 RSA 키를 읽고 모듈러스 n을 출력한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [SSH Keys](https://cryptohack.org/challenges/general/#ssh-keys)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [bruce_rsa.pub](https://cryptohack.org/static/challenges/bruce_rsa_6e7ecd53b443a97013397b1a1ea30e14.pub)
-
 ## 풀이 원리
 
 SSH 공개키의 Base64 내부 표현에서 RSA 키를 읽고 모듈러스 `n`을 출력한다.

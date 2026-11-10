@@ -2,11 +2,6 @@
 {"title":"Working with Fields","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"유한체에서 g의 곱셈 역원을 계산한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh-starter-1
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 유한체에서 g의 곱셈 역원을 계산한다.

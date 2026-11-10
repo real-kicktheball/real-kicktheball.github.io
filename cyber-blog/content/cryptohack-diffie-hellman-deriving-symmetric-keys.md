@@ -2,11 +2,6 @@
 {"title":"Deriving Symmetric Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"DH 공유 비밀값을 SHA-1로 해시한 앞 16바이트를 AES-128 키로 삼는다. 주어진 IV와 CBC 암호문을 복호화한다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/diffie-hellman/#dh-starter-5
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 DH 공유 비밀값을 SHA-1로 해시한 앞 16바이트를 AES-128 키로 삼는다. 주어진 IV와 CBC 암호문을 복호화한다.

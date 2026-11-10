@@ -2,10 +2,6 @@
 {"title":"Great Snakes","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Introduction","Cryptography"],"summary":"첨부 스크립트의 정수 배열에 0x32를 XOR한 값을 문자로 되돌린다. XOR은 자기 역연산이다.","section":["CryptoHack","Introduction"]}
 ---
 
-- 문제: [Great Snakes](https://cryptohack.org/challenges/introduction/#nc-intro)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [great_snakes.py](https://cryptohack.org/static/challenges/great_snakes_35381fca29d68d8f3f25c9fa0a9026fb.py)
-
 ## 풀이 원리
 
 첨부 스크립트의 정수 배열에 `0x32`를 XOR한 값을 문자로 되돌린다. XOR은 자기 역연산이다.

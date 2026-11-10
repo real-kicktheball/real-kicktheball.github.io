@@ -2,10 +2,6 @@
 {"title":"Extended GCD","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"확장 유클리드 알고리즘에서 Bézout 계수 u,v를 구한다. 26513u + 32321v = 1을 만족하며 더 작은 계수가 정답이다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Extended GCD](https://cryptohack.org/challenges/general/#egcd)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 확장 유클리드 알고리즘에서 Bézout 계수 `u,v`를 구한다. `26513u + 32321v = 1`을 만족하며 더 작은 계수가 정답이다.

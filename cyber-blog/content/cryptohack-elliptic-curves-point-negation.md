@@ -2,10 +2,6 @@
 {"title":"Point Negation","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"점의 역원은 x 좌표가 같고 y 좌표가 부호 반전된 점이다. 유한체에서는 -6936 mod 9739 = 2803이다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ecc0
-- 분야: Elliptic Curves / ecc-starter
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 점의 역원은 x 좌표가 같고 y 좌표가 부호 반전된 점이다. 유한체에서는 `-6936 mod 9739 = 2803`이다.

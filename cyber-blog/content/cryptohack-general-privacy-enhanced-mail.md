@@ -2,10 +2,6 @@
 {"title":"Privacy-Enhanced Mail?","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"PEM의 Base64/DER 구조를 RSA 파서에 넘기고 개인 지수 d를 추출한다.","section":["CryptoHack","General"]}
 ---
 
-- 문제: [Privacy-Enhanced Mail?](https://cryptohack.org/challenges/general/#pem1)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [privacy_enhanced_mail.pem](https://cryptohack.org/static/challenges/privacy_enhanced_mail_1f696c053d76a78c2c531bb013a92d4a.pem)
-
 ## 풀이 원리
 
 PEM의 Base64/DER 구조를 RSA 파서에 넘기고 개인 지수 `d`를 추출한다.

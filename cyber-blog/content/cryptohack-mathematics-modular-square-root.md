@@ -2,11 +2,6 @@
 {"title":"Modular Square Root","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"일반 홀수 소수의 제곱근을 Tonelli–Shanks 구현체인 SymPy sqrt_mod로 구하고 작은 근을 고른다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#tonelli-shanks
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 일반 홀수 소수의 제곱근을 Tonelli–Shanks 구현체인 SymPy sqrt_mod로 구하고 작은 근을 고른다.

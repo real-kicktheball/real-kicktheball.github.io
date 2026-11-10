@@ -2,10 +2,6 @@
 {"title":"Point Addition","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"점 덧셈 공식의 나눗셈을 유한체 역원으로 바꾼다. 제시된 테스트 벡터와 곡선 방정식을 검사한 뒤 P+P+Q+R을 계산한다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/ecc/#ecc1
-- 분야: Elliptic Curves / ecc-starter
-- 검증: CryptoHack 공식 제출 API에서 `Success!` 응답 확인
-
 ## 풀이 원리
 
 점 덧셈 공식의 나눗셈을 유한체 역원으로 바꾼다. 제시된 테스트 벡터와 곡선 방정식을 검사한 뒤 `P+P+Q+R`을 계산한다.

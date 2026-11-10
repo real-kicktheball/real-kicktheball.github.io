@@ -2,10 +2,6 @@
 {"title":"Gaussian Reduction","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"짧은 벡터를 앞으로 두고 긴 벡터에서 가장 가까운 정수배를 반복해서 뺐다. 두 기저가 더 줄어들지 않을 때의 내적을 출력한다.","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lattices  
-문제: https://cryptohack.org/challenges/post-quantum/#gauss  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 짧은 벡터를 앞으로 두고 긴 벡터에서 가장 가까운 정수배를 반복해서 뺐다. 두 기저가 더 줄어들지 않을 때의 내적을 출력한다.

@@ -2,10 +2,6 @@
 {"title":"Gram Schmidt","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"Gram–Schmidt의 정사영 계수를 유리수로 계산해 부동소수점 오차를 피했다. 네 번째 직교 벡터의 두 번째 성분은 273/298=0.916107\\ldots이고, 유효숫자 다섯 자리로 0.91611이다.","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lattices  
-문제: https://cryptohack.org/challenges/post-quantum/#gramschmidt  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 Gram–Schmidt의 정사영 계수를 유리수로 계산해 부동소수점 오차를 피했다. 네 번째 직교 벡터의 두 번째 성분은 $273/298=0.916107\ldots$이고, 유효숫자 다섯 자리로 $0.91611$이다.

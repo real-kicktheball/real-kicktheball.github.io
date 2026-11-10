@@ -2,11 +2,6 @@
 {"title":"Find the Lattice","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"공개키 (q,h)에서 fh\\equiv g\\pmod q를 만족하는 작은 (f,g)가 2차원 격자 \\langle(1,h),(0,q)\\rangle에 있다. Gauss 축소로 이 짧은 벡터를 복원한다. 그런 다음 fe\\bmod q에서 r g + f…","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lattices  
-문제: https://cryptohack.org/challenges/post-quantum/#find  
-데이터: https://cryptohack.org/static/challenges/output_bc9603ab4045eea70eae450862d4be91.txt  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 공개키 $(q,h)$에서 $fh\equiv g\pmod q$를 만족하는 작은 $(f,g)$가 2차원 격자 $\langle(1,h),(0,q)\rangle$에 있다. Gauss 축소로 이 짧은 벡터를 복원한다. 그런 다음 $fe\bmod q$에서 $r g + fm$을 얻고, $g$에 대한 역원을 이용해 $m$을 계산한다.

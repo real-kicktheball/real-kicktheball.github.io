@@ -2,10 +2,6 @@
 {"title":"Signing Server","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"서명 오라클은 임의 정수에 비밀지수 d를 적용한다. get_secret이 반환한 RSA 암호문을 그대로 sign에 보내면 복호화 결과가 서명값으로 돌아온다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#signing_server
-
 ## 풀이 원리
 
 서명 오라클은 임의 정수에 비밀지수 d를 적용한다. get_secret이 반환한 RSA 암호문을 그대로 sign에 보내면 복호화 결과가 서명값으로 돌아온다.

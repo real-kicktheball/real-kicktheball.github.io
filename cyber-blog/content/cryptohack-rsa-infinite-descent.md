@@ -2,11 +2,6 @@
 {"title":"Infinite Descent","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"p와 q를 같은 임의의 2048비트 정수 r에서 조금씩 증가시켰으므로 두 소수가 극히 가깝다. Fermat 인수분해에서 ceil(√n)의 제곱과 n의 차가 즉시 완전제곱수가 된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#infinite_descent
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_14f82a67efe7b7edffb810dbb7ab5f27.txt)
-
 ## 풀이 원리
 
 p와 q를 같은 임의의 2048비트 정수 r에서 조금씩 증가시켰으므로 두 소수가 극히 가깝다. Fermat 인수분해에서 ceil(√n)의 제곱과 n의 차가 즉시 완전제곱수가 된다.

@@ -2,10 +2,6 @@
 {"title":"Hash Stuffing","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"해시가 각 메시지 블록을 독립적으로 scramble한 뒤 상태와 XOR한다. 32바이트 배수 길이에는 패딩이 추가되지 않는다. 따라서 빈 메시지와 scramble(block)=0인 단일 블록은 같은 해시를 만든다. scramble은 회전과 …","section":["CryptoHack","Hash Functions"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/hashes/#stuffing
-- 첨부 파일: https://cryptohack.org/static/challenges/source_8435bf432bcd68b3bf16736a8a47a003.py
-- 검증: 공식 소켓 서비스가 아래 플래그를 반환; CryptoHack 채점 Success!
-
 ## 풀이 원리
 
 해시가 각 메시지 블록을 독립적으로 `scramble`한 뒤 상태와 XOR한다. 32바이트 배수 길이에는 패딩이 추가되지 않는다. 따라서 빈 메시지와 `scramble(block)=0`인 단일 블록은 같은 해시를 만든다. `scramble`은 회전과 XOR만 사용하므로 역순으로 40라운드를 되돌려 0의 원상을 얻는다.

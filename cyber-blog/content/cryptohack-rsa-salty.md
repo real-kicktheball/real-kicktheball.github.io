@@ -2,11 +2,6 @@
 {"title":"Salty","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"공개지수 e=1이면 암호문이 평문 정수 그대로다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#salty
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_95f558e889cc66920c24a961f1fb8181.txt)
-
 ## 풀이 원리
 
 공개지수 e=1이면 암호문이 평문 정수 그대로다.

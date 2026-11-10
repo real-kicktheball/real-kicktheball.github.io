@@ -2,10 +2,6 @@
 {"title":"ECB Oracle","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"ECB는 블록마다 독립이다. 플래그 앞에 선택한 A 패딩을 붙여 다음 미지 바이트를 블록 끝에 배치하고, 가능한 ASCII 문자들을 각각 별도 블록에 넣어 암호문 블록을 비교한다. URL 길이 제한을 피하려고 한 번에 32개 후보만 보낸다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [ECB Oracle](https://cryptohack.org/challenges/aes/#ecb_oracle)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 ECB는 블록마다 독립이다. 플래그 앞에 선택한 `A` 패딩을 붙여 다음 미지 바이트를 블록 끝에 배치하고, 가능한 ASCII 문자들을 각각 별도 블록에 넣어 암호문 블록을 비교한다. URL 길이 제한을 피하려고 한 번에 32개 후보만 보낸다.

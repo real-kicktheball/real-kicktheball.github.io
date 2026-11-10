@@ -2,11 +2,6 @@
 {"title":"Endless Emails","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"서로 다른 수신자에게 같은 메시지를 패딩 없이 공개지수 3으로 암호화했다. 같은 메시지를 가진 암호문 세 개를 찾고 중국인의 나머지 정리로 m³을 각 법의 곱에 대해 복원한다. 메시지 세제곱이 법의 곱보다 작으면 정수 세제곱근으로 원문을 얻…","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#johan
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_0ef6d6343784e59e2f44f61d2d29896f.txt)
-
 ## 풀이 원리
 
 서로 다른 수신자에게 같은 메시지를 패딩 없이 공개지수 3으로 암호화했다. 같은 메시지를 가진 암호문 세 개를 찾고 중국인의 나머지 정리로 `m³`을 각 법의 곱에 대해 복원한다. 메시지 세제곱이 법의 곱보다 작으면 정수 세제곱근으로 원문을 얻는다. 세 개의 인덱스 조합을 검사해 정확한 세제곱인 경우를 찾는다.

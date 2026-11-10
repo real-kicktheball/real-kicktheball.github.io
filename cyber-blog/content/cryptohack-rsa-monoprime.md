@@ -2,11 +2,6 @@
 {"title":"Monoprime","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA 법 n 자체가 소수이므로 φ(n)=n−1이다. e의 역원을 구해 복호화한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#monoprime
-- 첨부: [output.txt](https://cryptohack.org/static/challenges/output_086036e35349a406b94bfac9a7af6cca.txt)
-
 ## 풀이 원리
 
 RSA 법 n 자체가 소수이므로 φ(n)=n−1이다. e의 역원을 구해 복호화한다.

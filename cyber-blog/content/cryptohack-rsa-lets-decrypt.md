@@ -2,10 +2,6 @@
 {"title":"Let's Decrypt","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"검증기가 요청자가 보낸 공개키 N,e를 사용한다. e=1로 두고, 원본 서명 S와 원하는 메시지의 PKCS#1 v1.5 SHA-1 인코딩값 D의 차 S−D를 새 법으로 보내면 S mod (S−D)=D가 되어 서명이 유효해진다.","section":["CryptoHack","RSA"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/rsa/#lets_decrypt
-
 ## 풀이 원리
 
 검증기가 요청자가 보낸 공개키 N,e를 사용한다. e=1로 두고, 원본 서명 S와 원하는 메시지의 PKCS#1 v1.5 SHA-1 인코딩값 D의 차 S−D를 새 법으로 보내면 S mod (S−D)=D가 되어 서명이 유효해진다.

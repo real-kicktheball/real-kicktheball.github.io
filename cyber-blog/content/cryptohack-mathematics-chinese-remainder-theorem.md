@@ -2,11 +2,6 @@
 {"title":"Chinese Remainder Theorem","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"서로소인 법의 곱 935에서 표준 중국인의 나머지 정리 합을 구성한다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 문제
-
-- 링크: https://cryptohack.org/challenges/maths/#crt1
-- 입력: CryptoHack 문제 본문 및 첨부파일.
-
 ## 풀이 원리
 
 서로소인 법의 곱 935에서 표준 중국인의 나머지 정리 합을 구성한다.

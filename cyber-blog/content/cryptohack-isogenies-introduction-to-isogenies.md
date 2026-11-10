@@ -2,10 +2,6 @@
 {"title":"Introduction to Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"분리 가능 isogeny에서는 차수(degree)가 커널의 원소 수와 같다. 차수가 65537이므로 크기도 65537이다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_introduction  
-문제: https://cryptohack.org/challenges/isogenies/#iso_introduction_chall  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 분리 가능 isogeny에서는 차수(degree)가 커널의 원소 수와 같다. 차수가 65537이므로 크기도 65537이다.

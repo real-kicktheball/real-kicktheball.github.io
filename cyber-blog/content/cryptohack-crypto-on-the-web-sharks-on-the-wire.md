@@ -2,9 +2,6 @@
 {"title":"Sharks on the Wire","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"패킷 캡처에서 CryptoHack 서버 IP 178.62.74.206을 목적지로 하는 패킷을 센다. TCP ACK와 DNS 등을 임의로 제외하지 않고 전체 프레임에 필터를 적용한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#sharks-wire
-- 검증: 공식 제공 PCAP과 키 자료에서 아래 값 확인
-
 ## 풀이 원리
 
 패킷 캡처에서 CryptoHack 서버 IP `178.62.74.206`을 목적지로 하는 패킷을 센다. TCP ACK와 DNS 등을 임의로 제외하지 않고 전체 프레임에 필터를 적용한다.

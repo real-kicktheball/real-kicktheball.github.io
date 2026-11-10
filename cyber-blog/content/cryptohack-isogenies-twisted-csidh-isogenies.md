@@ -2,10 +2,6 @@
 {"title":"Twisted CSIDH Isogenies","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"3-isogeny 그래프의 양의 방향 주기를 먼저 구한다. 시작점의 j-불변량이 27번 후에 되돌아오므로 한 번 역방향 걷기는 양의 방향 26번과 같다. 그 공역의 Montgomery 계수가 261이다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / road_to_csidh  
-문제: https://cryptohack.org/challenges/isogenies/#five_iso_csidh_twist  
-검증: 2026-11-10, SageMath에서 위수·isogeny 차수·공역 계수 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 3-isogeny 그래프의 양의 방향 주기를 먼저 구한다. 시작점의 $j$-불변량이 27번 후에 되돌아오므로 한 번 역방향 걷기는 양의 방향 26번과 같다. 그 공역의 Montgomery 계수가 261이다.

@@ -2,10 +2,6 @@
 {"title":"Lazy CBC","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"IV와 키가 같다는 취약점을 이용한다. C1 0^128 C1을 복호화시키면 P1 XOR P3 = KEY가 된다. 오류 메시지가 평문 전체를 노출한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Lazy CBC](https://cryptohack.org/challenges/aes/#lazy_cbc)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-
-
 ## 풀이 원리
 
 IV와 키가 같다는 취약점을 이용한다. `C1 || 0^128 || C1`을 복호화시키면 `P1 XOR P3 = KEY`가 된다. 오류 메시지가 평문 전체를 노출한다.

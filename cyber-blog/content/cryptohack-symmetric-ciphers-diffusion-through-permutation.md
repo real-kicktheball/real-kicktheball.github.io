@@ -2,10 +2,6 @@
 {"title":"Diffusion through Permutation","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"InvMixColumns를 GF(2^8) 행렬 곱으로 계산한 뒤 InvShiftRows로 위치를 되돌린다. 상태 행렬은 제공 코드의 행 우선 표현을 따른다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-- 문제: [Diffusion through Permutation](https://cryptohack.org/challenges/aes/#aes5)
-- 검증: CryptoHack 계정에서 정답 처리 확인 (2026-11-10)
-- [diffusion.py](https://cryptohack.org/static/challenges/diffusion_ee6215282094b4ae8cd1b20697477712.py)
-
 ## 풀이 원리
 
 InvMixColumns를 GF(2^8) 행렬 곱으로 계산한 뒤 InvShiftRows로 위치를 되돌린다. 상태 행렬은 제공 코드의 행 우선 표현을 따른다.

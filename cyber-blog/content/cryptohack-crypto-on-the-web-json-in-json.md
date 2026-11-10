@@ -2,10 +2,6 @@
 {"title":"JSON in JSON","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"서버는 사용자 이름을 문자열 결합으로 JSON에 삽입하고 json.loads로 읽는다. \", \"admin\": \"True를 이름으로 보내면 뒤에 나온 중복 admin 키가 앞의 False를 덮어쓴다. 서버가 자신이 만든 토큰에 정상적으로 서명…","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#json-in-json
-- 실습: https://web.cryptohack.org/json-in-json/
-- 검증: 공식 실습 서버의 `authorise` 응답에 아래 플래그가 포함됨; CryptoHack 채점 Success!
-
 ## 풀이 원리
 
 서버는 사용자 이름을 문자열 결합으로 JSON에 삽입하고 `json.loads`로 읽는다. `", "admin": "True`를 이름으로 보내면 뒤에 나온 중복 `admin` 키가 앞의 `False`를 덮어쓴다. 서버가 자신이 만든 토큰에 정상적으로 서명하므로 비밀키가 필요 없다.

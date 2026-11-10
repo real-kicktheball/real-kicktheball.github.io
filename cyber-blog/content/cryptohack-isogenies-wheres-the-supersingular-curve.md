@@ -2,10 +2,6 @@
 {"title":"Where's the Supersingular Curve","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"첨부된 100개 Montgomery 계수 각각으로 타원곡선을 만들고 SageMath의 supersingular 판정을 적용한다. 참으로 판정되는 계수 하나를 출력한다.","section":["CryptoHack","Isogenies"]}
 ---
 
-분야: Isogenies / iso_background  
-문제: https://cryptohack.org/challenges/isogenies/#a_spot_super  
-검증: 2026-11-10, 로컬 실행 확인. CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 첨부된 100개 Montgomery 계수 각각으로 타원곡선을 만들고 SageMath의 supersingular 판정을 적용한다. 참으로 판정되는 계수 하나를 출력한다.

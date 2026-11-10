@@ -2,11 +2,6 @@
 {"title":"LWE Low Bits Message","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"비밀 S를 빼면 t=e p+m\\pmod q다. 이 인스턴스에서 표준 대표값 t=64656은 음수 -881이 q를 더해 표현된 값이다. 중앙 대표값으로 옮긴 뒤 p로 나눈 나머지를 취해 m=147을 얻는다.","section":["CryptoHack","Lattices"]}
 ---
 
-분야: Lattices / lwe  
-문제: https://cryptohack.org/challenges/post-quantum/#lwe-low-bits  
-데이터: https://cryptohack.org/static/challenges/output_9eb8e78124c8c48ec9eb687bf1d10a4e.txt  
-검증: 2026-11-10, 로컬 실행 및 CryptoHack 계정 정답 처리 확인
-
 ## 풀이 방법
 
 비밀 $S$를 빼면 $t=e p+m\pmod q$다. 이 인스턴스에서 표준 대표값 $t=64656$은 음수 $-881$이 $q$를 더해 표현된 값이다. 중앙 대표값으로 옮긴 뒤 $p$로 나눈 나머지를 취해 $m=147$을 얻는다.

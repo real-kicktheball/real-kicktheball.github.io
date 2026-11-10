@@ -2,10 +2,6 @@
 {"title":"JWT Secrets","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"소스의 주석은 PyJWT 문서의 예시 비밀키를 그대로 썼음을 암시한다. secret으로 HS256 서명을 만들면 서버가 관리자 토큰으로 인정한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-- 원문: https://cryptohack.org/challenges/web/#jwt-secrets
-- 실습: https://web.cryptohack.org/jwt-secrets/
-- 검증: 공식 실습 서버의 `authorise` 응답에 아래 플래그가 포함됨; CryptoHack 채점 Success!
-
 ## 풀이 원리
 
 소스의 주석은 PyJWT 문서의 예시 비밀키를 그대로 썼음을 암시한다. `secret`으로 HS256 서명을 만들면 서버가 관리자 토큰으로 인정한다.
