@@ -4,14 +4,14 @@ import assert from 'node:assert/strict';
 import {parseDocument} from 'htmlparser2';
 const root = path.resolve(import.meta.dirname,'../docs');
 const config=JSON.parse(fs.readFileSync(path.join(import.meta.dirname,'site.json'),'utf8'));
-const files = fs.readdirSync(root,{recursive:true}).filter(f=>f.endsWith('.html'));
+const files = fs.readdirSync(root,{recursive:true}).filter(f=>f.endsWith('.html')).map(f=>f.replaceAll('\\','/'));
 let links=0;
 for(const file of files){
  const html=fs.readFileSync(path.join(root,file),'utf8');
  assert(html.includes('<html lang="ko">'),file);
  assert(!html.includes('[[Home/'),`Obsidian link remains: ${file}`);
  assert(!/gh[pousr]_[A-Za-z0-9]{20,}|github_pat_/.test(html),`Possible credential in ${file}`);
- if(file!=='refresh.html'){
+ if(file!=='refresh.html'&&!file.startsWith('admin/')){
   const canonical=new URL(file==='index.html'?'/':'/'+file,config.url).href;
   assert(html.includes(`<link rel="canonical" href="${canonical}">`),`Missing canonical URL: ${file}`);
   assert(html.includes(`<meta property="og:url" content="${canonical}">`),`Missing share URL: ${file}`);

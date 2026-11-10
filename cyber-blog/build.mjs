@@ -33,7 +33,8 @@ const gid=(category,parts)=>category+'--'+hash(parts.join('/'));
 const aliases={'블로그 구축':'blog','개요':'overview'};
 const folderName=name=>aliases[name]||(/^[a-zA-Z0-9 _.-]+$/.test(name)?name.toLowerCase().replace(/[^a-z0-9.-]+/g,'-'):('topic-'+hash(name)));
 const groups=new Map();
-const posts=fs.readdirSync(path.join(root,'content')).filter(f=>f.endsWith('.md')).map(f=>{
+const contentDir=path.join(root,'content');
+const posts=(fs.existsSync(contentDir)?fs.readdirSync(contentDir):[]).filter(f=>f.endsWith('.md')).map(f=>{
  const raw=fs.readFileSync(path.join(root,'content',f),'utf8'),m=raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
  if(!m)throw Error('Invalid metadata: '+f);
  const p=JSON.parse(m[1]);
@@ -106,7 +107,9 @@ const hero=`<section class="hero hero-monitor" aria-label="디지털 모니터">
   <a class="monitor-scroll" href="#notes">기록 열기 <span aria-hidden="true">↓</span></a>
 </section><div class="topic-strip"><span class="mono">EXPLORE THE ARCHIVE ↓</span><span>6 TOPICS</span><span>${posts.length} NOTES</span><span>나이츠 프론티어</span></div>`
 const pinnedSlugs=['2026-10-26-hello-world'];
-const pinnedPosts=pinnedSlugs.map(slug=>{const post=posts.find(p=>p.slug===slug);if(!post)throw Error('Missing pinned post: '+slug);return post;});
+// A pinned post may be deleted from the admin page; fall back to the newest posts instead of failing the build.
+let pinnedPosts=pinnedSlugs.map(slug=>posts.find(p=>p.slug===slug)).filter(Boolean);
+if(!pinnedPosts.length)pinnedPosts=recentPosts.slice(0,3);
 write('index.html',layout('개발과 보안의 기록',hero+`<div id="notes">${archive(pinnedPosts,{home:true})}</div>`,{active:'home',pathname:'/'}));
 write('recent.html',layout('최근 기록',`<section class="page-intro"><span class="eyebrow">RECENT NOTES</span><h1>최근 기록<span class="accent">.</span></h1><p>최근에 작성한 글을 모았습니다.</p></section>${archive(recentPosts,{home:true,heading:'최신 글'})}`,{pathname:'/recent.html'}));
 const sets=[{id:'archive',category:'',parts:[],list:[]},...site.categories.map(c=>({id:c.id,category:c.id,parts:[],list:posts.filter(p=>p.category===c.id&&p.section.length===0)})),...[...groups.values()].map(g=>({id:g.id,category:g.category,parts:g.parts,list:posts.filter(p=>p.category===g.category&&p.section.length===g.parts.length&&g.parts.every((x,i)=>p.section[i]===x))}))];
@@ -133,4 +136,5 @@ write('404.html',layout('페이지를 찾을 수 없습니다','<section class="
 write('sw.min.js',fs.readFileSync(path.join(root,'assets/retire-worker.js'),'utf8'));
 write('refresh.html',`<!doctype html><html lang="ko"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>화면 업데이트</title><body style="background:#080d0d;color:#80f5c3;font-family:sans-serif;padding:10vw"><h1>새 블로그로 이동합니다.</h1><a href="/?v=${version}" style="color:inherit">블로그 열기 →</a><script>(async()=>{try{if('serviceWorker'in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.filter(r=>[r.active,r.waiting,r.installing].some(w=>w&&new URL(w.scriptURL).pathname==='/sw.min.js')).map(r=>r.unregister()));}if('caches'in window){await Promise.all((await caches.keys()).filter(k=>k.startsWith('chirpy-')).map(k=>caches.delete(k)));}}finally{location.replace('/?v=${version}');}})();</script></body></html>`);
 write('.nojekyll','');
+fs.cpSync(path.join(root,'admin'),path.join(out,'admin'),{recursive:true});
 console.log(`Built ${posts.length} posts, ${groups.size} subcategories, six main categories → ${out}`);

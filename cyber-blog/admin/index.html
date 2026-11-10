@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark light">
+<title>글 관리 · black_nut</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<style>
+:root{--bg:#080d0d;--panel:#101817;--raised:#141f1d;--text:#ecf3f0;--muted:#94a6a1;--line:#253630;--accent:#80f5c3;--danger:#ff7a70;--soft:rgba(128,245,195,.08);--mono:ui-monospace,'IBM Plex Mono',Consolas,monospace}
+@media (prefers-color-scheme:light){:root{--bg:#f6faf7;--panel:#fff;--raised:#eaf3ec;--text:#152d24;--muted:#586e63;--line:#cfddd4;--accent:#087649;--danger:#c0392b;--soft:rgba(8,118,73,.07)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 'Noto Sans KR',system-ui,sans-serif}
+a{color:var(--accent)}
+header{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+header strong{font-family:var(--mono);color:var(--accent)}
+header .sp{flex:1}
+button,.btn{font:inherit;font-size:14px;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--raised);color:var(--text);cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+button.danger{color:var(--danger);border-color:var(--danger);background:transparent}
+button:disabled{opacity:.5;cursor:wait}
+input,select,textarea{font:inherit;width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+label{display:block;font-size:13px;color:var(--muted);margin:0 0 4px}
+.wrap{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 57px)}
+aside{border-right:1px solid var(--line);background:var(--panel);padding:16px;overflow:auto}
+aside h2{font-size:13px;color:var(--muted);margin:16px 0 8px;font-family:var(--mono)}
+.post{display:block;width:100%;text-align:left;margin:0 0 6px;padding:8px 10px;background:transparent}
+.post small{display:block;color:var(--muted);font-size:12px}
+.post.active{border-color:var(--accent);background:var(--soft)}
+main{padding:20px;min-width:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.full{grid-column:1/-1}
+.tabs{display:flex;gap:6px;margin:8px 0}
+.tabs button[aria-selected=true]{border-color:var(--accent);color:var(--accent)}
+textarea#body{min-height:55vh;font-family:var(--mono);font-size:14px;resize:vertical}
+#preview{min-height:55vh;border:1px solid var(--line);border-radius:8px;padding:16px 20px;background:var(--panel);overflow:auto}
+#preview pre{background:var(--raised);padding:12px;border-radius:6px;overflow:auto}
+#preview img{max-width:100%}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.hint{color:var(--muted);font-size:13px}
+#status{font-family:var(--mono);font-size:13px;color:var(--muted)}
+#status.err{color:var(--danger)}
+#status.ok{color:var(--accent)}
+.login{max-width:560px;margin:8vh auto;padding:24px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.login ol{padding-left:20px;color:var(--muted);font-size:14px}
+.hidden{display:none!important}
+@media (max-width:800px){.wrap{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);max-height:40vh}.grid{grid-template-columns:1fr}main,aside{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <strong>black_nut / admin</strong>
+  <span id="status"></span>
+  <span class="sp"></span>
+  <a class="btn" href="../" target="_blank" rel="noopener">사이트 ↗</a>
+  <button id="logout" class="hidden">로그아웃</button>
+</header>
+
+<section id="login" class="login hidden">
+  <h1 style="margin-top:0">글 관리 로그인</h1>
+  <p class="hint">GitHub 토큰으로 저장소의 글 파일을 직접 수정합니다. 토큰은 이 브라우저에만 저장됩니다.</p>
+  <ol>
+    <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained token 만들기</a></li>
+    <li>Repository access → <b>Only select repositories</b> → <code>real-kicktheball.github.io</code></li>
+    <li>Permissions → <b>Contents: Read and write</b>, <b>Actions: Read-only</b>(배포 상태 확인용)</li>
+    <li>생성된 토큰(<code>github_pat</code>로 시작)을 아래에 붙여넣기</li>
+  </ol>
+  <label for="token">토큰</label>
+  <input id="token" type="password" autocomplete="off" placeholder="토큰 붙여넣기">
+  <div class="actions"><button class="primary" id="loginBtn">로그인</button><span id="loginMsg" class="hint"></span></div>
+</section>
+
+<div id="app" class="wrap hidden">
+  <aside>
+    <button class="primary" id="newBtn" style="width:100%">+ 새 글</button>
+    <input id="filter" type="search" placeholder="글 검색" style="margin-top:12px">
+    <h2 id="countLabel">글 목록</h2>
+    <div id="list"></div>
+  </aside>
+  <main>
+    <div class="grid">
+      <div class="full"><label for="title">제목 *</label><input id="title"></div>
+      <div><label for="date">게시일 *</label><input id="date" type="date"></div>
+      <div><label for="category">카테고리 *</label><select id="category"></select></div>
+      <div><label for="section">폴더 경로 (/ 로 구분)</label><input id="section" placeholder="예: 프로젝트 / Python"></div>
+      <div><label for="tags">태그 (쉼표로 구분)</label><input id="tags" placeholder="예: Python, CTF"></div>
+      <div class="full"><label for="summary">한 줄 요약</label><input id="summary"></div>
+      <div class="full"><label for="slug">파일 이름 (글 주소) — 새 글에서만 정할 수 있어요</label><input id="slug" placeholder="2026-11-10-my-post"></div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="write">작성</button>
+      <button role="tab" aria-selected="false" data-tab="preview">미리보기</button>
+      <span class="sp" style="flex:1"></span>
+      <button id="imgBtn" title="이미지를 올리고 본문에 넣기">이미지 넣기</button>
+      <input id="imgFile" type="file" accept="image/*" class="hidden">
+    </div>
+    <textarea id="body" spellcheck="false" placeholder="Markdown으로 본문을 작성하세요."></textarea>
+    <div id="preview" class="hidden"></div>
+    <div class="actions">
+      <button class="primary" id="saveBtn">저장하고 배포</button>
+      <button class="danger" id="deleteBtn">삭제</button>
+      <a class="btn hidden" id="viewLink" target="_blank" rel="noopener">글 보기 ↗</a>
+      <span class="hint">저장하면 GitHub Actions가 빌드해서 1~2분 뒤 사이트에 반영돼요. (Ctrl+S 저장)</span>
+    </div>
+  </main>
+</div>
+
+<script>
+(()=>{
+const OWNER='real-kicktheball',REPO='real-kicktheball.github.io',BRANCH='main',DIR='cyber-blog/content',UPLOADS='cyber-blog/assets/uploads';
+const API=`https://api.github.com/repos/${OWNER}/${REPO}`;
+const $=id=>document.getElementById(id);
+const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}},del(k){try{localStorage.removeItem(k)}catch{}}};
+let token=store.get('kb-admin-token')||'',categories=[],posts=[],current=null,dirty=false,pollTimer=null;
+
+function status(msg,cls=''){const s=$('status');s.textContent=msg;s.className=cls;}
+async function gh(path,opt={}){
+  const res=await fetch(path.startsWith('http')?path:API+path,{cache:'no-store',...opt,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
+  if(!res.ok){let m=res.status+'';try{m+=' '+(await res.json()).message}catch{}const e=new Error(m);e.status=res.status;throw e;}
+  return res.status===204?null:res.json();
+}
+const b64encode=str=>{const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(bin);};
+const b64decode=b64=>new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g,'')),c=>c.charCodeAt(0)));
+const today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);};
+
+function parse(raw){
+  const m=raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  if(!m)return {meta:{},body:raw,broken:true};
+  try{return {meta:JSON.parse(m[1]),body:m[2].replace(/^\r?\n/,'')};}catch{return {meta:{},body:raw,broken:true};}
+}
+function serialize(meta,body){return '---\n'+JSON.stringify(meta)+'\n---\n\n'+body.replace(/\s+$/,'')+'\n';}
+
+async function login(){
+  const t=$('token').value.trim();if(!t)return;
+  token=t;$('loginMsg').textContent='확인 중...';
+  try{
+    const repo=await gh('');
+    if(!repo.permissions?.push)throw new Error('이 토큰에는 쓰기 권한이 없어요. Contents: Read and write를 확인하세요.');
+    store.set('kb-admin-token',t);$('token').value='';start();
+  }catch(e){$('loginMsg').textContent='실패: '+(e.status===401?'토큰이 올바르지 않아요.':e.message);token='';}
+}
+function logout(){store.del('kb-admin-token');token='';location.reload();}
+
+async function start(){
+  $('login').classList.add('hidden');$('app').classList.remove('hidden');$('logout').classList.remove('hidden');
+  status('불러오는 중...');
+  try{
+    const site=await gh(`/contents/cyber-blog/site.json?ref=${BRANCH}`);
+    categories=JSON.parse(b64decode(site.content)).categories;
+    $('category').innerHTML=categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+    await loadPosts();newPost(true);status('준비됨','ok');
+  }catch(e){
+    if(e.status===401){store.del('kb-admin-token');token='';$('app').classList.add('hidden');$('login').classList.remove('hidden');$('loginMsg').textContent='토큰이 만료됐거나 올바르지 않아요.';return;}
+    status('오류: '+e.message,'err');
+  }
+}
+async function loadPosts(){
+  let files=[];try{files=(await gh(`/contents/${DIR}?ref=${BRANCH}`)).filter(f=>f.name.endsWith('.md'));}catch(e){if(e.status!==404)throw e;}
+  posts=await Promise.all(files.map(async f=>{
+    const blob=await gh(`/git/blobs/${f.sha}`);
+    const {meta,body,broken}=parse(b64decode(blob.content));
+    return {name:f.name,path:f.path,sha:f.sha,meta,body,broken};
+  }));
+  posts.sort((a,b)=>(b.meta.date||'').localeCompare(a.meta.date||'')||a.name.localeCompare(b.name));
+  renderList();
+}
+function renderList(){
+  const q=$('filter').value.trim().toLowerCase();
+  const list=posts.filter(p=>!q||(p.meta.title||p.name).toLowerCase().includes(q)||(p.meta.tags||[]).join(' ').toLowerCase().includes(q));
+  $('countLabel').textContent=`글 목록 (${posts.length})`;
+  $('list').innerHTML='';
+  for(const p of list){
+    const b=document.createElement('button');b.className='post'+(current&&current.name===p.name?' active':'');
+    const cat=categories.find(c=>c.id===p.meta.category);
+    b.innerHTML='<span></span><small></small>';
+    b.firstChild.textContent=(p.broken?'⚠ ':'')+(p.meta.title||p.name);
+    b.lastChild.textContent=(p.meta.date||'')+' · '+(cat?cat.name:'?');
+    b.onclick=()=>{if(confirmLeave())openPost(p);};
+    $('list').appendChild(b);
+  }
+}
+function confirmLeave(){return !dirty||confirm('저장하지 않은 변경 내용이 있어요. 버리고 이동할까요?');}
+function fill(meta,body){
+  $('title').value=meta.title||'';$('date').value=meta.date||today();
+  $('category').value=meta.category||categories[0]?.id||'';
+  $('section').value=(meta.section||[]).join(' / ');$('tags').value=(meta.tags||[]).join(', ');
+  $('summary').value=meta.summary||'';$('body').value=body||'';
+  dirty=false;showTab('write');
+}
+function openPost(p){
+  current=p;fill(p.meta,p.body);
+  $('slug').value=p.name.replace(/\.md$/,'');$('slug').disabled=true;
+  $('deleteBtn').classList.remove('hidden');
+  const v=$('viewLink');v.href='../posts/'+encodeURIComponent(p.name.replace(/\.md$/,''))+'.html';v.classList.remove('hidden');
+  renderList();
+}
+function newPost(silent){
+  if(!silent&&!confirmLeave())return;
+  current=null;fill({date:today(),category:categories[0]?.id},'');
+  $('slug').value='';$('slug').disabled=false;$('deleteBtn').classList.add('hidden');$('viewLink').classList.add('hidden');
+  renderList();$('title').focus();
+}
+function autoSlug(){
+  if(current||$('slug').dataset.touched)return;
+  const words=$('title').value.toLowerCase().normalize('NFKD').replace(/[^a-z0-9\s-]/g,' ').trim().replace(/[\s-]+/g,'-').slice(0,60).replace(/-$/,'');
+  $('slug').value=($('date').value||today())+'-'+(words||'post-'+Date.now().toString(36));
+}
+
+function collect(){
+  const meta={...(current?current.meta:{})};
+  meta.title=$('title').value.trim();meta.date=$('date').value;meta.category=$('category').value;
+  meta.tags=$('tags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  meta.summary=$('summary').value.trim();
+  meta.section=$('section').value.split('/').map(s=>s.trim()).filter(Boolean);
+  if(!meta.title)throw new Error('제목을 입력하세요.');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(meta.date))throw new Error('게시일을 입력하세요.');
+  if(!categories.some(c=>c.id===meta.category))throw new Error('카테고리를 고르세요.');
+  return meta;
+}
+async function save(){
+  let meta;try{meta=collect();}catch(e){status(e.message,'err');return;}
+  let name;
+  if(current)name=current.name;
+  else{
+    if(!$('slug').value.trim())autoSlug();
+    const slug=$('slug').value.trim();
+    if(!/^[\p{L}\p{N}][\p{L}\p{N}._-]*$/u.test(slug)){status('파일 이름에는 글자, 숫자, - _ . 만 쓸 수 있어요.','err');return;}
+    name=slug+'.md';
+    if(posts.some(p=>p.name===name)){status('같은 파일 이름의 글이 이미 있어요.','err');return;}
+  }
+  const content=serialize(meta,$('body').value);
+  $('saveBtn').disabled=true;status('저장 중...');
+  try{
+    const res=await gh(`/contents/${DIR}/${encodeURIComponent(name)}`,{method:'PUT',body:JSON.stringify({message:(current?'글 수정: ':'새 글: ')+meta.title,content:b64encode(content),branch:BRANCH,...(current?{sha:current.sha}:{})})});
+    const p={name,path:res.content.path,sha:res.content.sha,meta,body:$('body').value.replace(/\s+$/,'')+'\n'};
+    posts=posts.filter(x=>x.name!==name).concat(p);posts.sort((a,b)=>(b.meta.date||'').localeCompare(a.meta.date||''));
+    openPost(p);watchDeploy(res.commit.sha,'저장됨');
+  }catch(e){status('저장 실패: '+(e.status===409?'다른 곳에서 먼저 수정됐어요. 새로고침 후 다시 시도하세요.':e.message),'err');}
+  finally{$('saveBtn').disabled=false;}
+}
+async function remove(){
+  if(!current)return;
+  if(!confirm(`"${current.meta.title||current.name}" 글을 삭제할까요?\n(GitHub 커밋 기록에는 남아서 나중에 되살릴 수 있어요.)`))return;
+  $('deleteBtn').disabled=true;status('삭제 중...');
+  try{
+    const res=await gh(`/contents/${DIR}/${encodeURIComponent(current.name)}`,{method:'DELETE',body:JSON.stringify({message:'글 삭제: '+(current.meta.title||current.name),sha:current.sha,branch:BRANCH})});
+    posts=posts.filter(p=>p.name!==current.name);dirty=false;newPost(true);watchDeploy(res.commit.sha,'삭제됨');
+  }catch(e){status('삭제 실패: '+e.message,'err');}
+  finally{$('deleteBtn').disabled=false;}
+}
+async function uploadImage(file){
+  if(file.size>5*1024*1024){status('이미지는 5MB 이하만 올릴 수 있어요.','err');return;}
+  const ext=(file.name.match(/\.[a-z0-9]+$/i)||['.png'])[0].toLowerCase();
+  const name=Date.now().toString(36)+ext,buf=new Uint8Array(await file.arrayBuffer());
+  let bin='';for(let i=0;i<buf.length;i+=0x8000)bin+=String.fromCharCode(...buf.subarray(i,i+0x8000));
+  status('이미지 올리는 중...');
+  try{
+    await gh(`/contents/${UPLOADS}/${name}`,{method:'PUT',body:JSON.stringify({message:'이미지 추가: '+file.name,content:btoa(bin),branch:BRANCH})});
+    const ta=$('body'),md=`![${file.name.replace(/\.[^.]+$/,'').replace(/[\[\]]/g,'')}](/assets/uploads/${name})`;
+    ta.setRangeText(md,ta.selectionStart,ta.selectionEnd,'end');dirty=true;ta.focus();
+    status('이미지 추가됨 — 글을 저장해야 반영돼요.','ok');
+  }catch(e){status('이미지 업로드 실패: '+e.message,'err');}
+}
+function watchDeploy(sha,label){
+  clearTimeout(pollTimer);let tries=0;
+  status(label+' · 배포 준비 중...','ok');
+  const tick=async()=>{
+    tries++;
+    try{
+      const runs=(await gh(`/actions/runs?head_sha=${sha}&per_page=5`)).workflow_runs.filter(r=>r.name==='Build and Deploy');
+      const r=runs[0];
+      if(r&&r.status==='completed'){
+        if(r.conclusion==='success')status(label+' · 사이트에 반영됐어요 ✓','ok');
+        else if(r.conclusion==='cancelled')status(label+' · 더 새로운 저장이 배포 중이에요','ok');
+        else{status(label+' · 빌드 실패 — Actions 로그를 확인하세요','err');$('status').innerHTML+=` <a href="${r.html_url}" target="_blank" rel="noopener">로그 ↗</a>`;}
+        return;
+      }
+      status(label+' · 배포 중'+'.'.repeat(tries%4),'ok');
+    }catch(e){if(e.status===403){status(label+' · 1~2분 뒤 사이트에 반영돼요','ok');return;}}
+    if(tries<60)pollTimer=setTimeout(tick,5000);
+  };
+  pollTimer=setTimeout(tick,4000);
+}
+function showTab(t){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  $('body').classList.toggle('hidden',t!=='write');$('preview').classList.toggle('hidden',t!=='preview');
+  if(t==='preview')$('preview').innerHTML=DOMPurify.sanitize(marked.parse($('body').value||'*본문이 비어 있어요.*'));
+}
+
+$('loginBtn').onclick=login;$('token').onkeydown=e=>{if(e.key==='Enter')login();};
+$('logout').onclick=logout;$('newBtn').onclick=()=>newPost();
+$('saveBtn').onclick=save;$('deleteBtn').onclick=remove;
+$('filter').oninput=renderList;
+$('title').oninput=()=>{autoSlug();};$('date').oninput=()=>{autoSlug();};
+$('slug').oninput=()=>{$('slug').dataset.touched=$('slug').value?'1':'';};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+$('imgBtn').onclick=()=>$('imgFile').click();
+$('imgFile').onchange=e=>{const f=e.target.files[0];if(f)uploadImage(f);e.target.value='';};
+document.querySelector('main').addEventListener('input',()=>{dirty=true;});
+$('body').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();e.target.setRangeText('  ',e.target.selectionStart,e.target.selectionEnd,'end');}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='s'&&!$('app').classList.contains('hidden')){e.preventDefault();save();}});
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+if(token)start();else $('login').classList.remove('hidden');
+})();
+</script>
+</body>
+</html>
