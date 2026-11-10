@@ -1,5 +1,5 @@
 ---
-{"title":"CryptoHack 문제 올클리어","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Cryptography","나이츠 프론티어"],"summary":"CTF ARCHIVE를 제외한 CryptoHack 전 카테고리 문제 풀이 라이트업 모음.","section":["CryptoHack"]}
+{"title":"CryptoHack 문제 올클리어","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Cryptography","나이츠 프론티어"],"summary":"CTF ARCHIVE를 제외한 CryptoHack 전 카테고리 문제 풀이 라이트업 모음.","section":["CryptoHack"],"pinned":true}
 ---
 
 ## 미션 목표
