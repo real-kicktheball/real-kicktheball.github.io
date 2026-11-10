@@ -1,13 +1,36 @@
 ---
-{"title":"Additive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"덧셈군에서는 공개값이 A=a·g, B=b·g이므로 a=A·g⁻¹ mod p를 계산할 수 있다. 공유 비밀은 A·B·g⁻¹ mod p다.","section":["CryptoHack","Diffie-Hellman"]}
+{"title":"Additive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"DH를 곱셈군이 아니라 덧셈군에서 하면 이산로그가 나눗셈 한 번으로 풀린다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 풀이 원리
+## 개념
 
-덧셈군에서는 공개값이 A=a·g, B=b·g이므로 a=A·g⁻¹ mod p를 계산할 수 있다. 공유 비밀은 A·B·g⁻¹ mod p다.
+DH가 안전한 이유는 $g^a$에서 $a$를 구하기 어렵기 때문이다. 이건 **곱셈군**에서의 이야기다.
 
-## 최종 익스플로잇
+같은 구조를 **덧셈군**($\mathbb{Z}_p$, 연산 $+$)에서 하면 "$g$를 $a$번 더하기"가 된다.
 
+$$
+A = a \cdot g \bmod p
+$$
+
+이건 곱셈이라 역원 한 번이면 $a$가 나온다.
+
+$$
+a = A \cdot g^{-1} \bmod p
+$$
+
+어떤 군을 쓰느냐에 따라 이산로그 난이도가 완전히 달라진다는 걸 보여준다. 타원곡선 DH가 곱셈군 대신 타원곡선 점의 덧셈군을 쓰는 것도 같은 맥락이다. 그쪽은 덧셈이어도 로그가 어렵다.
+
+## 문제
+
+Alice와 Bob이 덧셈군에서 DH를 한다. 공개값과 암호문을 도청할 수 있다.
+
+## 풀이
+
+1. $a = A \cdot g^{-1} \bmod p$로 Alice의 비밀을 구한다.
+2. 공유 비밀 $a \cdot B \bmod p$를 계산한다($= A \cdot B \cdot g^{-1}$).
+3. 키를 만들어 복호화한다.
+
+## 풀이 코드
 ```python
 import hashlib, json, re, socket
 from Crypto.Cipher import AES
@@ -36,6 +59,5 @@ with socket.create_connection(('socket.cryptohack.org',13380),timeout=10) as soc
     print(decrypt(shared,ciphertext))
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{cycl1c_6r0up_und3r_4dd1710n?}`

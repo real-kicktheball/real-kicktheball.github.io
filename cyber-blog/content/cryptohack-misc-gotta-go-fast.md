@@ -1,13 +1,28 @@
 ---
-{"title":"Gotta Go Fast","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"OTP 키가 암호화 시점의 Unix 초를 큰 바이트 순서로 인코딩한 뒤 SHA-256을 취해 만들어진다. 플래그를 요청하기 직전·직후 시간을 기록하고 근처 초를 전수 조사한다. 복호화한 바이트가 crypto{로 시작하고 }로 끝나는 값을 채…","section":["CryptoHack","Misc"]}
+{"title":"Gotta Go Fast","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"키를 현재 시각에서 만들면 시간 범위만 알면 키 공간이 수십 개로 줄어든다.","section":["CryptoHack","Misc"]}
 ---
 
-## 풀이 방법
+## 개념
 
-OTP 키가 암호화 시점의 Unix 초를 큰 바이트 순서로 인코딩한 뒤 SHA-256을 취해 만들어진다. 플래그를 요청하기 직전·직후 시간을 기록하고 근처 초를 전수 조사한다. 복호화한 바이트가 `crypto{`로 시작하고 `}`로 끝나는 값을 채택한다.
+암호 키는 **예측 불가능한** 값에서 만들어야 한다. 현재 시각(Unix timestamp)은 공격자도 대략 알고 있는 값이다. 그래서 해시를 거쳐도 엔트로피가 늘지 않는다.
 
-## 최종 익스플로잇
+$$
+K = \text{SHA256}(\text{timestamp})
+$$
 
+요청 시각 앞뒤 몇십 초만 시도하면 키를 찾는다. 키는 `secrets`, `os.urandom` 같은 암호학적 난수 생성기에서 뽑아야 한다.
+
+## 문제
+
+서버가 플래그를 OTP로 암호화해주는데, 키가 암호화 시점의 Unix 초를 SHA-256한 값이다.
+
+## 풀이
+
+1. 요청 직전과 직후의 시각을 기록한다.
+2. 그 주변 ±30초를 모두 시도한다.
+3. 복호화 결과가 `crypto{`로 시작하고 `}`로 끝나는 시각이 맞는 키다.
+
+## 풀이 코드
 ```python
 import socket, json, time, hashlib
 
@@ -28,8 +43,7 @@ for sec in range(before-30,after+31):
         break
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{t00_f4st_t00_furi0u5}
 ```

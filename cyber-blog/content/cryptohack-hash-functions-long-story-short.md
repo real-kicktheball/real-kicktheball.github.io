@@ -1,13 +1,35 @@
 ---
-{"title":"Long Story Short","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"HMAC-SHA256은 블록 크기 64바이트보다 긴 키를 먼저 SHA256으로 줄인다. 공개한 SHA256(passphrase) 지문은 원래 128바이트 구절의 PBKDF2-HMAC-SHA256과 동일한 HMAC 키가 된다. 지문 32바이트…","section":["CryptoHack","Hash Functions"]}
+{"title":"Long Story Short","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"HMAC은 블록 크기(64바이트)보다 긴 키를 먼저 해시해서 쓴다. 그래서 긴 키 K와 H(K)가 같은 HMAC 키가 된다.","section":["CryptoHack","Hash Functions"]}
 ---
 
-## 풀이 원리
+## 개념
 
-HMAC-SHA256은 블록 크기 64바이트보다 긴 키를 먼저 SHA256으로 줄인다. 공개한 `SHA256(passphrase)` 지문은 원래 128바이트 구절의 PBKDF2-HMAC-SHA256과 동일한 HMAC 키가 된다. 지문 32바이트를 `passphrase_hex`로 보내면 동일 AES 키가 유도되어 금고가 열린다.
+**HMAC**은 해시로 MAC을 만드는 표준 방법이다.
 
-## 최종 익스플로잇
+$$
+\text{HMAC}(K, m) = H\big((K' \oplus \text{opad}) \,\|\, H((K' \oplus \text{ipad}) \,\|\, m)\big)
+$$
 
+키 $K'$는 다음처럼 만든다.
+
+- $K$가 블록 크기(SHA-256은 64바이트)보다 길면 $K' = H(K)$
+- 짧으면 0으로 채운 $K$
+
+그래서 64바이트보다 긴 키 $K$와 32바이트 값 $H(K)$는 **같은 HMAC 키**로 동작한다. 대부분의 상황에서는 문제가 없지만, $H(K)$를 공개하는 시스템에서는 문제가 된다.
+
+PBKDF2-HMAC-SHA256도 내부에서 비밀번호를 HMAC 키로 쓰므로 같은 성질을 가진다.
+
+## 문제
+
+금고가 128바이트 비밀 문구로 PBKDF2-HMAC-SHA256 키를 만든다. 서버는 문구의 "지문"이라며 `SHA256(passphrase)`를 공개한다.
+
+## 풀이
+
+1. 128바이트 문구는 64바이트보다 길어서 HMAC 키로 쓸 때 `SHA256(passphrase)`로 바뀐다.
+2. 공개된 지문 32바이트를 그대로 `passphrase_hex`로 보낸다.
+3. 같은 PBKDF2 키가 나와서 금고가 열린다.
+
+## 풀이 코드
 ```python
 import socket, json, re
 with socket.create_connection(('socket.cryptohack.org',13434),timeout=10) as sock:
@@ -21,6 +43,5 @@ with socket.create_connection(('socket.cryptohack.org',13434),timeout=10) as soc
     print(re.search(r'crypto\{[^}]+\}',reply['msg']).group(0))
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{hm4c_47e_my_l0n6_k3y}`

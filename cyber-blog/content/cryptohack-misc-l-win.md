@@ -1,13 +1,28 @@
 ---
-{"title":"L-Win","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"출력 2048비트는 길이 384인 LFSR의 연속 비트다. Berlekamp–Massey 알고리즘으로 최소 연결 다항식을 복원하면 선형 복잡도 384와 점화식의 계수를 얻는다. 최고차 계수가 1이라 출력 시점 이전으로 점화식을 역방향 적용할…","section":["CryptoHack","Misc"]}
+{"title":"L-Win","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"LFSR 출력 2L비트만 있으면 Berlekamp–Massey 알고리즘으로 점화식(연결 다항식)을 복원할 수 있다. 점화식을 거꾸로 돌려 초기 상태를 찾는다.","section":["CryptoHack","Misc"]}
 ---
 
-## 풀이 방법
+## 개념
 
-출력 2048비트는 길이 384인 LFSR의 연속 비트다. Berlekamp–Massey 알고리즘으로 최소 연결 다항식을 복원하면 선형 복잡도 384와 점화식의 계수를 얻는다. 최고차 계수가 1이라 출력 시점 이전으로 점화식을 역방향 적용할 수 있다. 서버는 초기 플래그 상태를 넣고 16×48=768번 클록한 뒤 출력을 시작했으므로, 시간 인덱스 -768부터 -385까지의 384비트를 복원하면 원래 플래그다.
+어떤 비트열을 만들어내는 가장 짧은 LFSR의 길이를 **선형 복잡도** $L$이라 한다. **Berlekamp–Massey 알고리즘**은 출력 $2L$비트만 있으면 그 LFSR의 연결 다항식(점화식)을 $O(n^2)$에 찾는다.
 
-## 최종 익스플로잇
+$$
+s_{t+L} = c_1 s_{t+L-1} \oplus c_2 s_{t+L-2} \oplus \cdots \oplus c_L s_t
+$$
 
+$c_L = 1$이면 이 식을 $s_t$에 대해 풀 수 있다. 그래서 **과거 방향으로도** 상태를 되돌릴 수 있다.
+
+## 문제
+
+플래그(384비트)를 초기 상태로 하는 LFSR이 $16 \times 48 = 768$번 클록한 뒤 출력한 2048비트가 주어진다. 탭 위치는 비밀이다.
+
+## 풀이
+
+1. 2048비트에 Berlekamp–Massey를 돌리면 선형 복잡도 $L = 384$와 연결 다항식이 나온다.
+2. 최고차 계수가 1이므로 점화식을 역방향으로 적용해 시간 $-1, -2, \dots, -768$의 비트를 차례로 복원한다.
+3. 시간 $-768$부터 $-385$까지 384비트가 원래 초기 상태, 즉 플래그다.
+
+## 풀이 코드
 ```python
 from urllib.request import urlopen
 bits=list(map(int,urlopen('https://cryptohack.org/static/challenges/output_7e5c4d93fa5d065d105e32efd7ef9682.txt').read().decode().strip()))
@@ -30,8 +45,7 @@ flag=int(flag_bits,2).to_bytes(48,'big')
 print(flag.decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{minimal_polynomial_in_an_arbitrary_field}
 ```

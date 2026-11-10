@@ -1,13 +1,31 @@
 ---
-{"title":"Too Many Errors","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"reset을 호출하면 PRNG가 동일 시드로 돌아가므로 기본 벡터 a와 기본 오차 e가 반복된다. 각 표본을 만든 후 별도의 난수 재시드가 한 좌표에만 가끔 오류를 주입한다. 다수결로 기본 (a,b)를 찾고, 한 좌표만 바뀐 표본에서 \\\\D…","section":["CryptoHack","Lattices"]}
+{"title":"Too Many Errors","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"LWE 오라클에 오류 주입(fault)이 섞이면 한 좌표만 바뀐 표본 쌍에서 비밀값을 바로 계산할 수 있다.","section":["CryptoHack","Lattices"]}
 ---
 
-## 풀이 방법
+## 개념
 
-`reset`을 호출하면 PRNG가 동일 시드로 돌아가므로 기본 벡터 $a$와 기본 오차 $e$가 반복된다. 각 표본을 만든 후 별도의 난수 재시드가 한 좌표에만 가끔 오류를 주입한다. 다수결로 기본 $(a,b)$를 찾고, 한 좌표만 바뀐 표본에서 $\\Delta b/\\Delta a_i\\pmod{127}$를 계산하면 해당 위치의 플래그 바이트가 나온다.
+**결함 주입 공격(fault attack)**은 계산 중에 오류를 일으켜서 나온 잘못된 출력과 정상 출력을 비교하는 공격이다.
 
-## 최종 익스플로잇
+LWE 표본 $b = \langle a, S \rangle + e \pmod q$에서 같은 $e$를 쓰고 $a$의 $i$번째 좌표만 바뀐 표본 두 개를 얻었다고 하자. 그러면 차이에서 다른 항이 모두 사라진다.
 
+$$
+b' - b = (a'_i - a_i) \cdot S_i \pmod q
+\quad\Rightarrow\quad
+S_i = \frac{b' - b}{a'_i - a_i} \bmod q
+$$
+
+## 문제
+
+서버의 비밀 $S$는 플래그 바이트들이다($q = 127$). `reset`하면 PRNG가 같은 시드로 돌아가서 같은 $(a, e)$가 나온다. 그런데 표본을 만들 때 가끔 한 좌표가 랜덤으로 바뀐다.
+
+## 풀이
+
+1. `reset` 후 표본을 여러 번 받아 가장 많이 나온 $a$를 정상 표본 $(a_0, b_0)$로 정한다.
+2. 계속 표본을 받으면서 $a$가 정확히 한 좌표만 다른 것을 찾는다.
+3. 그 좌표 $i$에서 $S_i = \Delta b / \Delta a_i \bmod 127$을 계산한다.
+4. 모든 좌표를 채우면 플래그가 된다.
+
+## 풀이 코드
 ```python
 import socket,json,collections,time
 q=127
@@ -37,8 +55,7 @@ with socket.create_connection(('socket.cryptohack.org',13390),timeout=15) as soc
 
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{f4ult_4ttack5_0n_lw3}
 ```

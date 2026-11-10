@@ -1,13 +1,37 @@
 ---
-{"title":"RSA vs RNG","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"두 RSA 소수 P,Q는 같은 LCG의 상태다. 두 소수 사이의 진행 횟수를 k라 하면 Q=A^kP+S_k\\pmod{2^{512}}다. N=PQ를 결합해 A^kP^2+S_kP-N=0\\pmod{2^{512}}라는 이차식을 얻는다. LCG의 홀…","section":["CryptoHack","Misc"]}
+{"title":"RSA vs RNG","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"RSA 소수 두 개를 같은 LCG 난수열에서 뽑으면 Q = A^k·P + S_k 관계가 생겨 N이 이차식의 해로 인수분해된다.","section":["CryptoHack","Misc"]}
 ---
 
-## 풀이 방법
+## 개념
 
-두 RSA 소수 $P,Q$는 같은 LCG의 상태다. 두 소수 사이의 진행 횟수를 $k$라 하면 $Q=A^kP+S_k\pmod{2^{512}}$다. $N=PQ$를 결합해 $A^kP^2+S_kP-N=0\pmod{2^{512}}$라는 이차식을 얻는다. LCG의 홀짝이 매번 뒤집히므로 $k$는 짝수다. 각 짝수 간격에 대해 2진 Hensel lifting으로 $P$의 하위 비트부터 복원하고, $N$의 실제 인수인지 검사한다. 이 인스턴스는 $k=180$에서 인수가 나온다.
+**선형 합동 생성기(LCG)**는 $x_{i+1} = A x_i + B \bmod M$으로 난수를 만든다. 빠르지만 다음 값이 이전 값의 선형식이라 예측 가능하다.
 
-## 최종 익스플로잇
+LCG에서 $P$를 뽑고 $k$번 더 돌려 $Q$를 뽑았다면 다음이 성립한다.
 
+$$
+Q = A^k P + S_k \pmod M, \qquad S_k = B(A^{k-1} + \cdots + A + 1)
+$$
+
+$N = PQ$에 대입하면 $P$에 대한 이차식이 된다.
+
+$$
+A^k P^2 + S_k P - N \equiv 0 \pmod{2^{512}}
+$$
+
+$M = 2^{512}$이라 이 식을 하위 비트부터 한 비트씩 풀 수 있다(2진 Hensel lifting).
+
+## 문제
+
+LCG($M = 2^{512}$, $A$, $B$ 공개)에서 소수가 나올 때까지 뽑는 방식으로 $P$, $Q$를 만들었다. $N$, $e$, 암호문이 주어진다.
+
+## 풀이
+
+1. 이 LCG는 매번 홀짝이 뒤집혀서 두 소수 사이 간격 $k$는 짝수다.
+2. 짝수 $k$마다 위 이차식을 $\bmod 2, 4, 8, \dots, 2^{512}$로 키워가며 $P$ 후보를 만든다.
+3. 후보가 실제로 $N$을 나누는지 확인한다. $k = 180$에서 인수가 나왔다.
+4. 개인키를 만들어 복호화한다.
+
+## 풀이 코드
 ```python
 import ast,json
 from urllib.request import urlopen
@@ -40,8 +64,7 @@ for gap in range(1,1002):
 
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{pseudorandom_shamir_adleman}
 ```

@@ -1,13 +1,28 @@
 ---
-{"title":"Decrypting TLS 1.3","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3에서는 서버 개인키만으로 세션을 복호화할 수 없다. 첨부된 NSS keylog의 세션 비밀을 tshark에 주어 HTTP/2 DATA 프레임을 복호화한다.","section":["CryptoHack","Crypto on the Web"]}
+{"title":"Decrypting TLS 1.3","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3은 항상 (EC)DHE를 써서 서버 개인키로는 복호화할 수 없다. SSLKEYLOGFILE로 세션 비밀을 받아야 한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-## 풀이 원리
+## 개념
 
-TLS 1.3에서는 서버 개인키만으로 세션을 복호화할 수 없다. 첨부된 NSS keylog의 세션 비밀을 tshark에 주어 HTTP/2 DATA 프레임을 복호화한다.
+TLS 1.3은 키 교환을 **항상 임시 (EC)DHE**로 한다. 세션 키는 매번 버리는 임시 비밀에서 나온다. 그래서 서버 개인키를 가져도 과거 트래픽을 복호화할 수 없다(전방 보안).
 
-## 최종 풀이 코드
+디버깅할 때는 브라우저나 curl이 환경변수 `SSLKEYLOGFILE`로 세션 비밀을 파일에 남기게 할 수 있다(NSS keylog 형식).
 
+```
+CLIENT_HANDSHAKE_TRAFFIC_SECRET <client_random> <secret>
+SERVER_TRAFFIC_SECRET_0 <client_random> <secret>
+...
+```
+
+## 문제
+
+TLS 1.3 캡처와 그 세션의 keylog 파일이 주어진다.
+
+## 풀이
+
+tshark에 `-o tls.keylog_file:keylog.txt`를 주고 `http2.data.data` 필드를 뽑는다. 그러면 복호화된 HTTP/2 데이터에서 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import requests, subprocess, tempfile, re
 from pathlib import Path
@@ -21,6 +36,5 @@ with tempfile.TemporaryDirectory() as work:
     print(re.search(rb'crypto\{[^}]+\}',plaintext).group(0).decode())
 ```
 
-## 최종 답
-
+## 정답
 `crypto{export_SSLKEYLOGFILE}`

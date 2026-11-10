@@ -1,13 +1,30 @@
 ---
-{"title":"Special Soundness","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"서버는 같은 난수 r로 두 개의 응답 z_1=r+e_1w, z_2=r+e_2w를 만든다. e_1=0, e_2=1을 보내면 w=z_2-z_1\\bmod q다. 추출한 정수의 앞부분이 플래그다.","section":["CryptoHack","ZKPs"]}
+{"title":"Special Soundness","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"같은 커밋 r로 서로 다른 챌린지 두 개에 응답하면 증인 w가 추출된다. 이 성질이 건전성의 근거다.","section":["CryptoHack","ZKPs"]}
 ---
 
-## 풀이 방법
+## 개념
 
-서버는 같은 난수 $r$로 두 개의 응답 $z_1=r+e_1w$, $z_2=r+e_2w$를 만든다. $e_1=0$, $e_2=1$을 보내면 $w=z_2-z_1\bmod q$다. 추출한 정수의 앞부분이 플래그다.
+시그마 프로토콜의 **특수 건전성(special soundness)**은 다음 성질이다. 같은 커밋 $a$에 대해 서로 다른 챌린지 $e_1 \ne e_2$의 응답을 모두 만들 수 있으면, 그 둘로 $w$를 계산할 수 있다.
 
-## 최종 익스플로잇
+$$
+z_1 = r + e_1 w, \quad z_2 = r + e_2 w
+\quad\Rightarrow\quad
+w = \frac{z_2 - z_1}{e_2 - e_1} \bmod q
+$$
 
+즉 "아무 챌린지에나 답할 수 있다면 $w$를 아는 것과 같다"는 뜻이다. 이게 건전성의 근거다. 반대로 같은 $r$을 재사용하면 $w$가 유출된다(ECDSA nonce 재사용과 같은 원리).
+
+## 문제
+
+서버가 증명자 역할을 하는데, 같은 $r$로 챌린지 두 개에 응답해준다.
+
+## 풀이
+
+1. 챌린지로 $e_1 = 0$, $e_2 = 1$을 보낸다.
+2. $w = z_2 - z_1 \bmod q$이다.
+3. 정수를 바이트로 바꾸면 앞부분이 플래그다.
+
+## 풀이 코드
 ```python
 import socket, json, ast
 from urllib.request import urlopen
@@ -53,8 +70,7 @@ print((raw.split(b'}',1)[0]+b'}').decode())
 s.close()
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{specially_sound_sigmas}
 ```

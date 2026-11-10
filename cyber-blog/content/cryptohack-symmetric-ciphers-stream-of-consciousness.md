@@ -1,13 +1,33 @@
 ---
-{"title":"Stream of Consciousness","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"매 요청마다 고정된 CTR 키스트림으로 22개 문장 중 하나를 암호화한다. 여러 암호문을 모으면 같은 위치의 문자들이 같은 키 바이트와 XOR되므로 영어 글자 빈도 기반 점수로 키스트림을 추정할 수 있다. crypto{ 접두사가 나타나는 행…","section":["CryptoHack","Symmetric Ciphers"]}
+{"title":"Stream of Consciousness","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"CTR에서 같은 키스트림을 여러 메시지에 재사용하면 many-time pad가 된다. 영어 빈도 분석으로 키스트림을 복원한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-## 풀이 원리
+## 개념
 
-매 요청마다 고정된 CTR 키스트림으로 22개 문장 중 하나를 암호화한다. 여러 암호문을 모으면 같은 위치의 문자들이 같은 키 바이트와 XOR되므로 영어 글자 빈도 기반 점수로 키스트림을 추정할 수 있다. `crypto{` 접두사가 나타나는 행을 찾아 첫 바이트의 대소문자 오차를 교정한다.
+스트림 암호(CTR, OTP 등)에서 **같은 키스트림을 재사용**하면 Many-time pad 문제가 된다.
 
-## 최종 익스플로잇
+$$
+C_1 \oplus C_2 = P_1 \oplus P_2
+$$
 
+키스트림이 사라지고 평문끼리의 XOR만 남는다. 암호문이 많으면 같은 위치 $i$의 바이트들은 모두 같은 키 바이트 $k_i$로 XOR된 것이다. 그래서 각 위치마다 1바이트 XOR 문제가 된다.
+
+1. 각 위치마다 $k_i$ 후보 256개를 시도한다.
+2. 그 위치의 모든 암호문 바이트를 복호화한다.
+3. 결과가 영어 문장답게(공백, e, t, a… 빈도가 높게) 나오는 후보를 고른다.
+
+## 문제
+
+서버가 요청할 때마다 22개 문장 중 하나를 **같은 키와 같은 카운터**로 CTR 암호화해서 준다. 그중 하나에 플래그가 있다.
+
+## 풀이
+
+1. 300번 요청해서 서로 다른 암호문을 모은다.
+2. 위치별로 영어 글자 빈도 점수가 가장 높은 키 바이트를 고른다.
+3. 복원한 키스트림으로 전체를 복호화하면 대부분 문장이 읽힌다.
+4. `crypto{`로 시작하는 줄을 찾는다. 첫 글자 대소문자 같은 작은 오류는 알려진 접두사로 고쳤다.
+
+## 풀이 코드
 ```python
 import requests, concurrent.futures, math, string, re
 u='https://aes.cryptohack.org/stream_consciousness/encrypt/'
@@ -37,8 +57,7 @@ assert re.fullmatch(rb'crypto\{[A-Za-z0-9_]+\}',flag),flag
 print(flag.decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{k3y57r34m_r3u53_15_f474l}
 ```

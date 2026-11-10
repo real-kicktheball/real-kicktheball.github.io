@@ -1,13 +1,30 @@
 ---
-{"title":"Efficient Exchange","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"전달된 x 좌표로부터 곡선의 우변을 계산한다. p ≡ 3 mod 4이므로 y = rhs^((p+1)/4) mod p로 y를 복원한다. 어느 부호를 선택해도 공유점의 x 좌표가 같으며, 그 SHA-1 앞 16바이트가 AES-CBC 키다.","section":["CryptoHack","Elliptic Curves"]}
+{"title":"Efficient Exchange","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"점을 x 좌표만 보내도 곡선 방정식으로 y를 ±로 복원할 수 있다. 공유점의 x 좌표는 부호와 상관없이 같다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-전달된 x 좌표로부터 곡선의 우변을 계산한다. `p ≡ 3 mod 4`이므로 `y = rhs^((p+1)/4) mod p`로 y를 복원한다. 어느 부호를 선택해도 공유점의 x 좌표가 같으며, 그 SHA-1 앞 16바이트가 AES-CBC 키다.
+곡선 위 점은 x 좌표만 알면 $y^2 = x^3 + ax + b$로 y가 $\pm$ 두 개로 정해진다. 그래서 공개점을 x 좌표만 보내 대역폭을 절반으로 줄일 수 있다(**점 압축**).
 
-## 최종 풀이 코드
+y를 복원하려면 모듈러 제곱근이 필요하다. 이 문제의 $p = 9739$는 $p \equiv 3 \pmod 4$이다. 그래서 앞에서 배운 공식을 쓰면 된다.
 
+$$
+y = (x^3 + ax + b)^{(p+1)/4} \bmod p
+$$
+
+$y$와 $-y$ 중 어느 쪽을 골라도 $n \cdot (x, \pm y) = \pm(nP)$가 된다. 공유점의 x 좌표는 같으니 키 교환에는 문제가 없다.
+
+## 문제
+
+Alice가 x 좌표만 보냈다. 내 비밀 $n_B$와 AES-CBC 암호문이 주어진다.
+
+## 풀이
+
+1. 우변 $x^3 + 497x + 1768$을 계산하고 $(p+1)/4$ 제곱으로 y를 복원한다.
+2. 공유점 $n_B \cdot (x, y)$의 x 좌표를 구한다.
+3. SHA-1 앞 16바이트를 키로 복호화한다.
+
+## 풀이 코드
 ```python
 import hashlib
 from Crypto.Cipher import AES
@@ -51,6 +68,5 @@ ct = bytes.fromhex('febcbe3a3414a730b125931dccf912d2239f3e969c4334d95ed0ec86f644
 print(unpad(AES.new(key, AES.MODE_CBC, iv).decrypt(ct), 16).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{3ff1c1ent_k3y_3xch4ng3}`

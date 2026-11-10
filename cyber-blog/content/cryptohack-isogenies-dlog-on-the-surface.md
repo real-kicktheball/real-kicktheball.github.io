@@ -1,13 +1,34 @@
 ---
-{"title":"DLOG on the Surface","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"곡선의 두 기저 P,Q에 대해 Weil pairing의 쌍선형성을 이용한다. g=e_n(P,Q)라면 e_n(R,Q)=g^a이고 e_n(P,R)=g^b다. 같은 방식으로 S의 계수 c,d도 구한다. n=p+1=2^{127}이므로 이 군의 이산…","section":["CryptoHack","Isogenies"]}
+{"title":"DLOG on the Surface","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Isogenies","Cryptography"],"summary":"Weil pairing은 쌍선형이라 타원곡선 점의 계수 문제를 유한체 이산로그로 바꾼다. 위수가 2의 거듭제곱이면 쉽게 풀린다.","section":["CryptoHack","Isogenies"]}
 ---
 
-## 풀이 방법
+## 개념
 
-곡선의 두 기저 $P,Q$에 대해 Weil pairing의 쌍선형성을 이용한다. $g=e_n(P,Q)$라면 $e_n(R,Q)=g^a$이고 $e_n(P,R)=g^b$다. 같은 방식으로 $S$의 계수 $c,d$도 구한다. $n=p+1=2^{127}$이므로 이 군의 이산로그는 Pohlig–Hellman 방식으로 쉽게 계산된다. 복원한 네 정수의 십진 문자열을 이어 붙여 SHA-256 키를 만들고 AES-CBC를 복호화한다.
+**Weil pairing** $e_n: E[n] \times E[n] \to \mu_n$은 $n$-꼬임점 두 개를 $n$제곱근 하나로 보내는 함수다. 다음 성질이 핵심이다.
 
-## 최종 풀이 코드
+- **쌍선형성**: $e_n(aP, bQ) = e_n(P, Q)^{ab}$
+- **비퇴화성**: $P$, $Q$가 $E[n]$의 기저이면 $e_n(P, Q)$는 원시 $n$제곱근이다.
 
+$R = aP + bQ$라 하자. 그러면 각 계수가 지수로 분리된다.
+
+$$
+e_n(R, Q) = e_n(P, Q)^a, \qquad e_n(P, R) = e_n(P, Q)^b
+$$
+
+타원곡선 위의 문제가 유한체 $\mathbb{F}_{p^2}^{\times}$의 이산로그로 바뀐다(MOV 공격과 같은 아이디어).
+
+## 문제
+
+$p = 2^{127} - 1$에서 $E: y^2 = x^3 + x$ 위의 기저 $P$, $Q$와 두 점 $R = aP + bQ$, $S = cP + dQ$가 주어진다. $a, b, c, d$를 구해 AES 키를 만든다.
+
+## 풀이
+
+1. $n = p + 1 = 2^{127}$이다. $g = e_n(P, Q)$를 구한다.
+2. $e_n(R, Q) = g^a$, $e_n(P, R) = g^b$에서 이산로그로 $a$, $b$를 구한다. $c$, $d$도 같은 방식이다.
+3. 위수가 $2^{127}$이라 Pohlig–Hellman으로 금방 풀린다.
+4. 네 수의 10진 문자열을 이어 SHA-256으로 키를 만들고 AES-CBC를 복호화한다.
+
+## 풀이 코드
 ```python
 from sage.all import *
 from urllib.request import urlopen
@@ -34,8 +55,7 @@ ct=bytes.fromhex(re.search(r"ct = '(.*?)'",text).group(1))
 print(unpad(AES.new(key,AES.MODE_CBC,iv).decrypt(ct),16).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{now_try_writing_a_function_for_fast_torsion_basis_generation!}
 ```

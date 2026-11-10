@@ -142,3 +142,5 @@ html.monitor-intro-pending::-webkit-scrollbar-thumb,html.monitor-intro-shrinking
 html.monitor-intro-pending::-webkit-scrollbar-track,html.monitor-intro-shrinking::-webkit-scrollbar-track{background:transparent}
 @keyframes category-drop{from{opacity:0;transform:translateY(-12px);clip-path:inset(0 0 100% 0)}to{opacity:1;transform:none;clip-path:inset(0 0 0 0)}}
 .category-submenu.drop{animation:category-drop .45s cubic-bezier(.22,.8,.24,1) both}
+
+.prose .katex-display{overflow-x:auto;overflow-y:hidden;padding:6px 0;margin:1.1em 0}.prose .katex{font-size:1.08em}

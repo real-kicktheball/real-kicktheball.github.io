@@ -1,13 +1,30 @@
 ---
-{"title":"Public Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"N=pq를 만들고 m^e mod N을 계산한다.","section":["CryptoHack","RSA"]}
+{"title":"Public Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA 공개키는 (N, e)이고 암호화는 c = m^e mod N이다. 작은 수로 직접 계산해본다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-N=pq를 만들고 m^e mod N을 계산한다.
+RSA 키 생성은 다음 순서로 한다.
 
-## 최종 풀이 코드
+1. 큰 소수 $p$, $q$를 고르고 $N = pq$를 만든다.
+2. 공개 지수 $e$를 정한다. 보통 $65537 = 2^{16}+1$을 쓴다.
+3. **공개키**는 $(N, e)$이고, 누구나 이걸로 암호화할 수 있다.
 
+$$
+c = m^e \bmod N
+$$
+
+$e = 65537$은 비트가 1인 자리가 두 개뿐이라 암호화가 빠르다. 동시에 너무 작은 $e$(예: 3)에서 생기는 공격도 피할 수 있다.
+
+## 문제
+
+$p = 17$, $q = 23$, $e = 65537$일 때 $m = 12$를 암호화한다.
+
+## 풀이
+
+$N = 17 \cdot 23 = 391$이고, $c = 12^{65537} \bmod 391 =$ **301**이다.
+
+## 풀이 코드
 ```python
 p,q,e,m = 17,23,65537,12
 N=p*q
@@ -16,6 +33,5 @@ assert 0 <= c < N
 print(c)
 ```
 
-## 최종 답
-
+## 정답
 `301`

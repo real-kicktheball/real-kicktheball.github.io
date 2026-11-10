@@ -1,13 +1,29 @@
 ---
-{"title":"Marin's Secrets","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"생성 함수가 2^k−1 형태의 메르센 소수만 만든다. 공개된 메르센 소수 지수 목록의 후보를 n에 대입해 인수를 찾고, 남은 인수도 2의 거듭제곱보다 1 작은 형태임을 검사한다.","section":["CryptoHack","RSA"]}
+{"title":"Marin's Secrets","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"소수를 메르센 소수(2^k - 1)에서만 고르면 후보가 수십 개뿐이라 하나씩 나눠보면 된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-생성 함수가 2^k−1 형태의 메르센 소수만 만든다. 공개된 메르센 소수 지수 목록의 후보를 n에 대입해 인수를 찾고, 남은 인수도 2의 거듭제곱보다 1 작은 형태임을 검사한다.
+**메르센 소수**는 $M_k = 2^k - 1$ 꼴의 소수다. 알려진 메르센 소수는 50여 개뿐이고 지수 목록도 공개돼 있다.
 
-## 최종 풀이 코드
+$$
+k = 2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127, 521, 607, 1279, \dots
+$$
 
+RSA 소수를 이 중에서 고르면 후보가 너무 적어서 하나씩 나눠보면 끝이다.
+
+## 문제
+
+키 생성 함수가 $2^k - 1$ 형태 소수만 만든다. $n$, $e$, $c$가 주어진다.
+
+## 풀이
+
+1. 메르센 소수 지수 목록으로 $2^k - 1$을 만들어 $n$을 나눠본다.
+2. 나누어떨어지는 $p$를 찾으면 $q = n / p$이다.
+3. $q$도 $2^j - 1$ 형태인지 확인했다(`q & (q+1) == 0`).
+4. 이후 일반 RSA처럼 복호화한다.
+
+## 풀이 코드
 ```python
 import re, requests
 from Crypto.Util.number import long_to_bytes, isPrime
@@ -26,6 +42,5 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{Th3se_Pr1m3s_4r3_t00_r4r3}`

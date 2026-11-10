@@ -1,13 +1,39 @@
 ---
-{"title":"Montgomery's Ladder","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"문제의 곡선은 Curve25519의 Montgomery 형식 y²=x³+486662x²+x (mod 2²⁵⁵−19)이다. x 좌표만 필요한 스칼라배이므로 y를 복원하지 않고 사영좌표 (X:Z)로 ladder를 계산한다. 각 비트에서 xADD…","section":["CryptoHack","Elliptic Curves"]}
+{"title":"Montgomery's Ladder","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"Montgomery ladder는 비트와 상관없이 같은 연산을 해서 타이밍 공격을 막는다. Curve25519에서 x 좌표만으로 스칼라 곱을 한다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-문제의 곡선은 Curve25519의 Montgomery 형식 `y²=x³+486662x²+x (mod 2²⁵⁵−19)`이다. x 좌표만 필요한 스칼라배이므로 y를 복원하지 않고 사영좌표 `(X:Z)`로 ladder를 계산한다. 각 비트에서 `xADD`와 `xDBL`을 한 번씩 수행한다. 마지막에 `X/Z mod p`를 구하면 요구한 10진 x 좌표다.
+double-and-add는 비트가 1일 때만 덧셈을 한다. 그래서 연산 시간이나 전력 소모를 보면 비밀 스칼라의 비트가 새어 나간다(**부채널 공격**).
 
-## 최종 풀이 코드
+**Montgomery ladder**는 두 점 $R_0$, $R_1$을 $R_1 - R_0 = P$로 유지하면서 매 비트마다 똑같이 덧셈 한 번, 두 배 한 번을 한다.
 
+```
+R0 = O, R1 = P
+for bit in n (높은 비트부터):
+    if bit == 0: R1 = R0 + R1; R0 = 2·R0
+    else:        R0 = R0 + R1; R1 = 2·R1
+```
+
+**Curve25519**는 Montgomery 형태 곡선이다.
+
+$$
+y^2 = x^3 + 486662x^2 + x \pmod{2^{255} - 19}
+$$
+
+이 형태에서는 $R_1 - R_0$이 항상 $P$로 고정된다. 그래서 y 좌표 없이 x 좌표만으로 덧셈(xADD)과 두 배(xDBL)를 할 수 있다. 사영좌표 $(X : Z)$로 계산하면 매 단계 역원도 필요 없다.
+
+## 문제
+
+Curve25519에서 $x = 9$인 생성점 $G$에 대해 $Q = [\texttt{0x1337c0decafe}]G$의 x 좌표를 구한다.
+
+## 풀이
+
+1. $(X_2 : Z_2) = (1 : 0)$은 무한원점, $(X_3 : Z_3) = (9 : 1)$은 $G$로 시작한다.
+2. 스칼라의 비트마다 조건부 swap → xADD, xDBL → 다시 swap을 한다. `a24 = (486662 - 2)/4`를 쓴다.
+3. 마지막에 $X / Z \bmod p$를 구하면 x 좌표다.
+
+## 풀이 코드
 ```python
 p=2**255-19
 A=486662
@@ -36,6 +62,5 @@ assert z2 % p
 print(x2*pow(z2,-1,p)%p)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{49231350462786016064336756977412654793383964726771892982507420921563002378152}`

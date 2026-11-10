@@ -1,13 +1,24 @@
 ---
-{"title":"No Way JOSE","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"서버가 JWT 헤더의 alg: none을 허용하고 서명 검증을 끈다. 관리자 권한을 가진 payload를 서명 없이 만들어 authorise에 보낸다.","section":["CryptoHack","Crypto on the Web"]}
+{"title":"No Way JOSE","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"JWT의 alg 값을 서버가 그대로 믿으면 alg=none으로 서명 없는 토큰이 통과한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-## 풀이 원리
+## 개념
 
-서버가 JWT 헤더의 `alg: none`을 허용하고 서명 검증을 끈다. 관리자 권한을 가진 payload를 서명 없이 만들어 `authorise`에 보낸다.
+JWT 표준에는 서명하지 않는 `"alg": "none"`이 정의돼 있다. 문제는 일부 라이브러리가 **토큰 헤더의 `alg`를 보고 검증 방식을 고른다**는 것이다. 공격자가 `alg`를 `none`으로 바꾸고 서명을 비우면 검증이 통과해버린다.
 
-## 최종 익스플로잇
+검증하는 쪽이 허용할 알고리즘을 직접 정해야 한다. 토큰이 말하는 알고리즘을 믿으면 안 된다. 플래그의 "Cryptographic Doom Principle"도 같은 이야기다. 인증을 확인하기 전에 다른 처리를 하면 안 된다는 원칙이다.
 
+## 문제
+
+서버의 `authorise`가 토큰을 검증하고 `admin`이 true이면 플래그를 준다. 검증 코드가 헤더의 알고리즘을 그대로 쓴다.
+
+## 풀이
+
+1. header를 `{"typ":"JWT","alg":"none"}`로 만든다.
+2. payload에 `"admin": true`를 넣는다.
+3. `header.payload.`처럼 서명 부분을 비워서 보내면 플래그를 받는다.
+
+## 풀이 코드
 ```python
 import requests, json, base64, hmac, hashlib, urllib.parse, re
 
@@ -33,6 +44,5 @@ forged = token({'username':'attacker','admin':True}, 'none')
 print(flag_from(endpoint('no-way-jose', 'authorise', forged)))
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{The_Cryptographic_Doom_Principle}`

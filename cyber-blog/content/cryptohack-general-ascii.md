@@ -1,20 +1,31 @@
 ---
-{"title":"ASCII","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"주어진 ASCII 정수 배열의 각 원소에 chr을 적용한다.","section":["CryptoHack","General"]}
+{"title":"ASCII","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"ASCII는 문자를 0~127 정수로 나타내는 7비트 인코딩이다. 정수 배열을 chr로 문자로 바꾼다.","section":["CryptoHack","General"]}
 ---
 
-## 풀이 원리
+## 개념
 
-주어진 ASCII 정수 배열의 각 원소에 `chr`을 적용한다.
+**ASCII**는 문자 하나를 0~127 사이의 정수 하나로 나타내는 7비트 인코딩이다. 예를 들어 `'c'`는 99, `'{'`는 123이다.
 
-## 최종 풀이 코드
+파이썬에서는 두 방향 변환을 쓴다.
 
+- `ord('c') = 99`: 문자 → 정수
+- `chr(99) = 'c'`: 정수 → 문자
+
+## 문제
+
+정수 배열 `[99, 114, 121, 112, 116, 111, 123, ...]`이 주어진다. 이를 문자로 바꾸라는 문제다.
+
+## 풀이
+
+앞부분만 봐도 99, 114, 121, 112, 116, 111, 123은 `c r y p t o {`이다. 배열 전체에 `chr`을 적용해 이어 붙이면 플래그가 된다.
+
+## 풀이 코드
 ```python
 values = [99,114,121,112,116,111,123,65,83,67,73,73,95,112,114,49,110,116,52,98,108,51,125]
 print(''.join(map(chr, values)))
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{ASCII_pr1nt4bl3}
 ```

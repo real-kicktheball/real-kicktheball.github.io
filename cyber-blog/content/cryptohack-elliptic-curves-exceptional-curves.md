@@ -1,13 +1,34 @@
 ---
-{"title":"Exceptional Curves","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"군의 차수를 직접 계산하면 #E(Fp)=p인 anomalous curve다. 소수 차수라도 Smart의 p-adic lifting 공격으로 ECDLP가 풀린다. Sage의 점 .log()가 이를 처리하며 복원된 개인키로 ECDH와 AES-C…","section":["CryptoHack","Elliptic Curves"]}
+{"title":"Exceptional Curves","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"곡선의 점 개수가 p와 같은 anomalous curve는 Smart 공격(p-adic lifting)으로 ECDLP가 선형 시간에 풀린다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-군의 차수를 직접 계산하면 `#E(Fp)=p`인 anomalous curve다. 소수 차수라도 Smart의 p-adic lifting 공격으로 ECDLP가 풀린다. Sage의 점 `.log()`가 이를 처리하며 복원된 개인키로 ECDH와 AES-CBC 복호화를 수행한다.
+곡선 위 점의 개수 $\#E(\mathbb{F}_p)$가 정확히 $p$와 같으면 **anomalous curve**(trace가 1인 곡선)라 한다. 위수가 큰 소수라 Pohlig–Hellman은 안 통하지만, 다른 약점이 있다.
 
-## 최종 풀이 코드
+**Smart 공격**은 다음 순서로 동작한다.
 
+1. 곡선과 점을 $p$진수 $\mathbb{Q}_p$로 끌어올린다(Hensel lifting).
+2. $p$를 곱해 형식군(formal group)으로 보낸다.
+3. 거기서 로그가 단순한 나눗셈이 된다.
+
+$$
+k = \frac{\psi_p(pQ)}{\psi_p(pG)} \bmod p
+$$
+
+ECC 표준이 곡선을 고를 때 $\#E \ne p$를 확인하는 이유다.
+
+## 문제
+
+곡선 파라미터, 생성점, 두 사람의 공개점, 암호문이 주어진다.
+
+## 풀이
+
+1. SageMath로 `E.order()`를 계산하면 $p$와 같다. anomalous curve다.
+2. `A.log(G)`가 이 경우 Smart 공격으로 바로 로그를 구한다.
+3. 공유점으로 키를 만들어 AES-CBC를 복호화했다. 플래그도 "Hensel lift"다.
+
+## 풀이 코드
 ```python
 from sage.all import *
 from Crypto.Cipher import AES
@@ -29,6 +50,5 @@ print(unpad(AES.new(key,AES.MODE_CBC,bytes.fromhex(v['iv'])).decrypt(bytes.fromh
 
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{H3ns3l_lift3d_my_fl4g!}`

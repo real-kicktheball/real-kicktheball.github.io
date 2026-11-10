@@ -1,13 +1,26 @@
 ---
-{"title":"Signing Server","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"서명 오라클은 임의 정수에 비밀지수 d를 적용한다. get_secret이 반환한 RSA 암호문을 그대로 sign에 보내면 복호화 결과가 서명값으로 돌아온다.","section":["CryptoHack","RSA"]}
+{"title":"Signing Server","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"교과서 RSA에서 서명과 복호화는 같은 연산이다. 서명 오라클에 암호문을 보내면 그대로 복호화된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-서명 오라클은 임의 정수에 비밀지수 d를 적용한다. get_secret이 반환한 RSA 암호문을 그대로 sign에 보내면 복호화 결과가 서명값으로 돌아온다.
+교과서 RSA에서 서명과 복호화는 **똑같은 연산**이다.
 
-## 최종 익스플로잇
+$$
+\text{Sign}(x) = x^d \bmod N = \text{Decrypt}(x)
+$$
 
+그래서 아무 값이나 서명해주는 서버가 있으면, 그 서버가 곧 복호화 오라클이 된다. 실제 시스템에서 서명은 해시와 패딩을 거친 값에만 하고, 서명용 키와 암호화용 키를 분리하는 이유다.
+
+## 문제
+
+서버가 `get_secret`으로 비밀 메시지의 RSA 암호문을 주고, `sign`으로는 보낸 값을 아무 검사 없이 서명해준다.
+
+## 풀이
+
+`get_secret`으로 받은 암호문 $c$를 그대로 `sign`에 보낸다. 돌아온 "서명"이 $c^d = m$이다. 바이트로 바꾸면 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import json, re, socket
 from Crypto.Util.number import long_to_bytes
@@ -25,6 +38,5 @@ with socket.create_connection(('socket.cryptohack.org',13374),timeout=10) as soc
     print(flag)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{d0n7_516n_ju57_4ny7h1n6}`

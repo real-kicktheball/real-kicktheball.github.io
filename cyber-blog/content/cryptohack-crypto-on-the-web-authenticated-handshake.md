@@ -1,13 +1,33 @@
 ---
-{"title":"Authenticated Handshake","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3의 Client Finished 검증값은 HMAC(finished_key, SHA384(transcript))이다. 첨부 키로그에서 서버와 클라이언트 Handshake Traffic Secret을 읽고, 서버 기록을 AES-25…","section":["CryptoHack","Crypto on the Web"]}
+{"title":"Authenticated Handshake","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.3의 Finished 메시지는 핸드셰이크 전체 기록(transcript)에 대한 HMAC이다. 키 스케줄을 따라 직접 계산한다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-## 풀이 원리
+## 개념
 
-TLS 1.3의 Client Finished 검증값은 `HMAC(finished_key, SHA384(transcript))`이다. 첨부 키로그에서 서버와 클라이언트 Handshake Traffic Secret을 읽고, 서버 기록을 AES-256-GCM으로 복호화하여 전체 핸드셰이크 메시지를 모은다. 서버 Finished HMAC부터 대조해 파싱과 키 유도를 검증한 뒤 클라이언트 Finished 값을 계산한다.
+TLS 1.3의 **Finished** 메시지는 지금까지 오간 핸드셰이크 메시지 전체가 변조되지 않았음을 증명한다.
 
-## 최종 풀이 코드
+$$
+\text{finished\_key} = \text{HKDF-Expand-Label}(\text{handshake\_traffic\_secret},\ \texttt{"finished"},\ \texttt{""},\ L)
+$$
 
+$$
+\text{verify\_data} = \text{HMAC}(\text{finished\_key},\ \text{Hash}(\text{transcript}))
+$$
+
+transcript는 ClientHello부터 해당 시점까지의 모든 핸드셰이크 메시지를 이은 것이다. TLS 1.3은 ServerHello 이후 핸드셰이크 메시지(EncryptedExtensions, Certificate, CertificateVerify, Finished)도 암호화한다. 그래서 transcript를 만들려면 먼저 복호화해야 한다.
+
+## 문제
+
+TLS 1.3(cipher suite `TLS_AES_256_GCM_SHA384`) 캡처와 keylog가 주어진다. 클라이언트 Finished의 verify_data를 계산하라는 문제다.
+
+## 풀이
+
+1. keylog에서 클라이언트·서버 handshake traffic secret을 읽는다.
+2. 서버 secret으로 key/iv를 유도한다. 그다음 서버의 암호화된 레코드를 AES-256-GCM으로 복호화해서 핸드셰이크 메시지를 모은다.
+3. 계산이 맞는지 확인하려고, 먼저 서버 Finished를 같은 방식으로 계산해 캡처의 값과 비교했다.
+4. 서버 Finished까지 포함한 transcript의 SHA-384에 클라이언트 finished_key로 HMAC을 계산한다.
+
+## 풀이 코드
 ```python
 import requests, tempfile
 from pathlib import Path
@@ -68,6 +88,5 @@ with tempfile.TemporaryDirectory() as work:
 
 ```
 
-## 최종 답
-
+## 정답
 `b51d7b5fb12aa3d692140d8f1f80732610e99411ca0f6d928b0f60570cbc778e672457a729d7cf3b58bc174f00dc5d30`

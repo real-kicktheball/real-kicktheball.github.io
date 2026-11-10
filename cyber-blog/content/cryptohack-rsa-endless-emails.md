@@ -1,13 +1,32 @@
 ---
-{"title":"Endless Emails","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"서로 다른 수신자에게 같은 메시지를 패딩 없이 공개지수 3으로 암호화했다. 같은 메시지를 가진 암호문 세 개를 찾고 중국인의 나머지 정리로 m³을 각 법의 곱에 대해 복원한다. 메시지 세제곱이 법의 곱보다 작으면 정수 세제곱근으로 원문을 얻…","section":["CryptoHack","RSA"]}
+{"title":"Endless Emails","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"같은 메시지를 e=3으로 세 명에게 보내면 CRT로 m³을 복원하고 세제곱근을 구할 수 있다(Håstad 브로드캐스트 공격).","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-서로 다른 수신자에게 같은 메시지를 패딩 없이 공개지수 3으로 암호화했다. 같은 메시지를 가진 암호문 세 개를 찾고 중국인의 나머지 정리로 `m³`을 각 법의 곱에 대해 복원한다. 메시지 세제곱이 법의 곱보다 작으면 정수 세제곱근으로 원문을 얻는다. 세 개의 인덱스 조합을 검사해 정확한 세제곱인 경우를 찾는다.
+**Håstad 브로드캐스트 공격**은 같은 메시지 $m$을 $e = 3$, 패딩 없이 서로 다른 $N_1, N_2, N_3$로 보냈을 때 성립한다.
 
-## 최종 풀이 코드
+$$
+c_i = m^3 \bmod N_i
+$$
 
+1. CRT로 세 식을 합치면 $C \equiv m^3 \pmod{N_1 N_2 N_3}$를 얻는다.
+2. $m < N_i$이므로 $m^3 < N_1 N_2 N_3$이다.
+3. 따라서 $C = m^3$이 정수로 정확히 성립한다. 세제곱근만 구하면 끝이다.
+
+## 문제
+
+$e = 3$인 공개키 7개와 각각의 암호문이 주어진다. 메시지 내용은 사람마다 다를 수도 있다고 한다.
+
+## 풀이
+
+어떤 세 개가 같은 메시지인지 모른다. 그래서 7개 중 3개를 고르는 조합 35가지를 모두 시도했다.
+
+1. 고른 세 개에 CRT를 적용해 $C$를 만든다.
+2. $C$가 정확한 세제곱수인지 확인한다.
+3. 세제곱근을 바이트로 바꿨을 때 `crypto{`가 들어 있으면 그게 답이다.
+
+## 풀이 코드
 ```python
 import itertools, math, re, requests
 from sympy import integer_nthroot
@@ -34,6 +53,5 @@ else:
     raise ValueError('No shared message')
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{1f_y0u_d0nt_p4d_y0u_4r3_Vuln3rabl3}`

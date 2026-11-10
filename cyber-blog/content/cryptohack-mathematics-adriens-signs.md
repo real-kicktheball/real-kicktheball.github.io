@@ -1,13 +1,39 @@
 ---
-{"title":"Adrien's Signs","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"소수 p≡3 mod 4에서는 −1이 이차 비잉여다. a의 거듭제곱은 이차잉여이고, 음수로 바꾼 값은 비잉여이므로 Legendre 판정으로 비트 1과 0을 구분한다.","section":["CryptoHack","Mathematics"]}
+{"title":"Adrien's Signs","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"p ≡ 3 (mod 4)에서 -1은 이차비잉여다. 그래서 부호를 바꾼 값은 르장드르 기호도 바뀐다. 이걸로 비트를 복원한다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 풀이 원리
+## 개념
 
-소수 p≡3 mod 4에서는 −1이 이차 비잉여다. a의 거듭제곱은 이차잉여이고, 음수로 바꾼 값은 비잉여이므로 Legendre 판정으로 비트 1과 0을 구분한다.
+$p \equiv 3 \pmod 4$이면 **$-1$은 이차비잉여**다. 오일러 판정법으로 확인할 수 있다.
 
-## 최종 풀이 코드
+$$
+(-1)^{(p-1)/2} = -1 \qquad (\tfrac{p-1}{2}\text{가 홀수})
+$$
 
+이차잉여의 곱셈 규칙을 적용하면 $n$이 잉여일 때 $-n$은 비잉여가 된다.
+
+$$
+\left(\frac{-n}{p}\right) = \left(\frac{-1}{p}\right)\left(\frac{n}{p}\right) = -\left(\frac{n}{p}\right)
+$$
+
+## 문제
+
+플래그의 각 비트를 다음처럼 암호화했다($a$, $p$는 공개).
+
+- 비트가 1이면 $n = a^e \bmod p$를 출력한다.
+- 비트가 0이면 $-n \bmod p$를 출력한다.
+
+$e$는 매번 랜덤이다.
+
+## 풀이
+
+1. $a$가 이차잉여인지 먼저 확인한다. $a^{(p-1)/2} \equiv 1$이다.
+2. 잉여의 거듭제곱 $a^e$는 $e$와 상관없이 항상 이차잉여다.
+3. 반대로 $-a^e$는 $p \equiv 3 \pmod 4$이므로 항상 이차비잉여다.
+
+그래서 출력값마다 르장드르 기호를 계산하면 1이면 비트 1, -1이면 비트 0이다. 비트를 8개씩 묶어 바이트로 바꾸면 플래그가 된다.
+
+## 풀이 코드
 ```python
 import ast, requests
 url='https://cryptohack.org/static/challenges/output_80fc6398d2fd9f272186d0af510323f9.txt'
@@ -20,6 +46,5 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{p4tterns_1n_re5idu3s}`

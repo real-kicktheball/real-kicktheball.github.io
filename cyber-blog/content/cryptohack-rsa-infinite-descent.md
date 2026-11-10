@@ -1,13 +1,32 @@
 ---
-{"title":"Infinite Descent","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"p와 q를 같은 임의의 2048비트 정수 r에서 조금씩 증가시켰으므로 두 소수가 극히 가깝다. Fermat 인수분해에서 ceil(√n)의 제곱과 n의 차가 즉시 완전제곱수가 된다.","section":["CryptoHack","RSA"]}
+{"title":"Infinite Descent","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"p와 q가 너무 가까우면 페르마 인수분해로 바로 깨진다. N = a² - b²로 표현한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-p와 q를 같은 임의의 2048비트 정수 r에서 조금씩 증가시켰으므로 두 소수가 극히 가깝다. Fermat 인수분해에서 ceil(√n)의 제곱과 n의 차가 즉시 완전제곱수가 된다.
+**페르마 인수분해**는 $N$을 두 제곱수의 차로 쓰는 방법이다.
 
-## 최종 풀이 코드
+$$
+N = a^2 - b^2 = (a - b)(a + b)
+$$
 
+$p$, $q$가 가까우면 $a = \frac{p+q}{2}$는 $\sqrt N$과 거의 같고, $b = \frac{p-q}{2}$는 작다. 그래서 다음 순서로 찾는다.
+
+1. $a = \lceil \sqrt N \rceil$부터 시작한다.
+2. $a^2 - N$이 완전제곱수인지 확인한다.
+3. 아니면 $a$를 1씩 늘린다.
+
+$p$와 $q$의 차이가 작을수록 몇 번 만에 끝난다.
+
+## 문제
+
+키 생성 코드가 같은 시작값 $r$에서 $p$와 $q$를 조금씩 늘려서 만든다. 그래서 두 소수가 매우 가깝다.
+
+## 풀이
+
+$a = \lceil \sqrt n \rceil$에서 바로 $a^2 - n$이 완전제곱수 $b^2$가 됐다. $p = a + b$, $q = a - b$로 복원해서 복호화했다.
+
+## 풀이 코드
 ```python
 import math, re, requests
 from Crypto.Util.number import long_to_bytes
@@ -29,6 +48,5 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{f3rm47_w45_4_g3n1u5}`

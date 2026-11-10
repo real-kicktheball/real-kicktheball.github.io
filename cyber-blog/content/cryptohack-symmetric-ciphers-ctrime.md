@@ -1,13 +1,29 @@
 ---
-{"title":"CTRIME","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"서비스는 선택한 평문과 비밀 플래그를 이어 붙인 뒤 zlib로 압축하고 CTR로 암호화한다. CTR은 길이를 숨기지 않으므로, 입력에 플래그 접두사를 붙여 압축 길이를 비교하면 다음 바이트가 일치하는 후보가 짧아진다. DEFLATE의 바이트…","section":["CryptoHack","Symmetric Ciphers"]}
+{"title":"CTRIME","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"압축 후 암호화하면 암호문 길이가 평문 내용에 따라 달라진다. CRIME 공격처럼 길이 차이로 비밀을 한 글자씩 맞춘다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-## 풀이 원리
+## 개념
 
-서비스는 선택한 평문과 비밀 플래그를 이어 붙인 뒤 zlib로 압축하고 CTR로 암호화한다. CTR은 길이를 숨기지 않으므로, 입력에 플래그 접두사를 붙여 압축 길이를 비교하면 다음 바이트가 일치하는 후보가 짧아진다. DEFLATE의 바이트 단위 출력에서 동점이 생기면 앞에 무관한 `X`를 0~5바이트 넣어 경계를 바꿔 비교한다.
+**CRIME 공격**은 "압축 → 암호화" 순서에서 생기는 정보 누출을 이용한다.
 
-## 최종 익스플로잇
+- DEFLATE(zlib) 압축은 반복되는 문자열을 짧게 줄인다.
+- 내 입력이 비밀값과 겹치면 압축이 더 잘 돼서 결과가 짧아진다.
+- CTR처럼 길이를 숨기지 않는 암호를 쓰면 **암호문 길이 = 압축 길이**다.
 
+그래서 길이를 보고 내 추측이 맞았는지 알 수 있다. 실제로 TLS 압축이 꺼진 이유가 이 공격이다.
+
+## 문제
+
+서버가 `내 입력 || FLAG`를 zlib로 압축한 뒤 AES-CTR로 암호화해준다.
+
+## 풀이
+
+1. 지금까지 아는 부분 `crypto{` 뒤에 후보 문자 $c$를 붙여 보낸다.
+2. 맞는 후보는 플래그와 겹치는 길이가 하나 늘어서 암호문이 가장 짧다.
+3. 압축 결과가 바이트 단위라 여러 후보가 같은 길이로 나오는 경우가 있다. 그럴 때는 앞에 의미 없는 `X`를 0~5개 붙여서 비트 경계를 바꿔가며 다시 비교했다.
+4. 이걸 `}`가 나올 때까지 반복한다.
+
+## 풀이 코드
 ```python
 import requests,string,concurrent.futures,time
 u='https://aes.cryptohack.org/ctrime/encrypt/'
@@ -36,8 +52,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
 print('FLAG',known)
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{CRIME_571ll_p4y5}
 ```

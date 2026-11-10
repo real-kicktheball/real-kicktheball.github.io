@@ -1,13 +1,32 @@
 ---
-{"title":"RSA Decryption","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"앞 문제의 비밀지수로 RSA 암호문을 복호화한다.","section":["CryptoHack","RSA"]}
+{"title":"RSA Decryption","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"개인키 d로 m = c^d mod N을 계산해 RSA 암호문을 복호화한다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-앞 문제의 비밀지수로 RSA 암호문을 복호화한다.
+복호화는 개인 지수 $d$로 거듭제곱하는 것이다.
 
-## 최종 풀이 코드
+$$
+m = c^d \bmod N
+$$
 
+지금까지 나온 내용을 정리하면 다음과 같다.
+
+| 단계 | 식 |
+|---|---|
+| 키 생성 | $N = pq$, $\varphi = (p-1)(q-1)$, $d = e^{-1} \bmod \varphi$ |
+| 암호화 | $c = m^e \bmod N$ |
+| 복호화 | $m = c^d \bmod N$ |
+
+## 문제
+
+앞 문제의 키로 $c = 77578995801157823671636298847186723593814843845525223303932$를 복호화한다.
+
+## 풀이
+
+$d$를 구하고 `pow(c, d, N)`을 계산하면 **13371337**이 나온다. 다시 $e$로 암호화하면 $c$가 되는 것도 확인했다.
+
+## 풀이 코드
 ```python
 p=857504083339712752489993810777
 q=1029224947942998075080348647219
@@ -21,6 +40,5 @@ assert pow(m,e,N) == c
 print(m)
 ```
 
-## 최종 답
-
+## 정답
 `13371337`

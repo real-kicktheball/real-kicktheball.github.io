@@ -1,13 +1,32 @@
 ---
-{"title":"Merkle Trees","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"각 줄의 네 잎 해시 (a,b,c,d)에서 SHA256(SHA256(ab)SHA256(cd))가 제시된 루트와 같은지 검사한다. 같으면 1, 다르면 0으로 모아 바이트로 바꾼다. 생성기에서 거짓 증명은 b에 난수 8바이트를 덧붙여 만든다. …","section":["CryptoHack","Hash Functions"]}
+{"title":"Merkle Trees","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Hash Functions","Cryptography"],"summary":"머클 트리는 잎 해시를 짝지어 올라가며 루트 하나로 전체를 대표한다. 루트를 직접 계산해 증명이 맞는지 검사한다.","section":["CryptoHack","Hash Functions"]}
 ---
 
-## 풀이 원리
+## 개념
 
-각 줄의 네 잎 해시 `(a,b,c,d)`에서 `SHA256(SHA256(a||b)||SHA256(c||d))`가 제시된 루트와 같은지 검사한다. 같으면 1, 다르면 0으로 모아 바이트로 바꾼다. 생성기에서 거짓 증명은 `b`에 난수 8바이트를 덧붙여 만든다. 플래그의 첫 비트가 0이라 출력 줄 수는 303개이며, 정수로 바꾼 뒤 최소 필요 길이인 38바이트로 복원한다.
+**머클 트리**는 데이터 조각들의 해시를 두 개씩 묶어 다시 해시하는 과정을 반복해서 **루트 해시** 하나를 만든다.
 
-## 최종 익스플로잇
+```
+            root = H(H(a||b) || H(c||d))
+           /                          \
+      H(a||b)                      H(c||d)
+      /     \                      /     \
+     a       b                    c       d
+```
 
+조각 하나만 바뀌어도 루트가 바뀐다. 그래서 루트만 믿으면 전체 무결성을 확인할 수 있다. 특정 조각이 포함됐다는 증명도 형제 노드 $\log n$개만 있으면 된다. 비트코인 블록, Git, Certificate Transparency 로그가 이 구조를 쓴다.
+
+## 문제
+
+각 줄에 잎 해시 4개 $(a, b, c, d)$와 루트가 있다. 루트가 맞는 줄은 비트 1, 틀린 줄은 비트 0이다.
+
+## 풀이
+
+1. 줄마다 $\text{SHA256}(\text{SHA256}(a\|b) \,\|\, \text{SHA256}(c\|d))$를 계산해 루트와 비교한다.
+2. 303개 비트를 이어 정수로 만든다.
+3. 첫 비트가 0이라 303비트다. 이걸 38바이트로 바꾸면 플래그가 된다.
+
+## 풀이 코드
 ```python
 import requests, ast, hashlib
 url = 'https://cryptohack.org/static/challenges/output_1091e36a2522c149f174d6721df7ab02.txt'
@@ -24,6 +43,5 @@ value = int(''.join(bits), 2)
 print(value.to_bytes((len(bits)+7)//8, 'big').decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{U_are_R3ady_For_S4plins_ch4lls}`

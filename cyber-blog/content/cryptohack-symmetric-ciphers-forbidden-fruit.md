@@ -1,13 +1,37 @@
 ---
-{"title":"Forbidden Fruit","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"GCM에서 nonce를 재사용하므로 두 개의 선택 평문에 대한 태그 차분에서 GHASH의 H²를 복원할 수 있다. 같은 길이의 평문을 암호화해 키스트림을 구한 뒤, 금지 문자열 give me the flag의 암호문과 올바른 태그를 만들어 …","section":["CryptoHack","Symmetric Ciphers"]}
+{"title":"Forbidden Fruit","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"AES-GCM에서 nonce를 재사용하면 인증 키 H가 드러나서 원하는 메시지의 태그를 위조할 수 있다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-## 풀이 원리
+## 개념
 
-GCM에서 nonce를 재사용하므로 두 개의 선택 평문에 대한 태그 차분에서 GHASH의 `H²`를 복원할 수 있다. 같은 길이의 평문을 암호화해 키스트림을 구한 뒤, 금지 문자열 `give me the flag`의 암호문과 올바른 태그를 만들어 복호화 API로 보낸다.
+**GCM**은 CTR 암호화에 GHASH 기반 인증 태그를 더한 모드다. 태그는 $\mathrm{GF}(2^{128})$ 위의 다항식이다. 암호문 블록 1개, AAD 1개일 때는 다음과 같다.
 
-## 최종 익스플로잇
+$$
+T = A \cdot H^3 \oplus C \cdot H^2 \oplus L \cdot H \oplus E_K(J_0)
+$$
 
+여기서 $H = E_K(0)$은 인증 키, $L$은 길이 블록이다.
+
+nonce를 재사용하면 $E_K(J_0)$이 같아진다. 그래서 같은 길이 메시지 두 개의 태그를 빼면(XOR하면) 미지수가 $H$만 남는다.
+
+$$
+T_1 \oplus T_2 = (C_1 \oplus C_2) \cdot H^2
+$$
+
+$H^2$을 구하면 원하는 암호문의 태그를 계산할 수 있다.
+
+## 문제
+
+서버가 같은 nonce로 AES-GCM 암호화를 해준다. 다만 `give me the flag`라는 평문은 암호화를 거부한다. 이 평문의 유효한 암호문과 태그를 보내면 플래그를 준다.
+
+## 풀이
+
+1. `0`×16, `1`×16을 암호화해서 두 태그를 얻는다. $H^2 = (T_1 \oplus T_2) \cdot (C_1 \oplus C_2)^{-1}$로 계산한다.
+2. CTR이라 키스트림 $= C_1 \oplus P_1$이다. 그래서 `give me the flag`의 암호문 $C'$를 직접 만든다.
+3. $T' = T_1 \oplus (C_1 \oplus C') \cdot H^2$로 태그를 위조한다.
+4. 서버의 복호화 API에 보내면 인증을 통과하고 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import requests
 s=requests.Session();base='https://aes.cryptohack.org/forbidden_fruit/'
@@ -42,8 +66,7 @@ print('result',r)
 if 'plaintext' in r:print('FLAG',bytes.fromhex(r['plaintext']).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{https://github.com/attr-encrypted/encryptor/pull/22}
 ```

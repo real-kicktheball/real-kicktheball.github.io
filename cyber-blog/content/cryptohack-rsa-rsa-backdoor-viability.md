@@ -1,13 +1,29 @@
 ---
-{"title":"RSA Backdoor Viability","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"소수 생성식 p=427s²+1/4는 특수한 구조를 가진다. N의 인수가 FactorDB에 공개되어 있어서 이를 조회해 개인키를 복원했다.","section":["CryptoHack","RSA"]}
+{"title":"RSA Backdoor Viability","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"4p - 1 = Ds² 형태(D가 작음)인 소수는 복소곱셈(CM) 타원곡선을 이용한 4p-1 방법으로 인수분해된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-소수 생성식 p=(427s²+1)/4는 특수 구조를 가진다. 여기서는 그 구조의 직접 공격을 구현하지 않고 FactorDB에 공개된 인수를 조회해 개인키를 재구성했다. 인수의 곱과 특수 생성식 관계를 확인한다.
+$p - 1$이 작은 소수들로만 이루어지면 Pollard $p-1$ 방법으로 인수분해된다. 이와 비슷하게 $4p - 1$이 특수한 형태여도 인수분해된다.
 
-## 최종 풀이 코드
+$$
+4p - 1 = D s^2 \qquad (D\text{가 작은 square-free 수})
+$$
 
+이 경우 판별식 $-D$인 **복소곱셈(CM) 타원곡선**을 $\bmod N$에서 만든다. 그러면 그 곡선의 위수가 $\bmod p$에서 정확히 $p+1$이 된다. 이 성질로 $p$를 분리해낼 수 있다(Cheng의 4p-1 방법). 일부러 이런 소수를 심어두면 RSA 백도어가 된다.
+
+## 문제
+
+소수 생성 코드가 $p = (427 s^2 + 1)/4$ 형태로 만든다. 즉 $4p - 1 = 427 s^2$이다.
+
+## 풀이
+
+1. 의도된 풀이는 $D = 427$로 4p-1 방법을 적용하는 것이다.
+2. 나는 이 $N$의 인수가 FactorDB에 공개돼 있어서 그걸 조회했다.
+3. 인수 중 하나가 실제로 $(4p-1)/427$이 완전제곱수인 형태인지 확인했다.
+4. 그다음 일반 RSA처럼 복호화했다.
+
+## 풀이 코드
 ```python
 import math, re, requests
 from Crypto.Util.number import long_to_bytes
@@ -27,6 +43,5 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{I_want_to_Break_Square-free_4p-1}`

@@ -1,13 +1,34 @@
 ---
-{"title":"Jeff's LFSR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"세 LFSR의 출력은 각 초기 상태 비트에 대한 GF(2) 선형식이다. 각 시점의 선형식을 정수 비트마스크로 만들고, Geffe 결합기의 출력 if selector then stream1 else stream2를 Z3 제약으로 표현한다. 2…","section":["CryptoHack","Misc"]}
+{"title":"Jeff's LFSR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"Geffe 생성기는 LFSR 세 개를 섞지만 출력이 각 LFSR과 75% 상관관계를 가진다. 출력 비트를 선형식과 제약으로 풀어 초기 상태를 복원한다.","section":["CryptoHack","Misc"]}
 ---
 
-## 풀이 방법
+## 개념
 
-세 LFSR의 출력은 각 초기 상태 비트에 대한 GF(2) 선형식이다. 각 시점의 선형식을 정수 비트마스크로 만들고, Geffe 결합기의 출력 `if selector then stream1 else stream2`를 Z3 제약으로 표현한다. 256개 관측 비트에서 69개 초기 비트를 구한다. 얻은 상태를 정수로 이어 붙인 뒤 문제 소스처럼 십진 문자열의 SHA-1 앞 16바이트를 AES 키로 사용한다.
+**LFSR**은 이전 비트들의 XOR로 다음 비트를 만드는 레지스터다. 출력의 모든 비트는 초기 상태 비트의 $\mathrm{GF}(2)$ **선형식**이다. 그래서 단독으로 쓰면 연립방정식으로 바로 깨진다.
 
-## 최종 익스플로잇
+**Geffe 생성기**는 LFSR 세 개 $x_1, x_2, x_3$를 비선형으로 섞는다.
 
+$$
+z = \begin{cases} x_1 & x_2 = 1 \\ x_3 & x_2 = 0 \end{cases}
+= x_1 x_2 \oplus (1 \oplus x_2) x_3
+$$
+
+하지만 출력 $z$가 $x_1$과 같을 확률이 75%, $x_3$과 같을 확률도 75%다. 그래서 각 LFSR을 따로 전수조사하는 **상관 공격**이 된다. 문제 이름의 Geffe가 교과서적 예시다.
+
+## 문제
+
+길이 19, 27, 23인 LFSR 세 개로 만든 Geffe 생성기 출력 256비트와 AES 암호문이 주어진다. 키는 세 LFSR 초기 상태로 만든다.
+
+## 풀이
+
+상관 공격 대신 제약 풀이로 했다.
+
+1. 각 LFSR의 $t$번째 출력을 초기 상태 비트들의 XOR 마스크로 계산한다.
+2. Z3에 초기 비트 69개를 Bool 변수로 두고, 256개 관측 비트 각각에 Geffe 식을 제약으로 넣는다.
+3. 해를 구하면 세 초기 상태가 나온다.
+4. 이를 정수로 이어 SHA-1 키를 만들고 AES를 복호화한다.
+
+## 풀이 코드
 ```python
 import ast,hashlib,z3
 from functools import reduce
@@ -50,8 +71,7 @@ if res==z3.sat:
 
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{Geffe_generator_is_a_textbook_example_to_show_correlation_attacks_on_LFSR}
 ```

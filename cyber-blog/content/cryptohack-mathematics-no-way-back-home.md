@@ -1,13 +1,35 @@
 ---
-{"title":"No Way Back Home","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"전송된 vka=v·kA, vkb=v·kB, vkakb=v·kA·kB에서 v를 법 q로 복원한다. v는 p의 배수이므로 p 법에서 0이며, 중국인의 나머지 정리로 원래 v를 얻는다.","section":["CryptoHack","Mathematics"]}
+{"title":"No Way Back Home","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Mathematics","Cryptography"],"summary":"비밀값 v가 p의 배수라서 mod n에서는 역원이 없지만, mod q에서는 정상적으로 계산된다. q에서 v를 구한 뒤 CRT로 합친다.","section":["CryptoHack","Mathematics"]}
 ---
 
-## 풀이 원리
+## 개념
 
-전송된 vka=v·kA, vkb=v·kB, vkakb=v·kA·kB에서 v를 법 q로 복원한다. v는 p의 배수이므로 p 법에서 0이며, 중국인의 나머지 정리로 원래 v를 얻는다.
+곱셈으로 비밀을 가렸다 푸는 "세 번 주고받기" 프로토콜이다($n = pq$).
 
-## 최종 풀이 코드
+1. Alice는 $v \cdot k_A$를 보낸다.
+2. Bob은 $k_B$를 곱해 $v k_A k_B$를 돌려준다.
+3. Alice는 $k_A$를 지워 $v k_B$를 보낸다.
 
+도청자는 세 값을 모두 본다. 그래서 다음 식으로 $v$를 구할 수 있다.
+
+$$
+v = \frac{(v k_A)(v k_B)}{v k_A k_B}
+$$
+
+다만 이 문제에서는 $v$가 $p$의 배수라 $\bmod n$에서 역원이 없다. 그래서 $\bmod q$와 $\bmod p$로 나눠서 생각해야 한다.
+
+## 문제
+
+$p$, $q$와 도청한 `vka`, `vkb`, `vkakb`, AES 암호문이 주어진다. AES 키는 $v$로 만든다.
+
+## 풀이
+
+1. $\bmod q$에서는 $v$가 0이 아니라 역원이 존재한다. 그래서 $v_q = vka \cdot vkb \cdot vkakb^{-1} \bmod q$로 계산된다.
+2. $v$는 $p$의 배수이므로 $v \equiv 0 \pmod p$이다.
+3. 두 조건을 CRT로 합쳐 $v = p \cdot (v_q \cdot p^{-1} \bmod q)$를 얻는다.
+4. `SHA256(long_to_bytes(v))`를 키로 AES-ECB 복호화하면 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import hashlib, re, requests
 from Crypto.Cipher import AES
@@ -28,6 +50,5 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{1nv3rt1bl3_k3y_3xch4ng3_pr0t0c0l}`

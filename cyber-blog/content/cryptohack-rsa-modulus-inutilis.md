@@ -1,13 +1,26 @@
 ---
-{"title":"Modulus Inutilis","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"e=3이고 메시지가 법에 비해 짧아 c=m³가 모듈러 환원되지 않았다. 정수 세제곱근을 취한다.","section":["CryptoHack","RSA"]}
+{"title":"Modulus Inutilis","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"e = 3이고 m³ < N이면 모듈러 연산이 일어나지 않는다. 정수 세제곱근으로 바로 복호화된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-e=3이고 메시지가 법에 비해 짧아 c=m³가 모듈러 환원되지 않았다. 정수 세제곱근을 취한다.
+$e = 3$처럼 작은 지수를 쓰고 패딩이 없다고 하자. 평문이 짧아서 $m^3 < N$이면 $\bmod N$이 아무 의미가 없다.
 
-## 최종 풀이 코드
+$$
+c = m^3 \bmod N = m^3
+$$
 
+암호문이 그냥 정수 세제곱이라 **정수 세제곱근**만 구하면 된다. 실제 RSA는 OAEP 같은 패딩으로 $m$을 $N$ 크기까지 키워서 이걸 막는다.
+
+## 문제
+
+$n$, $e = 3$, 암호문이 주어진다.
+
+## 풀이
+
+`sympy.integer_nthroot(c, 3)`으로 세제곱근을 구한다. 정확히 나누어떨어지는 걸 확인했고, 결과를 바이트로 바꾸면 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import re, urllib.request
 from Crypto.Util.number import long_to_bytes
@@ -23,6 +36,5 @@ assert exact and m**3==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{N33d_m04R_p4dd1ng}`

@@ -1,13 +1,28 @@
 ---
-{"title":"Deriving Symmetric Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"DH 공유 비밀값을 SHA-1로 해시한 앞 16바이트를 AES-128 키로 삼는다. 주어진 IV와 CBC 암호문을 복호화한다.","section":["CryptoHack","Diffie-Hellman"]}
+{"title":"Deriving Symmetric Keys","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"DH 공유 비밀은 그대로 쓰지 않고 해시(KDF)를 거쳐 AES 키로 만든다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 풀이 원리
+## 개념
 
-DH 공유 비밀값을 SHA-1로 해시한 앞 16바이트를 AES-128 키로 삼는다. 주어진 IV와 CBC 암호문을 복호화한다.
+DH 공유 비밀은 2048비트짜리 수라서 AES 키로 바로 쓸 수 없다. 또 값의 분포도 고르지 않다. 그래서 **키 유도 함수(KDF)**를 거쳐 필요한 길이의 키를 만든다.
 
-## 최종 풀이 코드
+$$
+K = \text{SHA1}(\text{str}(g^{ab}))[:16]
+$$
 
+CryptoHack DH 문제들은 위처럼 공유 비밀을 10진수 문자열로 바꿔 SHA-1한 앞 16바이트를 AES-128-CBC 키로 쓴다. 실제 프로토콜(TLS 1.3 등)에서는 HKDF를 쓴다.
+
+## 문제
+
+$A$, $b$, $B$와 IV, AES-CBC 암호문이 주어진다.
+
+## 풀이
+
+1. 공유 비밀 $A^b \bmod p$를 구한다.
+2. SHA-1로 키를 만든다.
+3. CBC로 복호화하고 PKCS#7 패딩을 제거하면 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import hashlib
 from Crypto.Cipher import AES
@@ -26,6 +41,5 @@ assert flag.startswith('crypto{') and flag.endswith('}')
 print(flag)
 ```
 
-## 최종 답
-
+## 정답
 `crypto{sh4r1ng_s3cret5_w1th_fr13nd5}`

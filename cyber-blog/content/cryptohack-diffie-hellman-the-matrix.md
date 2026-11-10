@@ -1,13 +1,37 @@
 ---
-{"title":"The Matrix","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"평문 비트열을 50×50의 가역 행렬 M으로 만든 후 C=M^31337을 공개한다. GL(50, 2)에 속하는 모든 행렬의 차수는 lcm(2^1−1, …, 2^50−1) × 64의 약수이다. 31337은 이 값과 서로소이므로 역지수 d를 구…","section":["CryptoHack","Diffie-Hellman"]}
+{"title":"The Matrix","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"가역 행렬군 GL(n, 2)에서 M^e를 주면 군의 위수를 이용해 e의 역지수로 M을 복원할 수 있다. RSA와 같은 원리다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 풀이 원리
+## 개념
 
-평문 비트열을 50×50의 가역 행렬 `M`으로 만든 후 `C=M^31337`을 공개한다. `GL(50, 2)`에 속하는 모든 행렬의 차수는 `lcm(2^1−1, …, 2^50−1) × 64`의 약수이다. `31337`은 이 값과 서로소이므로 역지수 `d`를 구해 `C^d=M`을 복원한다. 생성 코드가 비트를 `msg[i::50]`으로 행에 분배하므로 복원할 때는 열을 먼저 읽는다.
+$\mathrm{GF}(2)$ 위의 가역 $n \times n$ 행렬들은 곱셈에 대해 군 $\mathrm{GL}(n, 2)$를 이룬다.
 
-## 최종 익스플로잇
+RSA와 같은 원리를 쓸 수 있다. 군의 모든 원소에 대해 $M^{E} = I$가 되는 $E$(군의 지수)를 알고, $\gcd(e, E) = 1$이라 하자. 그러면 $d = e^{-1} \bmod E$로 $e$제곱을 되돌린다.
 
+$$
+(M^{e})^{d} = M^{ed} = M^{1 + kE} = M
+$$
+
+$\mathrm{GL}(n, 2)$에서 각 행렬의 위수는 특성다항식 인수들의 위수로 정해진다. 그래서 다음 값을 $E$로 쓰면 모든 원소의 위수를 나눈다.
+
+$$
+E = \operatorname{lcm}(2^1 - 1, 2^2 - 1, \dots, 2^{50} - 1) \times 64
+$$
+
+$\times 64$는 단위근이 아닌 부분(멱영 부분)의 위수를 커버하는 2의 거듭제곱이다.
+
+## 문제
+
+플래그 비트로 50×50 가역 행렬 $M$을 만들고 $C = M^{31337}$을 공개했다.
+
+## 풀이
+
+1. 위 $E$를 계산하고 $\gcd(31337, E) = 1$인 것을 확인한다.
+2. $d = 31337^{-1} \bmod E$로 $M = C^{d}$를 구한다(SageMath).
+3. $M^{31337} = C$가 맞는지 확인한다.
+4. 생성 코드가 비트를 `msg[i::50]`으로 행에 나눠 넣었기 때문에 열 방향으로 읽어서 플래그를 복원한다.
+
+## 풀이 코드
 ```python
 import requests
 
@@ -32,6 +56,5 @@ assert flag.startswith(b'crypto{')
 print(flag.decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{there_is_no_spoon_66eff188}`

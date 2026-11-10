@@ -1,13 +1,34 @@
 ---
-{"title":"Scalar Multiplication","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"스칼라를 이진수로 읽으며 필요한 점만 더하는 double-and-add를 구현한다. 테스트 벡터를 맞춘 다음 [7863]P를 구한다.","section":["CryptoHack","Elliptic Curves"]}
+{"title":"Scalar Multiplication","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"스칼라 곱 nP는 double-and-add로 O(log n)번 연산에 계산한다. 반대로 nP에서 n을 구하는 건 어렵다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-스칼라를 이진수로 읽으며 필요한 점만 더하는 double-and-add를 구현한다. 테스트 벡터를 맞춘 다음 `[7863]P`를 구한다.
+**스칼라 곱** $nP$는 $P$를 $n$번 더한 것이다.
 
-## 최종 풀이 코드
+$$
+nP = \underbrace{P + P + \cdots + P}_{n}
+$$
 
+$n$번 다 더하면 느리다. 그래서 **double-and-add**를 쓴다(RSA의 square-and-multiply와 같은 구조).
+
+1. $n$을 이진수로 본다.
+2. 비트마다 현재 점을 두 배(double)로 만든다.
+3. 비트가 1이면 $P$를 더한다(add).
+
+이러면 연산이 $O(\log n)$번이다. 반대로 $Q = nP$에서 $n$을 찾는 효율적인 방법은 알려져 있지 않다(ECDLP).
+
+## 문제
+
+$P = (2339, 2213)$일 때 $Q = [7863]P$를 구한다.
+
+## 풀이
+
+1. double-and-add를 구현한다.
+2. 문제의 예시 $[1337]X = (1089, 6931)$로 검증한다.
+3. $[7863]P = (9467, 2742)$이다.
+
+## 풀이 코드
 ```python
 p, a, b = 9739, 497, 1768
 O = None
@@ -41,6 +62,5 @@ assert on_curve(Q)
 print(f'crypto{{{Q[0]},{Q[1]}}}')
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{9467,2742}`

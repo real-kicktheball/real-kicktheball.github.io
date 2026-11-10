@@ -1,13 +1,30 @@
 ---
-{"title":"Honest Verifier Zero Knowledge","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"증인을 몰라도 챌린지 e가 먼저 공개되면 유효한 대화 기록을 시뮬레이션할 수 있다. 임의의 z를 정하고 a=g^z y^{-e}\\bmod p로 계산해 보내면 검증식이 자동으로 성립한다.","section":["CryptoHack","ZKPs"]}
+{"title":"Honest Verifier Zero Knowledge","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"챌린지 e를 미리 알면 w 없이도 검증을 통과하는 대화를 만들 수 있다(시뮬레이터). 이게 영지식성의 근거다.","section":["CryptoHack","ZKPs"]}
 ---
 
-## 풀이 방법
+## 개념
 
-증인을 몰라도 챌린지 $e$가 먼저 공개되면 유효한 대화 기록을 시뮬레이션할 수 있다. 임의의 $z$를 정하고 $a=g^z y^{-e}\bmod p$로 계산해 보내면 검증식이 자동으로 성립한다.
+**영지식성**은 이렇게 정의한다. $w$ 없이도 진짜와 구별할 수 없는 대화 기록 $(a, e, z)$를 만들어내는 **시뮬레이터**가 존재해야 한다. 그러면 검증자가 대화에서 얻는 정보는 "혼자서도 만들 수 있는 것"뿐이다.
 
-## 최종 익스플로잇
+Schnorr의 시뮬레이터는 순서를 뒤집는다. $e$와 $z$를 먼저 고르고 $a$를 역산한다.
 
+$$
+a = g^z \cdot y^{-e} \bmod p
+$$
+
+그러면 $g^z = a \cdot y^e$가 자동으로 성립한다. 검증자가 정직하게 랜덤 $e$를 고른다는 가정에서 성립해서 **정직한 검증자 영지식(HVZK)**이라 한다.
+
+## 문제
+
+서버가 챌린지 $e$를 **커밋을 받기 전에** 알려준다. $w$ 없이 검증을 통과해야 한다.
+
+## 풀이
+
+1. 서버가 준 $e$를 받는다.
+2. 랜덤 $z$를 고르고 $a = g^z y^{-e} \bmod p$를 계산한다.
+3. $(a, z)$를 보내면 검증식이 성립해서 플래그를 받는다.
+
+## 풀이 코드
 ```python
 import socket, json, ast
 from urllib.request import urlopen
@@ -49,8 +66,7 @@ print(recv(f)['flag'])
 s.close()
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{so_honest_very_zero_knowledge}
 ```

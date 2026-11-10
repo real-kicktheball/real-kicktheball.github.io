@@ -1,13 +1,37 @@
 ---
-{"title":"Decrypting TLS 1.2","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"TLS 1.2 캡처는 정적 RSA 키 교환을 사용한다. ClientKeyExchange의 암호화된 premaster secret을 첨부 RSA 개인키로 복호화한다. 양쪽 Hello에서 Extended Master Secret 확장이 협상되므…","section":["CryptoHack","Crypto on the Web"]}
+{"title":"Decrypting TLS 1.2","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Crypto on the Web","Cryptography"],"summary":"RSA 키 교환을 쓰는 TLS 1.2는 서버 개인키만 있으면 지난 트래픽까지 전부 복호화된다. 전방 보안이 없다.","section":["CryptoHack","Crypto on the Web"]}
 ---
 
-## 풀이 원리
+## 개념
 
-TLS 1.2 캡처는 정적 RSA 키 교환을 사용한다. `ClientKeyExchange`의 암호화된 premaster secret을 첨부 RSA 개인키로 복호화한다. 양쪽 Hello에서 Extended Master Secret 확장이 협상되므로 `PRF(premaster, "extended master secret", SHA384(핸드셰이크 메시지))`로 master secret을 구한다. 이를 NSS keylog 형식으로 저장하고 tshark로 HTTP/2 데이터를 복호화한다.
+TLS 1.2의 **RSA 키 교환**은 다음 순서로 동작한다.
 
-## 최종 풀이 코드
+1. 클라이언트가 premaster secret을 서버 공개키로 암호화해서 보낸다.
+2. 양쪽이 PRF로 master secret을 만든다.
+3. master secret에서 세션 키를 유도한다.
 
+이 방식은 **전방 보안(forward secrecy)이 없다**. 나중에 서버 개인키가 유출되면, 저장해둔 과거 캡처를 전부 복호화할 수 있다. 그래서 TLS 1.3은 RSA 키 교환을 없애고 (EC)DHE만 쓴다.
+
+master secret 계산은 Extended Master Secret 확장이 있으면 다음과 같다.
+
+$$
+\text{ms} = \text{PRF}(\text{premaster},\ \texttt{"extended master secret"},\ \text{Hash}(\text{handshake}))
+$$
+
+## 문제
+
+TLS 1.2 캡처 파일과 서버의 RSA 개인키가 주어진다.
+
+## 풀이
+
+1. `ClientKeyExchange`의 암호화된 premaster secret을 개인키(PKCS#1 v1.5)로 복호화한다.
+2. Hello에서 EMS가 협상됐으므로 핸드셰이크 메시지들의 SHA-384로 master secret을 구한다.
+3. `CLIENT_RANDOM <client_random> <master_secret>` 형식의 keylog로 저장한다.
+4. tshark에 keylog를 넣으면 HTTP/2 데이터가 복호화되고 플래그가 보인다.
+
+Wireshark에 RSA 키를 직접 넣어도 되지만, 계산 과정을 이해하려고 master secret을 직접 만들었다.
+
+## 풀이 코드
 ```python
 import requests, tempfile, subprocess, re
 from pathlib import Path
@@ -67,6 +91,5 @@ with tempfile.TemporaryDirectory() as work:
  print(re.search(rb'crypto\{[^}]+\}',plaintext).group(0).decode())
 ```
 
-## 최종 답
-
+## 정답
 `crypto{weaknesses_of_non_ephemeral_key_exchange}`

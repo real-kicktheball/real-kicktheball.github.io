@@ -1,13 +1,30 @@
 ---
-{"title":"Non-Interactive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"Fiat–Shamir 변환에서 챌린지는 a의 SHA-512 해시로 정해진다. 첨부 소스에 있는 증인 w를 사용해 a=g^r, e=H(a)\\bmod 2^{511}, z=r+ew\\bmod q를 계산한다.","section":["CryptoHack","ZKPs"]}
+{"title":"Non-Interactive","date":"2026-11-10","category":"ctf","tags":["CryptoHack","ZKPs","Cryptography"],"summary":"Fiat–Shamir 변환은 검증자의 랜덤 챌린지를 해시값으로 대체해 대화 없는 증명(NIZK)을 만든다.","section":["CryptoHack","ZKPs"]}
 ---
 
-## 풀이 방법
+## 개념
 
-Fiat–Shamir 변환에서 챌린지는 $a$의 SHA-512 해시로 정해진다. 첨부 소스에 있는 증인 $w$를 사용해 $a=g^r$, $e=H(a)\bmod 2^{511}$, $z=r+ew\bmod q$를 계산한다.
+시그마 프로토콜은 검증자와 주고받아야 한다. **Fiat–Shamir 변환**은 챌린지를 커밋의 해시로 바꿔서 이 과정을 없앤다.
 
-## 최종 익스플로잇
+$$
+e = H(a)
+$$
 
+증명자는 $(a, z)$만 보내면 되고, 누구나 $e$를 다시 계산해서 검증할 수 있다. 이것이 **비대화형 영지식 증명(NIZK)**이다. Schnorr 서명, EdDSA가 이 방식으로 만들어진다.
+
+해시에는 공개 정보(문맥)도 함께 넣어야 한다. 그렇지 않으면 증명을 다른 상황에 재사용하는 공격이 가능하다.
+
+## 문제
+
+서버가 Fiat–Shamir 방식 Schnorr 증명 $(a, z)$를 요구한다. 챌린지는 $e = \text{SHA512}(a) \bmod 2^{511}$이다. 첨부 소스에 $w$가 있다.
+
+## 풀이
+
+1. 랜덤 $r$로 $a = g^r$을 만든다.
+2. $e = H(a) \bmod 2^{511}$을 직접 계산한다.
+3. $z = r + e w \bmod q$를 계산해서 $(a, z)$를 보낸다.
+
+## 풀이 코드
 ```python
 import socket, json, ast
 from urllib.request import urlopen
@@ -51,8 +68,7 @@ print(recv(f)['flag'])
 s.close()
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{shvzk_and_ss_to_nizk}
 ```

@@ -1,13 +1,30 @@
 ---
-{"title":"Curveball","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"서버는 인증서의 생성점까지 요청자가 지정하게 한다. 신뢰 목록의 Bing 공개키 Q를 읽고, 서버의 abs(d)==1 차단을 피하려고 d=2로 택한다. 입력 생성점 g=2^-1·Q를 보내면 서버가 Q=2g를 계산하여 신뢰된 Bing 인증서와…","section":["CryptoHack","Elliptic Curves"]}
+{"title":"Curveball","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"인증서 검증에서 생성점 G까지 공격자가 정할 수 있으면 신뢰된 공개키 Q에 대해 아무 개인키나 만들 수 있다(CVE-2020-0601).","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-서버는 인증서의 생성점까지 요청자가 지정하게 한다. 신뢰 목록의 Bing 공개키 Q를 읽고, 서버의 `abs(d)==1` 차단을 피하려고 `d=2`로 택한다. 입력 생성점 `g=2^-1·Q`를 보내면 서버가 `Q=2g`를 계산하여 신뢰된 Bing 인증서와 일치한다고 판단한다.
+ECC 공개키 $Q = dG$는 **생성점 $G$가 고정**되어 있을 때만 의미가 있다. $G$를 마음대로 바꿀 수 있으면 아무 $d$를 고른 뒤 다음처럼 $G'$를 만들면 된다.
 
-## 최종 익스플로잇
+$$
+G' = d^{-1} Q \quad \Rightarrow \quad d \cdot G' = Q
+$$
 
+이러면 남의 공개키 $Q$에 대한 "개인키"를 가진 셈이 된다.
+
+2020년 Windows CryptoAPI의 **CurveBall**(CVE-2020-0601)이 이 취약점이다. 인증서의 명시적 곡선 파라미터를 검증하지 않아서, 신뢰된 루트 CA를 사칭하는 인증서를 만들 수 있었다.
+
+## 문제
+
+서버가 신뢰하는 호스트(`www.bing.com`)의 공개키 목록이 있다. 요청할 때 곡선, 생성점, 개인키를 함께 보내면 서버가 계산한 공개키가 목록에 있는지 확인한다. 단 $d = \pm 1$은 막혀 있다.
+
+## 풀이
+
+1. Bing의 공개키 $Q$를 가져온다.
+2. $d = 2$로 정하고 $G' = 2^{-1} Q$를 계산한다($2^{-1}$은 곡선 위수에 대한 역원).
+3. $G'$와 $d = 2$를 보내면 서버가 $2G' = Q$를 계산해서 Bing으로 인정하고 플래그를 준다.
+
+## 풀이 코드
 ```python
 import socket, json, re
 from ecdsa.curves import NIST256p
@@ -32,6 +49,5 @@ with socket.create_connection(('socket.cryptohack.org',13382),timeout=10) as soc
 print(re.search(r'crypto\{[^}]+\}',reply).group(0))
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{Curveballing_Microsoft_CVE-2020-0601}`

@@ -1,13 +1,34 @@
 ---
-{"title":"Beatboxer","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"S-box가 GF(2)에서 선형 변환과 상수의 합이므로 이 AES 변형 전체가 E(P)=A·P⊕b 형태의 아핀 함수다. 키는 상수항 b만 바꾼다. 실제 서비스에 0 블록을 한 번 암호화시켜 b를 구하고, 공개된 알고리즘을 0 키로 실행하여 …","section":["CryptoHack","Symmetric Ciphers"]}
+{"title":"Beatboxer","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"S-box를 선형으로 바꾼 AES는 전체가 E(P) = A·P ⊕ b인 아핀 함수가 된다. 선형대수로 키 없이 복호화한다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-## 풀이 원리
+## 개념
 
-S-box가 GF(2)에서 선형 변환과 상수의 합이므로 이 AES 변형 전체가 `E(P)=A·P⊕b` 형태의 아핀 함수다. 키는 상수항 `b`만 바꾼다. 실제 서비스에 0 블록을 한 번 암호화시켜 `b`를 구하고, 공개된 알고리즘을 0 키로 실행하여 128개 단위 비트 입력의 출력을 얻는다. 이 출력이 선형변환 `A`의 열이다. GF(2) 가우스 소거로 역행렬을 계산해 플래그 암호문 각 블록을 복원한다.
+AES에서 비선형 연산은 **S-box 하나뿐**이다. ShiftRows, MixColumns, AddRoundKey는 모두 $\mathrm{GF}(2)$ 위에서 선형(또는 아핀)이다.
 
-## 최종 익스플로잇
+S-box까지 아핀 변환으로 바꾸면 AES 전체가 다음 꼴이 된다.
 
+$$
+E_K(P) = A \cdot P \oplus b_K
+$$
+
+- $A$는 128×128 비트 행렬로, **키와 무관**하다.
+- 키는 상수 $b_K$에만 영향을 준다.
+
+그래서 $A$와 $b_K$만 알면 $P = A^{-1}(C \oplus b_K)$로 키 없이 복호화된다.
+
+## 문제
+
+S-box가 선형으로 바뀐 AES 구현과, 그걸로 암호화한 플래그가 주어진다. 서버는 선택한 평문을 암호화해준다.
+
+## 풀이
+
+1. **$A$ 구하기**: 공개된 구현을 아무 키(0)로 돌린다. 128개 단위 벡터 $e_j$를 넣으면 $E(e_j) \oplus E(0)$이 $A$의 $j$번째 열이다.
+2. **$b_K$ 구하기**: 서버에 0 블록을 암호화시키면 $E_K(0) = b_K$이다.
+3. $\mathrm{GF}(2)$ 가우스 소거로 $A$의 역행렬을 구한다.
+4. 플래그 블록마다 $P = A^{-1}(C \oplus b_K)$를 계산한다.
+
+## 풀이 코드
 ```python
 import requests,socket,json
 u='https://cryptohack.org/static/challenges/13406_d7fa07291de630ace1055895f9ae208b.py'
@@ -52,8 +73,7 @@ with socket.create_connection(('socket.cryptohack.org',13406),timeout=20) as s:
  print('FLAG',pt[:-pt[-1]].decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{5b0x_l1n34r17y_15_d35457r0u5}
 ```

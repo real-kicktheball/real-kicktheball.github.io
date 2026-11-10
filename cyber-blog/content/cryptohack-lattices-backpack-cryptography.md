@@ -1,13 +1,41 @@
 ---
-{"title":"Backpack Cryptography","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"암호문은 공개 가중치 a_i와 메시지 비트 b_i의 부분합 c=\\sum b_i a_i다. (2I,a) 행들과 (1,\\ldots,1,c) 행으로 격자를 만들면 올바른 비트 선택의 선형 결합은 앞 좌표가 모두 \\pm1이고 마지막 좌표가 0인 짧…","section":["CryptoHack","Lattices"]}
+{"title":"Backpack Cryptography","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"배낭(부분합) 암호는 부분합 문제를 격자의 짧은 벡터 문제로 바꾸면 LLL로 깨진다.","section":["CryptoHack","Lattices"]}
 ---
 
-## 풀이 방법
+## 개념
 
-암호문은 공개 가중치 $a_i$와 메시지 비트 $b_i$의 부분합 $c=\sum b_i a_i$다. $(2I,a)$ 행들과 $(1,\ldots,1,c)$ 행으로 격자를 만들면 올바른 비트 선택의 선형 결합은 앞 좌표가 모두 $\pm1$이고 마지막 좌표가 0인 짧은 벡터다. LLL로 이 벡터를 찾고 $b_i=(1-v_i)/2$로 복원한다. 소스에서 메시지를 최하위 비트부터 소비하므로 같은 순서로 정수를 조립한다.
+**Merkle–Hellman 배낭 암호**는 메시지 비트 $b_i$로 공개 가중치 $a_i$의 부분합을 만든다.
 
-## 최종 익스플로잇
+$$
+c = \sum_i b_i a_i \qquad (b_i \in \{0, 1\})
+$$
 
+부분합 문제는 일반적으로 NP-hard다. 하지만 가중치 밀도가 낮으면 격자로 풀 수 있다. 다음 행들로 격자를 만든다.
+
+$$
+\begin{pmatrix}
+2 & 0 & \cdots & 0 & a_1 \\
+0 & 2 & \cdots & 0 & a_2 \\
+\vdots & & \ddots & & \vdots \\
+0 & 0 & \cdots & 2 & a_n \\
+1 & 1 & \cdots & 1 & c
+\end{pmatrix}
+$$
+
+마지막 행에서 $b_i = 1$인 행들을 빼면 앞 좌표는 $\pm 1$, 마지막 좌표는 0이 된다. 아주 짧은 벡터다. **LLL**은 고차원에서 짧은 벡터를 근사적으로 찾는 알고리즘이고, 이런 특별히 짧은 벡터는 잘 찾아낸다.
+
+## 문제
+
+공개 가중치 목록과 플래그 비트로 만든 부분합 $c$가 주어진다.
+
+## 풀이
+
+1. 위 격자를 만들어 SageMath로 LLL을 돌린다.
+2. 마지막 좌표가 0이고 나머지가 모두 $\pm 1$인 행을 찾는다.
+3. $b_i = (1 - v_i)/2$로 비트를 복원한다. 부호가 반대일 수 있어서 두 경우 모두 시도했다.
+4. 소스가 메시지를 최하위 비트부터 썼으므로 같은 순서로 정수를 조립한다.
+
+## 풀이 코드
 ```python
 from sage.all import *
 from urllib.request import urlopen
@@ -35,8 +63,7 @@ for row in M.rows():
 print('not found',flush=True)
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{my_kn4ps4ck_1s_l1ghtw31ght}
 ```

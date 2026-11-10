@@ -1,13 +1,34 @@
 ---
-{"title":"Everything is Still Big","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"이 문제의 작은 비밀지수는 Wiener 경계 밖에 있으므로 단순 연분수 공격이 통하지 않는다. 여기서는 공개 인수분해 데이터베이스 FactorDB의 등록된 두 소인수를 조회해 RSA 개인키를 재구성했다. 이는 원래 의도된 Boneh–Durf…","section":["CryptoHack","RSA"]}
+{"title":"Everything is Still Big","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"Wiener 경계를 벗어난 작은 d는 Boneh–Durfee 공격(d < N^0.292)으로 깨진다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-이 문제의 작은 비밀지수는 Wiener 경계 밖에 있으므로 단순 연분수 공격이 통하지 않는다. 여기서는 공개 인수분해 데이터베이스 FactorDB의 등록된 두 소인수를 조회해 RSA 개인키를 재구성했다. 이는 원래 의도된 Boneh–Durfee 공격 구현을 대체한 풀이임을 명시한다.
+Wiener 공격은 $d < N^{0.25}$까지만 된다. **Boneh–Durfee 공격**은 격자(lattice)와 Coppersmith 방법을 써서 이 범위를 넓힌다.
 
-## 최종 풀이 코드
+$$
+d < N^{0.292}
+$$
 
+$ed = 1 + k\varphi(N)$에서 다음 다항식의 작은 근을 찾는 문제로 바꾼다.
+
+$$
+f(k, s) = k(N + 1 - s) + 1 \equiv 0 \pmod e \qquad (s = p + q)
+$$
+
+이걸 LLL로 푸는 방식이다.
+
+## 문제
+
+앞 문제와 비슷하지만 $d$가 Wiener 경계보다 조금 커서 연분수 공격이 통하지 않는다.
+
+## 풀이
+
+1. 의도된 풀이는 Boneh–Durfee를 구현하는 것이다.
+2. 나는 FactorDB에 이 $N$의 인수가 등록돼 있어서 그걸로 개인키를 만들었다.
+3. 플래그도 "Boneh 공격이 Wiener보다 강하다"는 내용이다.
+
+## 풀이 코드
 ```python
 import math, re, requests
 from Crypto.Util.number import long_to_bytes
@@ -26,6 +47,5 @@ assert pow(m,e,n)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{bon3h5_4tt4ck_i5_sr0ng3r_th4n_w13n3r5}`

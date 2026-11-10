@@ -1,13 +1,33 @@
 ---
-{"title":"Find the Lattice","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"공개키 (q,h)에서 fh\\equiv g\\pmod q를 만족하는 작은 (f,g)가 2차원 격자 \\langle(1,h),(0,q)\\rangle에 있다. Gauss 축소로 이 짧은 벡터를 복원한다. 그런 다음 fe\\bmod q에서 r g + f…","section":["CryptoHack","Lattices"]}
+{"title":"Find the Lattice","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"NTRU 같은 격자 암호의 공개키 h에서 작은 비밀 (f, g)는 2차원 격자의 짧은 벡터다. 가우스 축소로 비밀키를 찾는다.","section":["CryptoHack","Lattices"]}
 ---
 
-## 풀이 방법
+## 개념
 
-공개키 $(q,h)$에서 $fh\equiv g\pmod q$를 만족하는 작은 $(f,g)$가 2차원 격자 $\langle(1,h),(0,q)\rangle$에 있다. Gauss 축소로 이 짧은 벡터를 복원한다. 그런 다음 $fe\bmod q$에서 $r g + fm$을 얻고, $g$에 대한 역원을 이용해 $m$을 계산한다.
+다음과 같은 장난감 암호를 생각해보자.
 
-## 최종 풀이 코드
+- 비밀키: 작은 수 $f$, $g$
+- 공개키: $h = f^{-1} g \bmod q$
 
+$fh \equiv g \pmod q$이므로 어떤 정수 $k$에 대해 다음이 성립한다.
+
+$$
+f \cdot (1, h) + k \cdot (0, q) = (f, g)
+$$
+
+즉 $(f, g)$는 기저 $\{(1, h), (0, q)\}$로 만든 격자 위의 점이다. $f$, $g$가 $q$에 비해 작으면 이 격자의 **가장 짧은 벡터**가 된다. 2차원이니 가우스 축소로 바로 찾는다.
+
+## 문제
+
+공개키 $(q, h)$와 암호문 $e = (r h + m) \bmod q$가 주어진다.
+
+## 풀이
+
+1. 격자 $\langle (1, h), (0, q) \rangle$에 가우스 축소를 해서 짧은 벡터 $(f, g)$를 얻는다.
+2. $a = f e \bmod q = (r g + f m) \bmod q$를 계산한다. 값들이 작아서 실제 정수로 성립한다.
+3. $\bmod g$를 하면 $r g$가 사라진다. 그래서 $m = a \cdot f^{-1} \bmod g$이다.
+
+## 풀이 코드
 ```python
 from ast import literal_eval
 from fractions import Fraction
@@ -36,8 +56,7 @@ for f,g in (a,b):
         break
 ```
 
-## 최종 정답
-
+## 정답
 ```text
 crypto{Gauss_lattice_attack!}
 ```

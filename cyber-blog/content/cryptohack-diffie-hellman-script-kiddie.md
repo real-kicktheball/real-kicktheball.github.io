@@ -1,13 +1,29 @@
 ---
-{"title":"Script Kiddie","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"첨부 코드의 ^는 거듭제곱이 아니라 비트별 XOR다. B = g ^ b에서 b = B ^ g를 바로 얻고, shared = A ^ b를 계산한다. 그 값을 SHA-1로 해시한 앞 16바이트가 AES 키다.","section":["CryptoHack","Diffie-Hellman"]}
+{"title":"Script Kiddie","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"파이썬에서 ^는 거듭제곱이 아니라 XOR이다. 표기 실수 하나로 DH가 무의미해진다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 풀이 원리
+## 개념
 
-첨부 코드의 `^`는 거듭제곱이 아니라 비트별 XOR다. `B = g ^ b`에서 `b = B ^ g`를 바로 얻고, `shared = A ^ b`를 계산한다. 그 값을 SHA-1로 해시한 앞 16바이트가 AES 키다.
+수학에서 $g^a$는 거듭제곱이지만 **파이썬에서 `^`는 비트 XOR**이다. 거듭제곱은 `**`나 `pow()`를 써야 한다.
 
-## 최종 풀이 코드
+```python
+g ^ b       # XOR
+pow(g, b, p)  # 모듈러 거듭제곱
+```
 
+XOR로 DH를 하면 $B = g \oplus b$라서 $b = B \oplus g$로 바로 풀린다. 플래그 내용도 "표기법을 조심하라"이다.
+
+## 문제
+
+DH 스크립트와 출력($p$, $g$, $A$, $B$, IV, 암호문)이 주어진다. 스크립트가 `pow` 대신 `^`를 썼다.
+
+## 풀이
+
+1. $b = B \oplus g$를 구한다.
+2. 스크립트와 똑같이 공유 비밀 $A \oplus b$를 계산한다.
+3. SHA-1로 키를 만들어 CBC 복호화한다.
+
+## 풀이 코드
 ```python
 import ast, hashlib, re, requests
 from Crypto.Cipher import AES
@@ -26,6 +42,5 @@ assert flag.startswith('crypto{')
 print(flag)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{b3_c4r3ful_w1th_y0ur_n0tati0n}`

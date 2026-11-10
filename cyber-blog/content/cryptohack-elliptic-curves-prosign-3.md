@@ -1,13 +1,35 @@
 ---
-{"title":"ProSign 3","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"sign_time 안의 변수 n은 곡선 차수가 아니라 현재 초(second)로 덮어쓰기된다. ECDSA nonce k=randrange(1,n)은 최대 59이므로 한 서명에서 r=(kG)_x mod q를 비교해 k를 찾는다. d=(s·k-z…","section":["CryptoHack","Elliptic Curves"]}
+{"title":"ProSign 3","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Elliptic Curves","Cryptography"],"summary":"ECDSA의 nonce k가 작은 범위에서 나오면 r을 비교해 k를 찾고 개인키를 바로 계산할 수 있다.","section":["CryptoHack","Elliptic Curves"]}
 ---
 
-## 풀이 원리
+## 개념
 
-`sign_time` 안의 변수 `n`은 곡선 차수가 아니라 현재 초(second)로 덮어쓰기된다. ECDSA nonce `k=randrange(1,n)`은 최대 59이므로 한 서명에서 `r=(kG)_x mod q`를 비교해 k를 찾는다. `d=(s·k-z)·r^-1 mod q`로 개인키를 복원하고 `unlock`에 대한 새 서명을 만든다.
+**ECDSA 서명**은 다음과 같다. $G$의 위수는 $n$, 개인키는 $d$, 해시는 $z$다.
 
-## 최종 익스플로잇
+1. 랜덤 nonce $k$를 고른다.
+2. $r = (kG)_x \bmod n$을 계산한다.
+3. $s = k^{-1}(z + rd) \bmod n$을 계산한다.
 
+$k$를 알면 식을 정리해서 개인키가 바로 나온다.
+
+$$
+d = (sk - z) \cdot r^{-1} \bmod n
+$$
+
+그래서 nonce는 완전히 랜덤이고 비밀이어야 한다. 재사용하거나 범위가 좁으면 안 된다. PS3 서명 키가 nonce 재사용으로 유출된 사건이 유명하다(문제 이름의 유래).
+
+## 문제
+
+서버가 현재 시각 메시지에 ECDSA(P-192) 서명을 해준다(`sign_time`). `unlock`에 대한 유효한 서명을 보내면 플래그를 준다.
+
+## 풀이
+
+1. 코드를 보면 `n`이 곡선 위수가 아니라 **현재 초(0~59)**로 덮어써진다. 그래서 `k = randrange(1, n)`은 59 이하다.
+2. 서명 하나를 받아서 $k = 1, 2, \dots$마다 $(kG)_x$를 계산하고 $r$과 같은 $k$를 찾는다.
+3. 위 식으로 $d$를 구한다.
+4. `unlock`에 직접 서명해서 보내면 플래그를 받는다.
+
+## 풀이 코드
 ```python
 import socket,json,hashlib,re
 from ecdsa.ecdsa import generator_192
@@ -29,6 +51,5 @@ with socket.create_connection(('socket.cryptohack.org',13381),timeout=10) as soc
 
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{ECDSA_700_345y_70_5cr3wup}`

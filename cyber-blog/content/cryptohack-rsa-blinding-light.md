@@ -1,13 +1,33 @@
 ---
-{"title":"Blinding Light","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"금지된 admin=True 메시지 정수 m을 임의의 가역 r로 블라인딩하여 m·r^e mod N을 서명시킨다. 서명값에 r의 역원을 곱하면 원래 m에 대한 유효한 서명이 된다.","section":["CryptoHack","RSA"]}
+{"title":"Blinding Light","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA는 곱셈에 대해 준동형이다. 금지된 메시지에 r^e를 곱해 서명받은 뒤 r을 나눠내면 원래 메시지의 서명이 된다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-금지된 admin=True 메시지 정수 m을 임의의 가역 r로 블라인딩하여 m·r^e mod N을 서명시킨다. 서명값에 r의 역원을 곱하면 원래 m에 대한 유효한 서명이 된다.
+교과서 RSA는 **곱셈에 대해 준동형**이다.
 
-## 최종 익스플로잇
+$$
+(m_1 m_2)^d = m_1^d \cdot m_2^d \pmod N
+$$
 
+이걸 이용한 **블라인드 서명** 기법이 있다.
+
+1. 메시지 $m$에 랜덤 $r^e$를 곱한다: $m' = m \cdot r^e$
+2. $m'$에 서명을 받는다: $S' = (m r^e)^d = m^d \cdot r$
+3. $r$로 나누면 $m$의 서명이 된다: $S = S' \cdot r^{-1} = m^d$
+
+## 문제
+
+서버는 `admin=True`가 들어간 메시지는 서명을 거부한다. 하지만 `admin=True`에 대한 유효한 서명을 보내면 플래그를 준다.
+
+## 풀이
+
+1. $m$ = `admin=True`를 정수로 바꾸고, 랜덤 $r$로 $m' = m r^e \bmod N$을 만든다.
+2. $m'$을 바이트로 바꿨을 때 `admin=True`가 안 보이면 서명을 요청한다.
+3. 받은 서명에 $r^{-1}$을 곱해서 `admin=True`의 서명을 만든다.
+4. `verify`에 보내면 플래그가 나온다.
+
+## 풀이 코드
 ```python
 import json, math, secrets, socket
 with socket.create_connection(('socket.cryptohack.org',13376),timeout=10) as sock:
@@ -32,6 +52,5 @@ with socket.create_connection(('socket.cryptohack.org',13376),timeout=10) as soc
     print(ask({'option':'verify','msg':admin.hex(),'signature':hex(signature)})['response'])
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{m4ll34b1l17y_c4n_b3_d4n63r0u5}`

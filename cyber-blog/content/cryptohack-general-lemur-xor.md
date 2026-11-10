@@ -1,13 +1,30 @@
 ---
-{"title":"Lemur XOR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"두 PNG 파일을 파일 바이트 단위로 XOR하면 PNG 압축 구조가 깨진다. 두 그림을 RGB로 디코딩한 뒤 대응하는 채널값끼리 XOR하여 새 이미지를 만든다. 이미지에 플래그가 표시된다.","section":["CryptoHack","General"]}
+{"title":"Lemur XOR","date":"2026-11-10","category":"ctf","tags":["CryptoHack","General","Cryptography"],"summary":"같은 키로 XOR된 두 이미지를 서로 XOR하면 키가 사라진다. 이미지는 픽셀(RGB) 단위로 XOR해야 한다.","section":["CryptoHack","General"]}
 ---
 
-## 풀이 원리
+## 개념
 
-두 PNG 파일을 파일 바이트 단위로 XOR하면 PNG 압축 구조가 깨진다. 두 그림을 RGB로 디코딩한 뒤 대응하는 채널값끼리 XOR하여 새 이미지를 만든다. 이미지에 플래그가 표시된다.
+같은 키 $K$로 두 평문을 XOR했다면, 두 암호문을 서로 XOR하는 순간 키가 사라진다.
 
-## 최종 풀이 코드
+$$
+C_1 \oplus C_2 = (P_1 \oplus K) \oplus (P_2 \oplus K) = P_1 \oplus P_2
+$$
 
+OTP(일회용 패드)의 키를 재사용하면 안 되는 이유가 이것이다. 이미지라면 $P_1 \oplus P_2$만으로도 두 그림의 윤곽이 겹쳐 보인다.
+
+## 문제
+
+같은 비밀 키로 XOR된 PNG 두 장(`lemur.png`, `flag.png`)이 주어진다.
+
+## 풀이
+
+PNG 파일 바이트를 그대로 XOR하면 안 된다. PNG는 압축 포맷이라 파일 바이트를 섞으면 깨진 파일이 나온다.
+
+1. 두 이미지를 디코딩해서 RGB 픽셀값을 얻는다.
+2. 같은 위치 픽셀의 R, G, B 값을 각각 XOR한다.
+3. 새 이미지로 저장하면 키가 사라지고 플래그 글자가 보인다.
+
+## 풀이 코드
 ```python
 import requests, io
 from PIL import Image
@@ -23,8 +40,7 @@ out.save('lemur_xor.png')
 print('lemur_xor.png을 열어 표시된 플래그 확인')
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{X0Rly_n0t!}
 ```

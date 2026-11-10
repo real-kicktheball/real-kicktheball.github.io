@@ -1,13 +1,31 @@
 ---
-{"title":"Armory","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"Shamir 3-of-7처럼 보이지만 다항식 계수가 난수가 아니라 앞선 계수의 SHA-256으로 만들어진다. 제공된 몫은 첫 번째 몫이고, 그 x 좌표는 SHA256(secret)이다. 따라서 세 번째 계수는 SHA256(x)로 직접 계산할…","section":["CryptoHack","Misc"]}
+{"title":"Armory","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Misc","Cryptography"],"summary":"비밀 분산의 다항식 계수를 랜덤이 아니라 해시 체인으로 만들면 몫 하나만으로 비밀이 복원된다.","section":["CryptoHack","Misc"]}
 ---
 
-## 풀이 방법
+## 개념
 
-Shamir 3-of-7처럼 보이지만 다항식 계수가 난수가 아니라 앞선 계수의 SHA-256으로 만들어진다. 제공된 몫은 첫 번째 몫이고, 그 $x$ 좌표는 `SHA256(secret)`이다. 따라서 세 번째 계수는 `SHA256(x)`로 직접 계산할 수 있다. $y=secret+x^2+H(x)x^2\pmod p$에서 상수항 `secret`을 역산한다.
+**Shamir 비밀 분산** $(k, n)$은 비밀 $s$를 상수항으로 하는 $k-1$차 다항식을 만든다.
 
-## 최종 익스플로잇
+$$
+f(x) = s + a_1 x + a_2 x^2 + \cdots + a_{k-1}x^{k-1} \pmod p
+$$
 
+$n$명에게 $(x_i, f(x_i))$를 나눠준다. 몫이 $k$개 모이면 라그랑주 보간으로 $s$를 복원한다. $k-1$개 이하로는 아무 정보도 없다.
+
+이 성질은 **계수 $a_i$가 랜덤**일 때만 성립한다. 계수를 비밀이나 공개값에서 결정적으로 만들면 미지수가 줄어든다.
+
+## 문제
+
+3-of-7 분산인데 계수가 해시 체인으로 정해진다. $a_1 = H(s)$, $a_2 = H(a_1)$이다. 몫 하나 $(x, y)$만 주어지고, 이 몫의 $x$는 $a_1 = H(s)$이다.
+
+## 풀이
+
+1. $x = a_1$이므로 $a_2 = H(x)$를 바로 계산할 수 있다.
+2. 그러면 $y = s + x \cdot x + a_2 x^2$에서 모르는 건 $s$뿐이다.
+3. $s = y - x^2 - a_2 x^2 \bmod p$를 계산한다.
+4. 확인으로 $H(s) = x$가 맞는지 봤다.
+
+## 풀이 코드
 ```python
 from ast import literal_eval
 from hashlib import sha256
@@ -23,8 +41,7 @@ assert int.from_bytes(sha256(flag).digest(),'big')==x
 print(flag.decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{fr46m3n73d_b4ckup_vuln?}
 ```

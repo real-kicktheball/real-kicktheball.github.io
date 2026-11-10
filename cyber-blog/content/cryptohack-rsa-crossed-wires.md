@@ -1,13 +1,28 @@
 ---
-{"title":"Crossed Wires","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"친구들이 모두 동일한 법 N에 대해 순차적으로 공개지수 e_i를 적용했다. 주어진 본인 비밀키 d와 공개지수 65537에서 ed−1이 φ(N)의 배수임을 이용해 N을 인수분해한다. 친구들의 지수 곱 E의 φ(N) 법 역원으로 한 번에 복호화…","section":["CryptoHack","RSA"]}
+{"title":"Crossed Wires","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"같은 N을 공유하는 상황에서 내 (e, d)를 알면 N이 인수분해된다. 친구들의 공개키로 여러 번 암호화한 것도 한 번에 푼다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-친구들이 모두 동일한 법 N에 대해 순차적으로 공개지수 e_i를 적용했다. 주어진 본인 비밀키 d와 공개지수 65537에서 ed−1이 φ(N)의 배수임을 이용해 N을 인수분해한다. 친구들의 지수 곱 E의 φ(N) 법 역원으로 한 번에 복호화한다.
+같은 $N$을 여러 사람이 공유하면 안 된다. 내 $e$, $d$만 알아도 $N$을 인수분해할 수 있기 때문이다.
 
-## 최종 풀이 코드
+$ed - 1 = k\varphi(N)$이라서 $ed - 1$은 $\varphi(N)$의 배수다. 이걸 $2^t \cdot r$로 쓴다($r$은 홀수). 그러면 임의의 $g$에 대해 $g^{2^t r} \equiv 1$이 된다.
 
+1. $x = g^r$에서 시작한다.
+2. 제곱을 반복하다가 처음 1이 되는 순간을 찾는다.
+3. 그 직전 값은 **1의 비자명한 제곱근**이고, $\gcd(x - 1, N)$이 인수가 된다.
+
+## 문제
+
+내 개인키 $(N, d)$와 친구 5명의 공개 지수 $e_i$(모두 같은 $N$)가 주어진다. 플래그는 친구들의 키로 차례대로 암호화돼 있다.
+
+## 풀이
+
+1. 내 $e = 65537$, $d$로 위 방법을 써서 $N = pq$를 인수분해한다.
+2. 암호화는 지수를 차례로 곱한 것과 같다. $E = \prod e_i$로 두면 $c = m^{E}$이다.
+3. $D = E^{-1} \bmod \varphi(N)$으로 한 번에 복호화한다.
+
+## 풀이 코드
 ```python
 import ast, math, requests
 from Crypto.Util.number import long_to_bytes
@@ -47,6 +62,5 @@ assert pow(m,E,N)==c
 print(long_to_bytes(m).decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{3ncrypt_y0ur_s3cr3t_w1th_y0ur_fr1end5_publ1c_k3y}`

@@ -1,13 +1,34 @@
 ---
-{"title":"LWE High Bits Message","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"비밀 S가 제공되어 있으므로 t=(b-A\\cdot S)\\bmod q를 계산한다. 고위 비트 메시지는 m\\cdot\\Delta+e이며 \\Delta=\\operatorname{round}(q/p)=255다. 잡음이 \\Delta/2보다 작으므로 t/…","section":["CryptoHack","Lattices"]}
+{"title":"LWE High Bits Message","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Lattices","Cryptography"],"summary":"LWE 암호에서 메시지를 Δ = q/p로 크게 키워 상위 비트에 넣으면, 작은 오차는 반올림으로 사라진다.","section":["CryptoHack","Lattices"]}
 ---
 
-## 풀이 방법
+## 개념
 
-비밀 $S$가 제공되어 있으므로 $t=(b-A\cdot S)\bmod q$를 계산한다. 고위 비트 메시지는 $m\cdot\Delta+e$이며 $\Delta=\operatorname{round}(q/p)=255$다. 잡음이 $\Delta/2$보다 작으므로 $t/\Delta$를 가장 가까운 정수로 반올림하면 $m=201$이다.
+LWE로 메시지를 암호화하는 방법 중 하나는 메시지를 **상위 비트**에 넣는 것이다.
 
-## 최종 풀이 코드
+$$
+b = A \cdot S + \Delta m + e \pmod q, \qquad \Delta = \operatorname{round}(q / p)
+$$
 
+$m$은 $0 \sim p-1$ 범위다. $\Delta$배 해서 크게 벌려놨기 때문에 오차 $|e| < \Delta/2$이면 반올림으로 복원된다.
+
+$$
+m = \operatorname{round}\!\left(\frac{b - A \cdot S}{\Delta}\right) \bmod p
+$$
+
+Kyber 같은 실제 LWE 암호도 이 방식을 쓴다.
+
+## 문제
+
+$q = 65537$, $p = 257$, 비밀 $S$, 암호문 $(A, b)$가 주어진다.
+
+## 풀이
+
+1. $\Delta = \operatorname{round}(65537/257) = 255$이다.
+2. $t = (b - A \cdot S) \bmod q$를 구한다.
+3. $t / 255$를 반올림하고 $\bmod 257$을 하면 **201**이다.
+
+## 풀이 코드
 ```python
 from ast import literal_eval
 from urllib.request import urlopen
@@ -24,8 +45,7 @@ t=(data['b']-sum(a*s for a,s in zip(data['A'],data['S'])))%q
 print(round(t/delta)%p)
 ```
 
-## 최종 정답
-
+## 정답
 ```text
 201
 ```

@@ -1,13 +1,31 @@
 ---
-{"title":"Static Client","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"Bob이 정적 비밀지수 b를 재사용한다. 원래 Alice 공개값 A를 새 세션의 생성원 g로 넘기면 Bob의 새 공개값은 A^b, 즉 원래 세션의 공유 비밀이다.","section":["CryptoHack","Diffie-Hellman"]}
+{"title":"Static Client","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Diffie-Hellman","Cryptography"],"summary":"비밀지수 b를 재사용하는 서버에 g 대신 A를 보내면 서버가 공유 비밀 A^b를 직접 계산해준다.","section":["CryptoHack","Diffie-Hellman"]}
 ---
 
-## 풀이 원리
+## 개념
 
-Bob이 정적 비밀지수 b를 재사용한다. 원래 Alice 공개값 A를 새 세션의 생성원 g로 넘기면 Bob의 새 공개값은 A^b, 즉 원래 세션의 공유 비밀이다.
+**임시(ephemeral) DH**는 세션마다 새 비밀을 뽑는다. **정적(static) DH**는 같은 비밀을 계속 쓴다.
 
-## 최종 익스플로잇
+정적 비밀을 쓰는 서버가 상대가 보낸 $g$를 그대로 믿는다고 하자. 그러면 서버를 계산기로 쓸 수 있다. 서버에게 생성원으로 $g' = A$를 주면 서버의 새 공개값이 이렇게 된다.
 
+$$
+B' = (g')^b = A^b = g^{ab}
+$$
+
+이건 원래 세션의 공유 비밀이다. 그래서 TLS 1.3은 정적 DH를 없애고 임시 키만 쓴다.
+
+## 문제
+
+Alice와 Bob의 원래 세션($p$, $g$, $A$, $B$, 암호문)을 도청했다. 그 뒤 Bob에게 직접 새 파라미터를 보낼 수 있다. Bob은 같은 $b$를 재사용한다.
+
+## 풀이
+
+1. 원래 세션의 $p$, $A$를 기록한다.
+2. Bob에게 $g = A$로 새 세션을 요청한다.
+3. Bob이 돌려준 공개값이 $A^b$, 즉 원래 공유 비밀이다.
+4. 그 값으로 Alice의 암호문을 복호화한다.
+
+## 풀이 코드
 ```python
 import hashlib, json, re, socket
 from Crypto.Cipher import AES
@@ -36,6 +54,5 @@ with socket.create_connection(('socket.cryptohack.org',13373),timeout=10) as soc
     print(decrypt(shared,ciphertext))
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{n07_3ph3m3r4l_3n0u6h}`

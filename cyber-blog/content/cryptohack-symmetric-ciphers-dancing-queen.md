@@ -1,13 +1,38 @@
 ---
-{"title":"Dancing Queen","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"제공된 ChaCha20 변형은 20라운드 후 원래 상태를 더하는 feedforward를 생략했다. 알려진 평문과 암호문의 XOR로 64바이트 키스트림을 얻고, 역 quarter-round를 역순으로 적용해 초기 상태와 비밀키를 복원한다. 두…","section":["CryptoHack","Symmetric Ciphers"]}
+{"title":"Dancing Queen","date":"2026-11-10","category":"ctf","tags":["CryptoHack","Symmetric Ciphers","Cryptography"],"summary":"ChaCha20에서 마지막 feedforward(초기 상태 더하기)를 빼면 라운드 함수를 역으로 돌려 키를 복원할 수 있다.","section":["CryptoHack","Symmetric Ciphers"]}
 ---
 
-## 풀이 원리
+## 개념
 
-제공된 ChaCha20 변형은 20라운드 후 원래 상태를 더하는 feedforward를 생략했다. 알려진 평문과 암호문의 XOR로 64바이트 키스트림을 얻고, 역 quarter-round를 역순으로 적용해 초기 상태와 비밀키를 복원한다. 두 번째 IV로 플래그를 복호화한다.
+**ChaCha20**은 4×4 32비트 워드 상태를 쓰는 스트림 암호다.
 
-## 최종 익스플로잇
+```
+[ 상수 상수 상수 상수 ]
+[ 키   키   키   키   ]
+[ 키   키   키   키   ]
+[ 카운터 nonce nonce nonce ]
+```
 
+20라운드(quarter-round 80번) 동안 덧셈, 회전, XOR(ARX)을 반복한다. 마지막에 **초기 상태를 다시 더해서** 키스트림을 만든다.
+
+$$
+\text{keystream} = \text{rounds}(S_0) + S_0
+$$
+
+ARX 연산은 모두 역연산이 있다. 마지막 $+S_0$가 없다면 키스트림에서 거꾸로 라운드를 돌려 $S_0$, 즉 **키**를 그대로 얻는다. feedforward가 이걸 막는 장치다.
+
+## 문제
+
+feedforward를 생략한 ChaCha20 구현이 있다. 알려진 메시지와 그 암호문(IV1), 플래그 암호문(IV2)이 주어진다.
+
+## 풀이
+
+1. 알려진 평문과 암호문을 XOR해서 첫 블록 키스트림 64바이트를 얻는다.
+2. 역 quarter-round(빼기, 오른쪽 회전, XOR을 역순으로)를 라운드 역순으로 80번 적용한다. 그러면 초기 상태 $S_0$가 나온다.
+3. $S_0$의 4~11번 워드가 키다.
+4. 그 키와 IV2로 정상적인 ChaCha20을 돌려 플래그를 복호화한다.
+
+## 풀이 코드
 ```python
 import struct,ast,requests
 from pathlib import Path
@@ -52,8 +77,7 @@ p=bytes(a^b for a,b in zip(flagct,block(initial)))
 print('FLAG',p.decode())
 ```
 
-## 최종 플래그
-
+## 플래그
 ```text
 crypto{M1x1n6_r0und5_4r3_1nv3r71bl3!}
 ```

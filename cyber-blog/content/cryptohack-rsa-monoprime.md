@@ -1,13 +1,26 @@
 ---
-{"title":"Monoprime","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"RSA 법 n 자체가 소수이므로 φ(n)=n−1이다. e의 역원을 구해 복호화한다.","section":["CryptoHack","RSA"]}
+{"title":"Monoprime","date":"2026-11-10","category":"ctf","tags":["CryptoHack","RSA","Cryptography"],"summary":"N이 소수 하나뿐이면 φ(N) = N - 1이라 누구나 개인키를 계산할 수 있다.","section":["CryptoHack","RSA"]}
 ---
 
-## 풀이 원리
+## 개념
 
-RSA 법 n 자체가 소수이므로 φ(n)=n−1이다. e의 역원을 구해 복호화한다.
+RSA가 안전한 이유는 $\varphi(N)$을 계산하려면 인수분해가 필요하기 때문이다. 그런데 $N$이 **소수**이면 이 전제가 무너진다.
 
-## 최종 풀이 코드
+$$
+\varphi(N) = N - 1
+$$
 
+인수분해 없이 공개값만으로 $d = e^{-1} \bmod (N-1)$을 바로 구할 수 있다.
+
+## 문제
+
+$n$, $e$, 암호문이 주어지는데 $n$이 소수 하나다.
+
+## 풀이
+
+$n$이 소수인지 확인하고 $d = e^{-1} \bmod (n-1)$을 계산한다. $m = c^d \bmod n$이 플래그다.
+
+## 풀이 코드
 ```python
 import re, urllib.request
 from Crypto.Util.number import long_to_bytes
@@ -25,6 +38,5 @@ flag=long_to_bytes(m).decode()
 print(flag)
 ```
 
-## 최종 플래그
-
+## 플래그
 `crypto{0n3_pr1m3_41n7_pr1m3_l0l}`
