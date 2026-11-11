@@ -1,6 +1,6 @@
 (() => {
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const excluded='script,style,noscript,textarea,input,svg,[hidden],.os-window,.os-dock,.category-post-link,.brand-signal,.monitor-device,.monitor-display,.text-reveal';
+  const excluded='script,style,noscript,textarea,input,svg,[hidden],.os-window,.os-dock,.category-post-link,.brand-signal,.monitor-device,.monitor-display,.text-reveal,.ie-modal';
   const active=new Set(),waitingText=new Set(),waitingBlocks=new Set(),completedText=new WeakSet();let frame=0;
   const textObserver=new IntersectionObserver(entries=>{
     for(const entry of entries)if(entry.isIntersecting){
