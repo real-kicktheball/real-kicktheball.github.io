@@ -27,6 +27,7 @@ const css=`.ie-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .ie-preview{min-height:60vh;border:1px solid var(--line);border-radius:7px;padding:4px 20px;background:var(--bg);overflow:auto}
 .ie-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
 .ie-hidden{display:none!important}
+.ie-panel :is(input,textarea,select,.ie-preview,.ie-preview *){-webkit-user-select:text;user-select:text}
 .explorer-toolbar .ie-new{white-space:nowrap;padding:9px 14px}
 .file-explorer .empty .ie-btn{margin-top:14px}
 .ie-new-link{display:flex;align-items:center;gap:6px;width:100%;margin:2px 0 4px;padding:7px 6px;border:1px dashed var(--line);border-radius:6px;background:transparent;color:var(--accent);font:600 11px var(--mono);text-align:left}

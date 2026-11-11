@@ -133,10 +133,12 @@ window.blogInitMain=()=>{const main=document.querySelector('main');initSidebar(m
 window.blogInitMain();
 
 // Disable browser selection/clipboard gestures; normal typed input still works.
-for(const type of ['copy','cut','paste','dragstart','drop'])document.addEventListener(type,event=>event.preventDefault());
-document.addEventListener('selectstart',event=>{if(!event.target.closest('input,textarea'))event.preventDefault();});
+// The post editor panels (.ie-panel, from editor.js) are exempt so writing allows copy/paste.
+const editorArea=event=>event.target instanceof Element&&!!event.target.closest('.ie-panel');
+for(const type of ['copy','cut','paste','dragstart','drop'])document.addEventListener(type,event=>{if(!editorArea(event))event.preventDefault();});
+document.addEventListener('selectstart',event=>{if(!(event.target instanceof Element?event.target:event.target.parentElement)?.closest('input,textarea,.ie-panel'))event.preventDefault();});
 
-document.addEventListener('contextmenu',event=>event.preventDefault());
+document.addEventListener('contextmenu',event=>{if(!editorArea(event))event.preventDefault();});
 
 // Keep expanded folders when navigating, including empty directories.
 let expandedFolders={};
