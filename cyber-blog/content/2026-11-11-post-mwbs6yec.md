@@ -25,7 +25,6 @@
 
 - **DreamHack**: [XSS Filtering Bypass Advanced](/posts/2026-11-11-xss-filtering-bypass-advanced.html) (WEB), [randzzz](/posts/2026-11-11-randomzzz.html) · [Custom Encoding](/posts/2026-11-11-custom-encoding.html) (Reversing), [likeb64](/posts/2026-11-11-likeb64.html) · [ByteCaesar](/posts/2026-11-11-bytecaesar.html) (Crypto)
 - **PortSwigger**: [DOM XSS in document.write sink using source location.search](/posts/2026-11-11-portswigger-dom-xss-document-write.html)
-- **CryptoHack**: [전 문제 올클리어](/posts/cryptohack-all-clear.html)
 
 ### BugBounty
 
