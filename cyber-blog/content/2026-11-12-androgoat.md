@@ -4,13 +4,13 @@
 
 > 이 글은 내가 직접 만든 **로컬 Android 13 에뮬레이터**에서, 연습용으로 공개된 취약 앱 **AndroGoat**([github.com/satishpatnayak/AndroGoat](https://github.com/satishpatnayak/AndroGoat))만 가지고 진행한 기록이다. 중간에 나오는 AWS·OpenAI 키 같은 값은 앱이 연습용으로 넣어 둔 가짜라, 실제로는 아무 데도 접속되지 않는다. 당연한 얘기지만 같은 걸 남의 기기나 서비스에 하면 불법이다.
 
-## 왜 이걸 했나
+## 미션 목표
 
 AndroGoat는 한마디로 "일부러 허술하게 만든 안드로이드 앱"이다. 로그인 정보를 평문으로 저장하거나, 열어두면 안 될 문을 열어두거나, 비밀 키를 코드에 그대로 박아두는 식으로, 모바일 앱에서 자주 터지는 실수를 종류별로 모아 놨다. 목표는 단순하다. 이 실수들을 **직접 터뜨려 보고**, `adb·run-as·logcat·sqlite·Frida·프록시` 같은 도구로 **실제 값을 꺼내서** 정말 뚫린다는 걸 눈으로 확인하는 것.
 
 여기에 하나를 더 얹었다. 요즘 안드로이드(targetSdk 33)는 기본값이 꽤 깐깐해져서, 예전엔 쉽게 되던 공격이 그냥은 안 된다. 그래서 항목마다 **"최신 OS는 이걸 막아주는가, 앱은 그 보호를 어떻게 다시 뚫는가"** 를 같이 적었다. 잘 안 된 것, 애매하게 끝난 것도 숨기지 않고 그대로 남겼다.
 
-## 다룬 것
+## 수행 과정
 
 - 통신 가로채기(HTTP·HTTPS·SSL 피닝), 무방비 컴포넌트, 안전하지 않은 저장소
 - 입력값 검증(XSS·SQL 인젝션·WebView), 측면 채널 유출, 하드코딩된 비밀
@@ -91,7 +91,7 @@ $ dumpsys package owasp.sat.agoat
 
 ---
 
-## 1. Network Intercepting  (`TrafficActivity`)
+## 1. Network Intercepting (`TrafficActivity`)
 
 > **쉽게 말하면,** 앱이 보내는 편지를 인터넷이라는 우체부가 나른다. 그냥 엽서로 보내면(HTTP) 중간에서 다 읽힌다. 자물쇠 봉투(HTTPS)를 써도, 앱이 '이 도장만 믿어'(피닝) 약속을 안 하거나 그 약속을 요술봉으로 지워버리면 또 읽힌다. 그걸 직접 보여준다.
 <img src="/assets/androgoat/attachments/01_network/01_network_screen.png" alt="Network 화면" width="420">
@@ -143,7 +143,7 @@ User-Agent: okhttp/4.9.3          ← 앱(OkHttp)이 보낸 요청
 - 이 앱은 `cleartextTrafficPermitted="true"`로 그 정책을 직접 꺼서 요청이 평문으로 나갔다.
 - 같은 네트워크에 있는 공격자라면 쿠키, 토큰, 입력값을 그대로 볼 수 있고 내용을 바꿔 칠 수도 있다.
 
-**한계 ⚠️**
+**한계**
 - `demo.testfire.net` 서버가 응답하지 않아 응답 본문은 확보하지 못했다(Burp 상태 코드가 빈칸).
 - 호스트 PC에서 직접 측정해도 연결되지 않았다. 따라서 앱이나 프록시 문제가 아니라 대상 서버 쪽 문제다. ([측정 기록](/posts/2026-11-12-ag-01_network-03_http_server_unreachable_host.html))
   ```
@@ -205,7 +205,7 @@ SSLPeerUnverifiedException: Certificate pinning failure!
 ```
 → 이 요청은 TLS 단계에서 끊겨서 **Burp HTTP history에 남지 않는다** (아래 캡처의 78번과 79번 사이 참고).
 
-**② 대조 실험 (Burp 끔)**: **그래도 실패** ⚠️ ([원본](/posts/2026-11-12-ag-01_network-09_okhttp3_pinning_fail_without_burp_control.html))
+**② 대조 실험 (Burp 끔)**: **그래도 실패** ([원본](/posts/2026-11-12-ag-01_network-09_okhttp3_pinning_fail_without_burp_control.html))
 ```
 Peer certificate chain:
   sha256/vhFlNS4e...: CN=owasp.org
@@ -241,7 +241,7 @@ Burp: **79번** `https://owasp.org` → `200`, 89,259 bytes가 복호화되어 �
 - OkHttp `CertificatePinner`는 OS 정책이 아니라 **앱 내부 로직**이다. targetSdk와 상관없이, 루팅 기기에서 Frida로 메서드 하나만 바꾸면 무력화된다.
 - 피닝은 "신뢰된 CA를 악용한 중간자 공격"은 막지만, **공격자가 기기와 앱 프로세스를 장악한 경우는 막지 못한다**. 그래서 루팅/Frida 탐지, 무결성 검증과 함께 써야 한다.
 
-**한계 / 교훈 ⚠️**
+**한계 / 교훈**
 - ②에서 보듯 이 피닝은 **정상 환경에서도 실패**한다. owasp.org가 Let's Encrypt 체인으로 바뀌었는데 핀은 예전 값이라, 실제 서비스였다면 **모든 사용자에게 장애**가 났을 것이다.
 - 그래서 이번 우회는 "보안 기능을 뚫었다"는 의미와 함께 **"원래 동작하지 않던 기능을 동작하게 만들었다"** 는 의미도 가진다.
 - 교훈: 핀은 리프 인증서 대신 **중간/루트 CA 공개키에 걸고**, **백업 핀**을 함께 두고, 원격 설정 등으로 **갱신할 수 있는 구조**여야 한다.
@@ -289,13 +289,13 @@ Burp: **84번** `https://www.cve.org` → `200` (12:42:12). `cve.org`가 `www.cv
 
 **OkHttp3 피닝과 비교**
 
-| | OkHttp3 (3-1-3) | NSC (3-1-4) |
+| | OkHttp3 (1-3) | NSC (1-4) |
 |---|---|---|
 | 핀 위치 | Kotlin 코드 | XML 설정 |
 | 검사 주체 | OkHttp 라이브러리 | Android OS 프레임워크 |
 | 후킹 지점 | `okhttp3.CertificatePinner.check$okhttp` | `NetworkSecurityTrustManager.checkPins` |
-| Burp 없이 정상 동작 | ❌ (핀이 오래됨) | ✅ |
-| Frida 우회 | ✅ | ✅ |
+| Burp 없이 정상 동작 | 아니오 (핀이 오래됨) | 예 |
+| Frida 우회 | 예 | 예 |
 
 ---
 
@@ -310,10 +310,10 @@ Burp: **84번** `https://www.cve.org` → `200` (12:42:12). `cve.org`가 `www.cv
 
 | 컴포넌트 | 매니페스트 | 숨겨진 기능 | 결과 |
 |---|---|---|---|
-| Activity `AccessControl1ViewActivity` | `exported="true"` + 딥링크 `androgoat://vulnapp` | PIN 인증 후 화면 | ✅ PIN 없이 진입 (2-1, 2-2) |
-| Service `DownloadInvoiceService` | `exported="true"` | 인보이스 다운로드 | ✅ 포그라운드일 때만 ⚠️ (2-3) |
-| Receiver `ShowDataReceiver` | `exported="true"` | 계정 정보 토스트 | ✅ (2-4) |
-| Provider `userpinsprovider` | `exported="true"`, 권한 없음 | 사용자 PIN DB | ✅ 읽기, 쓰기, SQLi (2-5) |
+| Activity `AccessControl1ViewActivity` | `exported="true"` + 딥링크 `androgoat://vulnapp` | PIN 인증 후 화면 | PIN 없이 진입 (2-1, 2-2) |
+| Service `DownloadInvoiceService` | `exported="true"` | 인보이스 다운로드 | 포그라운드일 때만 (2-3) |
+| Receiver `ShowDataReceiver` | `exported="true"` | 계정 정보 토스트 | (2-4) |
+| Provider `userpinsprovider` | `exported="true"`, 권한 없음 | 사용자 PIN DB | 읽기, 쓰기, SQLi (2-5) |
 
 ### 실험 조건: "일반 권한"으로 공격
 - 지금 adb는 `adb root` 상태라 명령이 **root**로 실행된다. root는 원래 무엇이든 열 수 있으므로, 그 상태의 성공은 취약점 증거가 되지 않는다.
@@ -462,12 +462,12 @@ Row: 2 username=user_pins,        pin=CREATE TABLE user_pins (id INTEGER PRIMARY
 | 정책 | 효과 | 이 앱 |
 |---|---|---|
 | API 31+: intent-filter가 있는 컴포넌트는 `exported`를 **반드시 명시** | 실수로 열리는 것을 막음 | `exported="true"`를 **명시해서** 일부러 열었다 → 정책이 막아 주지 못함 |
-| API 26+: 백그라운드 앱의 서비스 시작 금지 | 2-3 [1] 차단 | 앱이 포그라운드면 무력함 ⚠️ |
-| API 33: 알림 권한이 없는 앱의 백그라운드 토스트 숨김 | 2-4 [1]에서 화면 노출 차단 | 코드는 실행됨. 포그라운드면 노출됨 ⚠️ |
+| API 26+: 백그라운드 앱의 서비스 시작 금지 | 2-3 [1] 차단 | 앱이 포그라운드면 무력함 |
+| API 33: 알림 권한이 없는 앱의 백그라운드 토스트 숨김 | 2-4 [1]에서 화면 노출 차단 | 코드는 실행됨. 포그라운드면 노출됨 |
 | `exported="false"`인 컴포넌트는 외부 호출 차단 | 대조 실험에서 `SecurityException` | 취약 컴포넌트는 `true`라 해당 없음 |
 | Provider 권한 | `readPermission`, `writePermission`, `signature` 권한으로 제한 가능 | 아무 권한도 없음 → 누구나 읽고 쓰고 인젝션 가능 |
 
-###  한계
+### 한계
 - 공격자를 **adb의 shell 사용자(uid 2000)** 로 흉내 냈다. 실제 악성 앱도 같은 Intent와 `ContentResolver`로 똑같이 할 수 있다. 다만 API 30+에서는 다른 앱의 패키지를 보려면 `<queries>`를 선언해야 한다(패키지 가시성). 이건 공격자가 자기 앱에 한 줄 추가하면 되는 조건이라 방어 수단은 아니다.
 - 서비스(2-3)와 리시버 토스트(2-4)는 **최신 정책 덕분에 앱이 백그라운드일 때는 막히거나 가려졌다**. 하지만 사용자가 앱을 쓰고 있을 때는 그대로 뚫린다.
 - 2-3에서 내려받는 인보이스는 고정된 공개 파일이라 실제 개인 정보는 아니다. 핵심은 **인증 없이 기능이 실행된다**는 점이다.
@@ -488,12 +488,12 @@ Row: 2 username=user_pins,        pin=CREATE TABLE user_pins (id INTEGER PRIMARY
 ### 요약
 | 하위 항목 | 저장 위치 | 꺼낸 값 | 도구 | 결과 |
 |---|---|---|---|---|
-| 3-1 SharedPreferences 1 | `shared_prefs/users.xml` | `alice` / `Alic3_S3cret!` (평문) | run-as, root | ✅ |
-| (추가) PIN 해시 | `shared_prefs/pinDetails.xml` | MD5 → PIN `7391` 복원 (0.74초) | run-as, PC | ✅ |
-| 3-2 SharedPreferences 2 | `shared_prefs/score.xml` | 점수 3 → 10000 변조 → 승리 | run-as (`sed`) | ✅ |
-| 3-3 SQLite | `databases/aGoat` | `bob` / `B0b_P4ssw0rd` (평문) | sqlite3, run-as, logcat | ✅ |
-| 3-4 Temp 파일 | `/data/data/.../users*tmp` | `carol` / `Car0l#Temp` (평문) | run-as | ✅ |
-| 3-5 외부 저장소 | `/sdcard/Android/data/.../files/users*_tmp` | `dave` / `D4ve_Ext3rnal` (평문) | adb shell (root 불필요) | ✅ ⚠️ |
+| 3-1 SharedPreferences 1 | `shared_prefs/users.xml` | `alice` / `Alic3_S3cret!` (평문) | run-as, root | 성공 |
+| (추가) PIN 해시 | `shared_prefs/pinDetails.xml` | MD5 → PIN `7391` 복원 (0.74초) | run-as, PC | 성공 |
+| 3-2 SharedPreferences 2 | `shared_prefs/score.xml` | 점수 3 → 10000 변조 → 승리 | run-as (`sed`) | 성공 |
+| 3-3 SQLite | `databases/aGoat` | `bob` / `B0b_P4ssw0rd` (평문) | sqlite3, run-as, logcat | 성공 |
+| 3-4 Temp 파일 | `/data/data/.../users*tmp` | `carol` / `Car0l#Temp` (평문) | run-as | 성공 |
+| 3-5 외부 저장소 | `/sdcard/Android/data/.../files/users*_tmp` | `dave` / `D4ve_Ext3rnal` (평문) | adb shell (root 불필요) | 성공(일부) |
 
 ### 공통 배경: 샌드박스와 run-as
 - 앱 내부 저장소 `/data/data/owasp.sat.agoat/`는 `drwx------`(소유자만 접근)다. **다른 앱이나 일반 셸은 들어갈 수 없다.** 대조 실험에서 확인했다.
@@ -602,7 +602,7 @@ username is carol
 password is Car0l#Temp
 ```
 - "임시" 파일이라는 이름과 달리 **삭제하는 코드가 없다.** 입력할 때마다 파일이 하나씩 쌓인다.
-- ⚠️ `setReadable(true)`는 기본값이 "소유자만"이라 실제 권한은 `-rw-------`이었다. 그래서 다른 앱이 바로 읽을 수는 없다(대조 실험: `Permission denied`). 위험은 3-1과 같은 수준이다.
+- `setReadable(true)`는 기본값이 "소유자만"이라 실제 권한은 `-rw-------`이었다. 그래서 다른 앱이 바로 읽을 수는 없다(대조 실험: `Permission denied`). 위험은 3-1과 같은 수준이다.
 
 ### 3-5. 외부 저장소: 계정 정보 평문 저장
 **취약 코드** (`InsecureStorageSDCardActivity.kt`)
@@ -633,11 +633,11 @@ cat: ...: Permission denied
 | 정책 | 효과 | 이 앱 |
 |---|---|---|
 | 앱 샌드박스 (`/data/data/<pkg>` 700) | 다른 앱은 내부 저장소 접근 불가 | `debuggable=true` → `run-as`로 우회. 루팅 기기, 백업 경로에는 무력 |
-| API 29+ Scoped Storage, API 30+ `Android/data` 앱별 격리 | 다른 앱은 3-5 파일 접근 불가 (대조 실험) | 하지만 adb(USB 디버깅, 물리 접근)로는 root 없이 읽힘 ⚠️ |
+| API 29+ Scoped Storage, API 30+ `Android/data` 앱별 격리 | 다른 앱은 3-5 파일 접근 불가 (대조 실험) | 하지만 adb(USB 디버깅, 물리 접근)로는 root 없이 읽힘 |
 | API 30+에서 `WRITE_EXTERNAL_STORAGE` 무효 | 공용 영역에 아무렇게나 쓰기 제한 | 앱은 권한이 필요 없는 앱 전용 외부 경로를 써서 저장 자체는 성공 |
 | (OS 차원의 자동 암호화 없음) | SharedPreferences, SQLite는 평문 파일 | 암호화를 앱이 직접 해야 하는데 하지 않음 |
 
-###  한계
+### 한계
 - 3-1~3-4는 **앱 내부 저장소**라서 다른 앱이 바로 훔칠 수는 없다. 실제 공격에는 기기 접근(USB 디버깅), 루팅, 백업 경로 중 하나가 필요하다. 이번 실습에서는 `debuggable` 빌드라 `run-as`로 쉽게 접근했다. 릴리스 빌드였다면 root가 필요했을 것이다.
 - 3-5의 대조 실험은 `su <uid>`로 UID만 바꾼 **근사 실험**이다. 실제 악성 앱(SELinux `untrusted_app` 도메인)은 더 많이 제한되므로 결과는 같거나 더 엄격하다.
 - 이 앱은 `minSdkVersion 19`라서 **Android 9 이하 기기에도 설치된다**. 그런 기기에서는 3-5 파일을 `READ_EXTERNAL_STORAGE` 권한만 있는 아무 앱이나 읽을 수 있다. 이번 실습(API 33)에서는 재현 대상이 아니다.
@@ -658,11 +658,11 @@ cat: ...: Permission denied
 ### 요약
 | 하위 항목 | 결과 | 핵심 증거 |
 |---|---|---|
-| 4-1 XSS (WebView) | ✅ 입력값이 JavaScript로 실행됨 | `alert(navigator.userAgent)` 실행 |
-| 4-2 SQL 인젝션 | ✅ 전체 사용자 덤프, UNION으로 DB 구조 확인 | `bob / B0b_P4ssw0rd` |
-| 4-3 WebView 파일 접근 | ✅ `file://`로 내부 파일 열람 + 외부 HTML이 내부 파일 탈취 | `users.xml`, `pinDetails.xml` |
-| 4-4 QR 코드 XSS | ✅ QR 내용이 HTML에 그대로 삽입돼 실행됨 ⚠️ 카메라 대신 Frida로 주입 | `alert('QR XSS: ...')` |
-| 4-5 OS 명령 인젝션 (메뉴에 없음) | ⚠️ 쉘 명령 주입은 **불가**, 인자 주입만 가능 | `;id` 미실행, `-c 2` 반영 |
+| 4-1 XSS (WebView) | 입력값이 JavaScript로 실행됨 | `alert(navigator.userAgent)` 실행 |
+| 4-2 SQL 인젝션 | 전체 사용자 덤프, UNION으로 DB 구조 확인 | `bob / B0b_P4ssw0rd` |
+| 4-3 WebView 파일 접근 | `file://`로 내부 파일 열람 + 외부 HTML이 내부 파일 탈취 | `users.xml`, `pinDetails.xml` |
+| 4-4 QR 코드 XSS | QR 내용이 HTML에 그대로 삽입돼 실행됨 카메라 대신 Frida로 주입 | `alert('QR XSS: ...')` |
+| 4-5 OS 명령 인젝션 (메뉴에 없음) | 쉘 명령 주입은 **불가**, 인자 주입만 가능 | `;id` 미실행, `-c 2` 반영 |
 
 ### 4-1. XSS (WebView)
 **취약 코드** (`XSSActivity.kt`)
@@ -708,7 +708,7 @@ E QueryResult: Username: (bob) password: (B0b_P4ssw0rd)
 V Query      : SELECT * FROM users WHERE username='x' UNION SELECT 1,sqlite_version(),group_concat(name) FROM sqlite_master--'
 E QueryResult: Username: (3.32.2) password: (android_metadata,users,sqlite_sequence)
 ```
-- ⚠️ 화면의 안내는 "사용자 2명 이상"을 만들라고 하지만, 이번 실습에서는 §3-3에서 만든 `bob` 1명만 있었다. `OR 1=1`이 조건을 무력화한다는 것은 같다.
+- 화면의 안내는 "사용자 2명 이상"을 만들라고 하지만, 이번 실습에서는 §3-3에서 만든 `bob` 1명만 있었다. `OR 1=1`이 조건을 무력화한다는 것은 같다.
 - 로컬 DB라서 공격자가 "자기 기기의 데이터"를 보는 것이 기본 상황이다. 하지만 같은 코드가 §2-5처럼 **외부에 열린 Provider**나 서버에 있으면 그대로 원격 데이터 유출이 된다.
 
 ### 4-3. WebView 파일 접근
@@ -768,10 +768,10 @@ cb.onDecoded(res);
 **결과**: 페이지 본문("Scanned Product Details / Product Found!")을 읽은 JavaScript가 실행됐다.
 <img src="/assets/androgoat/attachments/04_input_validations/15_qr_xss_alert.png" alt="QR XSS 실행" width="420">
 
-- ⚠️ 한계: 카메라로 실제 QR 이미지를 찍는 과정은 생략하고, 디코딩 결과를 주입했다. 앱 코드 입장에서는 실제 스캔과 같은 입력(`it.text`)이 들어간다.
+- 한계: 카메라로 실제 QR 이미지를 찍는 과정은 생략하고, 디코딩 결과를 주입했다. 앱 코드 입장에서는 실제 스캔과 같은 입력(`it.text`)이 들어간다.
 - 현실 시나리오: 공격자가 상품 QR 스티커를 바꿔 붙이면, 스캔한 사용자의 WebView에서 스크립트가 실행된다.
 
-### 4-5. OS 명령 인젝션  (메뉴에 없는 화면)
+### 4-5. OS 명령 인젝션 (메뉴에 없는 화면)
 - `InputValidationsOSCMDInjectionMain2Activity`는 **앱 메뉴 어디에서도 연결되지 않고**, `exported`도 아니다. 그래서 root 권한으로 직접 실행해서 확인했다(`adb shell am start -n .../.InputValidationsOSCMDInjectionMain2Activity`).
 - 화면의 Objectives 문구는 SQLi 화면 것을 그대로 복사해 둔 상태다. 개발 중인 화면으로 보인다.
 
@@ -783,8 +783,8 @@ val p = Runtime.getRuntime().exec(ip1)
 **결과**
 | 입력 | 결과 | 해석 |
 |---|---|---|
-| `-c 2 127.0.0.1` | ping 2회 실행 결과 출력 | ✅ **인자(옵션) 주입** 가능 |
-| `127.0.0.1;id` | 출력 없음 | ❌ `;` 뒤의 `id`가 실행되지 않음 |
+| `-c 2 127.0.0.1` | ping 2회 실행 결과 출력 | **인자(옵션) 주입** 가능 |
+| `127.0.0.1;id` | 출력 없음 | `;` 뒤의 `id`가 실행되지 않음 |
 
 <img src="/assets/androgoat/attachments/04_input_validations/16_oscmd_argument_injection.png" alt="인자 주입" width="420"> <img src="/assets/androgoat/attachments/04_input_validations/17_oscmd_semicolon_not_injected.png" alt="세미콜론 미동작" width="420">
 
@@ -819,9 +819,9 @@ val p = Runtime.getRuntime().exec(ip1)
 ### 요약
 | 하위 항목 | 새는 곳 | 꺼낸 값 | 도구 | 결과 |
 |---|---|---|---|---|
-| 5-1 Insecure Logging | logcat | `erin` / `Er1n_L0gged!` | logcat | ✅ |
-| 5-2 Clipboard | 시스템 클립보드 | OTP `1376` | Frida (다른 앱 프로세스) | ✅ 다른 앱이 포그라운드일 때만 ⚠️ |
-| 5-3 Keyboard Cache | Gboard 학습 DB | `zebrasecret77` | root, sqlite/grep | ✅ |
+| 5-1 Insecure Logging | logcat | `erin` / `Er1n_L0gged!` | logcat | 성공 |
+| 5-2 Clipboard | 시스템 클립보드 | OTP `1376` | Frida (다른 앱 프로세스) | 다른 앱이 포그라운드일 때만 |
+| 5-3 Keyboard Cache | Gboard 학습 DB | `zebrasecret77` | root, sqlite/grep | 성공 |
 
 ### 5-1. Insecure Logging
 **취약 코드** (`InsecureLoggingActivity.kt`)
@@ -873,7 +873,7 @@ logcat: I ClipboardService: Chrome pasted from your clipboard
 ```
 <img src="/assets/androgoat/attachments/05_side_channel/07_clipboard_read_by_other_app_fg.png" alt="다른 앱 포그라운드" width="420">
 
-- ⚠️ label이 `CC Card`가 아니라 `host clipboard`로 바뀐 이유: **에뮬레이터가 클립보드를 호스트 PC와 동기화**하기 때문이다. 즉 이 OTP는 PC 클립보드에도 복사됐다. 클라우드 클립보드 동기화가 있는 실제 기기에서도 비슷한 일이 생길 수 있다.
+- label이 `CC Card`가 아니라 `host clipboard`로 바뀐 이유: **에뮬레이터가 클립보드를 호스트 PC와 동기화**하기 때문이다. 즉 이 OTP는 PC 클립보드에도 복사됐다. 클라우드 클립보드 동기화가 있는 실제 기기에서도 비슷한 일이 생길 수 있다.
 - "Chrome pasted from your clipboard" 토스트(Android 12+)는 캡처하는 순간 이미 사라져서, logcat 기록으로 대신했다.
 
 ### 5-3. Keyboard Cache
@@ -911,12 +911,12 @@ zebrasecret7@
 | 정책 | 효과 | 이 앱 |
 |---|---|---|
 | `READ_LOGS`는 시스템 권한 (API 16+) | 다른 앱은 로그 못 읽음 (대조 실험) | 비밀번호를 로그에 남겨 adb, 버그 리포트로 유출 |
-| API 29+: 포커스 없는 앱의 클립보드 읽기 차단 | 백그라운드 앱 차단 (`Denying clipboard access`) | 사용자가 다른 앱으로 넘어가면 그 앱이 읽음 ⚠️ |
+| API 29+: 포커스 없는 앱의 클립보드 읽기 차단 | 백그라운드 앱 차단 (`Denying clipboard access`) | 사용자가 다른 앱으로 넘어가면 그 앱이 읽음 |
 | API 31+: 다른 앱이 붙여넣을 때 토스트 알림 | 사용자에게 알림 | 사후 알림일 뿐 차단은 아님 |
 | API 33+: 복사할 때 미리보기, `EXTRA_IS_SENSITIVE`로 가림 가능 | 민감 값 가림 기능 제공 | 플래그를 쓰지 않아 OTP가 화면에 그대로 보임 |
 | 키보드는 `textPassword`, `textNoSuggestions` 칸을 학습하지 않음 | 비밀번호 학습 방지 | inputType을 지정하지 않아 **일반 텍스트로 학습됨** |
 
-###  한계
+### 한계
 - 5-2의 "다른 앱"은 Chrome 프로세스 안에서 Frida로 API를 호출해 **흉내 낸 것**이다. 같은 API를 쓰는 실제 악성 앱도 결과는 같다.
 - 5-3의 학습 DB(`trainingcachev3.db`)는 Gboard의 내부 형식이라 구조를 완전히 해석하지는 못했다. 단어 문자열이 들어 있다는 것과, 그 결과 추천 바에 나타난다는 것까지 확인했다. 키보드 앱 데이터는 root가 있어야 읽을 수 있다.
 - 키보드 학습은 키보드 앱(Gboard, 삼성 키보드 등)과 설정(시크릿 모드, 개인화 학습 끄기)에 따라 다르다.
@@ -979,7 +979,7 @@ D [Info] : Connected to AWS account using Access key AKIAX56QK…Q7G7ABC and sec
 - Kotlin의 `private val`도 접근 제어자일 뿐, 컴파일된 DEX의 문자열 상수 풀에는 평문으로 남는다. R8/ProGuard 난독화도 **문자열 값 자체는 바꾸지 않는다**(이름만 바꾼다).
 - 즉 "앱에 넣었으니 안전하다"는 가정이 처음부터 틀렸다. 이 키들은 이미 유출된 것으로 봐야 한다.
 
-###  한계 / 참고
+### 한계 / 참고
 - 이 키들은 AndroGoat가 만든 **가짜 값**이라 실제 AWS/OpenAI에 접속되지는 않는다. `ABC`로 끝나는 등 형식만 맞춘 더미다. 핵심은 "실제 키였다면 그대로 탈취됐다"는 점이다.
 - 실제 유출 사고에서는 이렇게 얻은 AWS 키로 S3 버킷, 과금 리소스에 접근하는 피해가 발생한다.
 
@@ -989,7 +989,7 @@ D [Info] : Connected to AWS account using Access key AKIAX56QK…Q7G7ABC and sec
 - CI에 시크릿 스캐너를 넣어 커밋 단계에서 하드코딩을 잡는다.
 - 이미 커밋/배포된 키는 **폐기하고 재발급**한다(난독화로는 못 숨긴다).
 
-## 7. Root Detection   (`RootDetectionActivity`, Frida 우회)
+## 7. Root Detection (`RootDetectionActivity`, Frida 우회)
 
 > **쉽게 말하면,** 앱이 '내 폰 개조(루팅)됐나?'를 스스로 검사하는데, 그 검사 방법 자체를 요술봉으로 속여 '안 됐다'고 대답하게 만든다.
 
@@ -1002,7 +1002,7 @@ val file = arrayOf("/system/bin/su", "/system/xbin/su", "/data/local/su",
 for (files in file) { if (File(files).exists()) { result = true; break } }
 ```
 
-###  중요한 관찰: 기본 상태에서는 탐지 자체가 실패한다
+### 중요한 관찰: 기본 상태에서는 탐지 자체가 실패한다
 - 이 에뮬레이터에는 실제로 `/system/xbin/su`가 있고 `adb root`도 된다. **그런데 CHECK ROOT를 누르면 "Device is not rooted"가 나온다.**
 - 이유: `/system/xbin/su`는 소유자/그룹이 `root/shell`이고 권한이 `-rwsr-x---`다. 앱(`untrusted_app`, uid a174)은 이 파일에 접근 권한이 없어서 `File.exists()`가 `false`를 반환한다. SELinux와 파일 권한이 **naive한 파일 탐지를 무력화**한 것이다.
 - 즉 이 탐지 코드는 **옛날 루팅 방식(su가 world-readable하던 시절)** 을 가정한 것이라, 최신 환경의 루트를 못 잡는다. 이것부터가 정직한 한계다.
@@ -1039,7 +1039,7 @@ Act.isRooted.implementation = function () { return false; };
 - 루트 탐지는 OS가 제공하는 기능이 아니라 **앱이 스스로 하는 방어**다. 그래서 공격자가 기기와 앱 프로세스를 장악(루팅+Frida)하면, 그 방어 로직 자체를 바꿀 수 있다.
 - 아이러니하게도 최신 Android의 SELinux는 이 앱의 **탐지를 돕는 게 아니라 방해**했다(7장 앞부분). 그만큼 파일 기반 탐지는 신뢰할 수 없다.
 
-###  한계
+### 한계
 - 기본 에뮬레이터에서는 탐지가 동작하지 않아, 우회를 보여 주기 위해 su 파일을 일부러 접근 가능하게 심었다. 실제 루팅 기기(Magisk 등)에서는 이 단계가 필요 없다.
 - `isRooted1()`(`Runtime.exec("su")` 방식)은 앱 코드에서 주석 처리되어 호출되지 않는다. 그래서 이번 탐지는 파일 존재 확인 한 가지만 동작했다.
 
@@ -1048,7 +1048,7 @@ Act.isRooted.implementation = function () { return false; };
 - 중요한 판단은 서버 측 Play Integrity API 검증과 결합한다.
 - 다만 **루팅+Frida 환경에서는 어떤 클라이언트 측 탐지도 결국 우회 가능**하다는 점을 전제로 설계한다(심층 방어).
 
-## 8. Emulator Detection  (`EmulatorDetectionActivity`, Frida 우회)
+## 8. Emulator Detection (`EmulatorDetectionActivity`, Frida 우회)
 
 > **쉽게 말하면,** 앱이 '지금 진짜 폰이야, 가짜야?'를 이름표(Build 정보)로 판단한다. 그 이름표를 진짜 폰(Pixel 7)으로 바꿔 붙여 속인다.
 
@@ -1090,7 +1090,7 @@ Act.isEmulator.implementation = function () { return false; };
 → 에뮬레이터인데도 **"This device is not an Emulator"** 로 바뀌었다.
 <img src="/assets/androgoat/attachments/08_emulator_detection/05_bypassed_not_emulator.png" alt="우회됨" width="420">
 
-### 정책 vs 코드 /  한계
+### 정책 vs 코드 / 한계
 - `Build` 필드는 상수처럼 보이지만 실제로는 일반 정적 변수라, 앱 프로세스 안에서 Frida로 값을 바꿀 수 있다.
 - 이 탐지는 문자열 매칭이라 **오탐도 많다.** 예를 들어 실제 단말이라도 제품명에 우연히 걸리는 문자열이 있으면 에뮬레이터로 오인할 수 있다. 반대로 공격자는 Build 값만 바꾸면 쉽게 회피한다.
 - 더 정교한 탐지(센서 개수, `/proc` 내용, QEMU 흔적 등)도 있지만, 모두 앱 프로세스 안에서 동작하므로 Frida로 우회 가능하다.
@@ -1099,7 +1099,7 @@ Act.isEmulator.implementation = function () { return false; };
 - 단일 신호(Build 문자열)에 의존하지 않는다. 다중 신호를 쓰되, 최종 판단은 서버 측 Play Integrity로 보강한다.
 - 루트 탐지와 마찬가지로, 클라이언트 측 탐지는 **지연·비용 증가** 수단일 뿐 완벽한 차단은 불가능하다고 전제한다.
 
-## 9. Binary Patching   (`BinaryPatchingActivity`)
+## 9. Binary Patching (`BinaryPatchingActivity`)
 
 > **쉽게 말하면,** 앱 안에 '너는 관리자 아님'이라고 박아둔 쪽지가 있다. 이 쪽지를 '관리자 맞음'으로 바꿔치기해서 잠긴 기능을 연다.
 
@@ -1135,7 +1135,7 @@ classes4.dex에서 BinaryPatchingActivity와 "You are Admin Now" 문자열 확�
 정적 패칭 절차: apktool d → smali에서 isAdmin 초기화 const/4 vX, 0x0 → 0x1 변경
              → apktool b → 재서명(apksigner) → 재설치
 ```
-- ⚠️ **한계/정직한 기록**: 이번 실습에서 실제 smali 패칭 → 재빌드 → 재서명까지는 하지 않았다. 대신 동일한 결과를 Frida로 보였다. 두 방법의 차이는 아래 "정책 vs 코드"에 정리한다.
+- **한계/정직한 기록**: 이번 실습에서 실제 smali 패칭 → 재빌드 → 재서명까지는 하지 않았다. 대신 동일한 결과를 Frida로 보였다. 두 방법의 차이는 아래 "정책 vs 코드"에 정리한다.
 
 ### 정책 vs 코드
 | 방식 | 지속성 | 서명 | targetSdk 33과의 관계 |
@@ -1149,7 +1149,7 @@ classes4.dex에서 BinaryPatchingActivity와 "You are Admin Now" 문자열 확�
 - 관리자 여부 같은 권한은 **서버가 판단**하고, 민감 기능은 서버 API로 보호한다(클라이언트 UI를 열어도 데이터는 못 가져가게).
 - 앱 무결성 검증(서명 확인, Play Integrity)으로 재패키징된 앱을 걸러낸다. 단 이것도 심층 방어의 한 겹일 뿐이다.
 
-## 10. Biometric Authentication  (`BioMetricAuthActivity`, Frida 우회)
+## 10. Biometric Authentication (`BioMetricAuthActivity`, Frida 우회)
 
 > **쉽게 말하면,** 지문을 한 번도 안 찍었는데 '성공!' 버튼만 대신 눌러서 통과한다. 지문 검사 결과를 진짜 열쇠(암호 키)에 묶어두지 않은 허점을 노린다.
 
@@ -1216,11 +1216,11 @@ $ adb shell run-as owasp.sat.agoat id
 uid=10174(u0_a174) ... context=u:r:runas_app:s0:...     ← 앱 자신의 신분으로 전환됨
 ```
 - 또한 디버거(jdwp)를 붙일 수 있고, 이것만으로도 메모리/변수 조작이 가능하다.
-- ⚠️ 참고: 이 플래그는 **debug 빌드라서** 붙었다. 실제 릴리스 빌드(`debuggable=false`)에서는 `run-as`가 막히고, 같은 데이터를 꺼내려면 root가 필요하다. 이번 실습이 "debug 빌드 기준"이라는 점은 정직하게 기록한다. `TEST_ONLY`도 같은 이유로 붙었다.
+- 참고: 이 플래그는 **debug 빌드라서** 붙었다. 실제 릴리스 빌드(`debuggable=false`)에서는 `run-as`가 막히고, 같은 데이터를 꺼내려면 root가 필요하다. 이번 실습이 "debug 빌드 기준"이라는 점은 정직하게 기록한다. `TEST_ONLY`도 같은 이유로 붙었다.
 
-### 11-2. `allowBackup=true`  (부분)
+### 11-2. `allowBackup=true` (부분)
 - `allowBackup=true`면 백업 경로로 앱 데이터가 빠져나갈 수 있다는 것이 전통적 취약점이다.
-- ⚠️ **한계**: `adb backup`은 실행 시 **기기 화면에서 사용자가 직접 "데이터 백업" 버튼을 눌러야** 진행된다(자동화 불가). 또한 Android 12(API 31)부터 `adb backup`은 기본적으로 앱 APK/데이터를 거의 포함하지 않도록 크게 제한됐다. 그래서 이번 환경(API 33)에서는 `adb backup`만으로 데이터를 빼내는 실증은 **의미가 제한적**이라, 플래그 존재 확인까지만 했다.
+- **한계**: `adb backup`은 실행 시 **기기 화면에서 사용자가 직접 "데이터 백업" 버튼을 눌러야** 진행된다(자동화 불가). 또한 Android 12(API 31)부터 `adb backup`은 기본적으로 앱 APK/데이터를 거의 포함하지 않도록 크게 제한됐다. 그래서 이번 환경(API 33)에서는 `adb backup`만으로 데이터를 빼내는 실증은 **의미가 제한적**이라, 플래그 존재 확인까지만 했다.
 - 같은 데이터는 이미 §3에서 `run-as`로 모두 추출했으므로, 실질적 유출은 증명된 셈이다.
 
 ### 대응 방법
