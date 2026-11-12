@@ -1,0 +1,2 @@
+[*] root detection bypass loaded
+[root-bypass] RootDetectionActivity.isRooted() → false

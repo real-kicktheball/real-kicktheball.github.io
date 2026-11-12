@@ -1,0 +1,17 @@
+﻿# 정상 플레이: SCORE 버튼 1회 = +1점, 10000점 초과해야 승리
+PS> adb shell run-as owasp.sat.agoat cat shared_prefs/score.xml
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="score" value="3" />
+    <int name="level" value="1" />
+</map>
+
+# 앱 종료(메모리 캐시 제거) 후 run-as 로 파일 직접 수정
+PS> adb shell am force-stop owasp.sat.agoat
+PS> adb shell run-as owasp.sat.agoat sed -i 's/name=\"score\" value=\"[0-9]*\"/name=\"score\" value=\"10000\"/' shared_prefs/score.xml
+PS> adb shell run-as owasp.sat.agoat cat shared_prefs/score.xml
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="score" value="10000" />
+    <int name="level" value="1" />
+</map>

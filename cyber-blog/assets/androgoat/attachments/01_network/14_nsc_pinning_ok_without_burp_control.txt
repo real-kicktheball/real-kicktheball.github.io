@@ -1,0 +1,2 @@
+[*] hooked TrafficActivity$run$1.onFailure - NATIVE 버튼을 누르세요
+[onResponse] https://cve.org/ -> HTTP 200

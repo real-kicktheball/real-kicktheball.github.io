@@ -1,0 +1,2 @@
+﻿# CloudServices 는 AWS 키를 logcat 에도 출력
+PS> adb logcat -d -s [Info]:D

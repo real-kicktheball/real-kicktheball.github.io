@@ -1,0 +1,2 @@
+[*] done
+[binary-patch] isAdmin=false 분기를 무시하고 관리자 UI 활성화

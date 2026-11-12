@@ -1,0 +1,4 @@
+[*] hooked TrafficActivity$run$1.onFailure - NATIVE 버튼을 누르세요
+[onFailure] https://cve.org/
+  javax.net.ssl.SSLHandshakeException: Pin verification failed
+  caused by: java.security.cert.CertificateException: Pin verification failed

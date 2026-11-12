@@ -1,0 +1,4 @@
+﻿# 앱이 백그라운드(홈 화면)인 상태, 일반 권한(uid 2000)으로 리시버를 명시적으로 호출
+PS> adb shell su shell am broadcast -n owasp.sat.agoat/.ShowDataReceiver
+Broadcasting: Intent { flg=0x400000 cmp=owasp.sat.agoat/.ShowDataReceiver }
+Broadcast completed: result=0

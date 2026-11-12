@@ -1,0 +1,2 @@
+[*] callback 탐색 완료
+[bio-bypass] 지문 미등록 상태에서 onAuthenticationSucceeded 직접 호출 → 성공

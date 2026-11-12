@@ -1,0 +1,3 @@
+[*] toast/receiver hook loaded
+[ShowDataReceiver.onReceive] intent=Intent { flg=0x400010 cmp=owasp.sat.agoat/.ShowDataReceiver }
+[Toast.makeText] Username is CrazyUser, Password is CrazyPassword and Key is 123myKey456

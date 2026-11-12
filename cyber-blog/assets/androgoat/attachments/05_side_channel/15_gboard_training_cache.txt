@@ -1,0 +1,23 @@
+﻿# 키보드 앱(Gboard) 데이터에서 입력한 비밀번호 단어 검색 (root)
+PS> adb shell grep -rl zebrasecret /data/data/com.google.android.inputmethod.latin
+/data/data/com.google.android.inputmethod.latin/databases/trainingcachev3.db
+
+PS> adb shell sqlite3 /data/data/com.google.android.inputmethod.latin/databases/trainingcachev3.db '.tables'
+ac_threshold                     main_lm                        
+android_metadata                 menes_baseline                 
+auto_correction_stats            session                        
+counts                           spell_checker                  
+expression_training_data         trimmed_input_action_collection
+input_action_collection          unified_params                 
+kc_threshold                     user_spatial_stats             
+keyboard_layout                  user_typo_stats                
+
+PS> adb shell strings / grep (해당 DB 안의 문자열)
+zebrasecret77"
+zebrasecret@
+zebrasecret%+C
+zebrasecret7@
+zebrasecret7%
+
+PS> adb shell ls -l /data/data/com.google.android.inputmethod.latin/databases/trainingcachev3.db
+-rw-rw---- 1 u0_a136 u0_a136 413696 2026-11-12 04:06 /data/data/com.google.android.inputmethod.latin/databases/trainingcachev3.db
