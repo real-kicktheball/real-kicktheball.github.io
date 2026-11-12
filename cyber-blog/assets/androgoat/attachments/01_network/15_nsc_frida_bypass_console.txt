@@ -1,3 +1,0 @@
-[*] NSC pinning bypass loaded
-[bypass] NetworkSecurityTrustManager.checkPins(2 certs) → skip
-[onResponse] https://cve.org/ -> HTTP 200

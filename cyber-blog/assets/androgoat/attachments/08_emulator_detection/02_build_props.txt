@@ -1,8 +1,0 @@
-﻿# 앱이 보는 Build 필드 값
-ro.product.model = sdk_gphone64_x86_64
-ro.product.brand = google
-ro.product.device = emu64x
-ro.product.manufacturer = Google
-ro.hardware = ranchu
-ro.build.fingerprint = google/sdk_gphone64_x86_64/emu64x:13/TE1A.240213.009/12342917:userdebug/dev-keys
-ro.product.name = sdk_gphone64_x86_64

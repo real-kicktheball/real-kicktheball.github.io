@@ -1,4 +1,0 @@
-﻿# [1] 앱이 꺼져 있는(백그라운드) 상태
-PS> adb shell su shell am startservice -n owasp.sat.agoat/.DownloadInvoiceService
-Starting service: Intent { cmp=owasp.sat.agoat/.DownloadInvoiceService }
-Error: app is in background uid null

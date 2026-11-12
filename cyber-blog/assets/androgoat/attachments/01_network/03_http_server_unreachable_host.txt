@@ -1,7 +1,0 @@
-﻿PS> Resolve-DnsName demo.testfire.net
-65.61.137.117
-PS> Test-NetConnection demo.testfire.net -Port 80
-TcpTestSucceeded : False
-PS> Invoke-WebRequest http://demo.testfire.net
-원격 서버에 연결할 수 없습니다.
-(측정 시각: 2026-11-12 12:34:52)

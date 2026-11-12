@@ -1,7 +1,0 @@
-﻿# 키보드(Gboard)가 받은 입력칸 정보 (EditorInfo.inputType)
-# Keyboard Cache 화면 - username / password 칸을 차례로 터치
-11-12 04:05:14.840  inputType=0x20001(Normal) fieldId=2131296799
-11-12 04:05:18.712  inputType=0x20001(Normal) fieldId=2131296645
-
-# [비교] Insecure Logging 화면의 password 칸 (android:inputType="textPassword")
-inputType=0x81(Password)  → Gboard: PasswordIme.onActivate() (학습/추천 안 함)

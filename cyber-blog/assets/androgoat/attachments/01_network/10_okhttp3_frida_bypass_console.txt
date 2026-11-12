@@ -1,2 +1,0 @@
-[*] OkHttp3 CertificatePinner bypass loaded
-[bypass] CertificatePinner.check$okhttp(owasp.org) → skip

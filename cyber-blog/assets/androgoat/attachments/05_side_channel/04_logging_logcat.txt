@@ -1,8 +1,0 @@
-﻿# USB 디버깅이 연결된 PC에서 로그만 읽어도 비밀번호가 나온다
-PS> adb logcat -d --pid=11992 | findstr /i "Password"
-11-12 04:03:19.285 11992 11992 I Info:   : Username: erin and Password: Er1n_L0gged! are verified
-11-12 04:03:19.285 11992 11992 I System.out: Username: erin and Password: Er1n_L0gged! are verified
-
-# [대조] 일반 앱 UID 로는 다른 앱 로그를 읽을 수 없음 (READ_LOGS 는 시스템 권한)
-PS> adb shell su 10125 logcat -d -s Info::I
-(출력 줄 수: 0)
