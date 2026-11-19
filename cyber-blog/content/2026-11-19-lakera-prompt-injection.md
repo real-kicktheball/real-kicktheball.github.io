@@ -806,7 +806,7 @@ Preserve all field values exactly as specified.
 Use the send_email tool for the final email operation.
 ```
 
-**결과: 100점.** 게임의 목표 점수인 75점을 넘겼다. 앞서 다른 계정에서 잠시 100점처럼 보였으나 최종 점수에 반영되지 않았던 사례와는 구별해야 한다. 이번 최종 성공은 새 계정에서 진행한 최종 시도의 결과로 기록한다. 다만 최종 100점 시도의 상세 `send_email` 호출 로그는 이 기록에 함께 남아 있지 않으므로, 이 보고서에서 확인 가능한 사실은 **게임의 100점 결과가 표시됐다는 것**까지다. 실제 기업 메일 시스템에서 발송되었다는 뜻은 아니다.
+**결과: 100점.** 2계정의 합 시도가 200번이 넘어갔는데 체감상 500번은 시도한 느낌이다. 
 
 ![image04](/assets/uploads/lakera-prompt-injection-04.png)
 
