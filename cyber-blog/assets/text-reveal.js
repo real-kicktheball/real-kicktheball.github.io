@@ -1,10 +1,13 @@
 (() => {
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const excluded='script,style,noscript,textarea,input,svg,[hidden],.os-window,.os-dock,.category-post-link,.brand-signal,.monitor-device,.monitor-display,.text-reveal,.ie-modal';
-  const active=new Set(),waitingText=new Set(),waitingBlocks=new Set(),completedText=new WeakSet();let frame=0;
+  const active=new Set(),waitingText=new Set(),waitingBlocks=new Set(),completedText=new WeakSet(),timing=new WeakMap();let frame=0;
+  // 짧은 글은 한 프레임에 한 글자(약 60자/초), 긴 글은 화면에 들어온 뒤 최대 1.3초(폰트·관찰 지연 포함 1.5초 이내) 안에 끝나도록 속도를 올린다.
+  const CHAR_MS=1000/60,MAX_MS=1300;
   const textObserver=new IntersectionObserver(entries=>{
     for(const entry of entries)if(entry.isIntersecting){
       const el=entry.target;textObserver.unobserve(el);waitingText.delete(el);
+      const total=el.lastChild.textContent.length;timing.set(el,{start:performance.now(),total,duration:Math.min(total*CHAR_MS,MAX_MS)});
       fontsFor(el).then(()=>{active.add(el);if(!frame)frame=requestAnimationFrame(tick);});
     }
   });
@@ -15,13 +18,16 @@
     const loading=document.fonts.load(`${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,text).catch(()=>{});
     return Promise.race([loading,new Promise(resolve=>setTimeout(resolve,1500))]);
   }
-  function tick(){
+  function tick(now){
     for(const el of active){
       if(!el.isConnected){active.delete(el);continue;}
-      const written=el.firstChild,remaining=el.lastChild.firstChild,code=remaining.data.codePointAt(0);
-      if(code===undefined){finish(el);continue;}
-      const char=String.fromCodePoint(code);
-      written.appendData(char);remaining.deleteData(0,char.length);
+      const written=el.firstChild,remaining=el.lastChild.firstChild,t=timing.get(el);
+      if(!remaining||!remaining.length||!t){finish(el);continue;}
+      const done=t.total-remaining.length,progress=t.duration?Math.min(1,(now-t.start)/t.duration):1;
+      let take=Math.max(1,Math.ceil(t.total*progress)-done);
+      // 이모지 같은 서로게이트 쌍을 반으로 자르지 않는다.
+      if(take<remaining.length){const c=remaining.data.charCodeAt(take-1);if(c>=0xD800&&c<=0xDBFF)take++;}
+      written.appendData(remaining.data.slice(0,take));remaining.deleteData(0,take);
       if(!remaining.length)finish(el);
     }
     frame=active.size?requestAnimationFrame(tick):0;
