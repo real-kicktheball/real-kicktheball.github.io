@@ -18,16 +18,20 @@ themeButton.addEventListener('click', () => {
 });
 // Expand the home page categories in place, loading article links only when needed.
 let sidebarIndexPromise;
+// 짧은 이름은 글자당 55ms로 쓰고, 긴 이름은 시작 대기(최대 0.2초)를 포함해 1.5초 안에 끝나도록 한 번에 여러 글자를 쓴다.
+const FILE_CHAR_MS=55,FILE_MAX_MS=1300,FILE_MAX_DELAY=200;
 function typeFileName(name,delay){
   const chars=Array.from(name.querySelector('.category-file-space').textContent),typed=name.querySelector('.category-file-typed');
-  let position=0;
-  function write(){
+  const duration=Math.min(chars.length*FILE_CHAR_MS,FILE_MAX_MS);let position=0,start=0;
+  function write(now){
     if(!name.isConnected)return;
-    typed.textContent+=chars[position++];
-    if(position<chars.length)setTimeout(write,55);
+    if(!start)start=now-FILE_CHAR_MS;
+    const next=Math.max(position+1,Math.min(chars.length,Math.floor(chars.length*Math.min(1,(now-start)/duration))));
+    typed.textContent+=chars.slice(position,next).join('');position=next;
+    if(position<chars.length)requestAnimationFrame(write);
     else name.dataset.typed='true';
   }
-  setTimeout(write,delay);
+  setTimeout(()=>requestAnimationFrame(write),Math.min(delay,FILE_MAX_DELAY));
 }
 const waitingNames=new Set();
 const fileTypingObserver=new IntersectionObserver(entries=>{

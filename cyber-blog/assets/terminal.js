@@ -104,16 +104,19 @@
     reveal();
   }
   function print(text,cls='shell-result',animate=true){const p=document.createElement('pre');p.className=cls;output.appendChild(p);if(animate)animateText(p,text);else{p.textContent=String(text);p.dataset.fullText=String(text);}}
+  // 환영 문구 전체가 1.2초 안에 끝나도록 글자 간격을 줄인다(짧으면 원래대로 18ms). 타이머가 밀려도 경과 시간만큼 글자를 몰아서 쓴다.
+  let bootCharMs=18;
   function typeBootLine(text,cls){
     return new Promise(resolve=>{
       const p=document.createElement('pre'),chars=Array.from(text);p.className=cls+' typing';p.dataset.fullText=text;output.appendChild(p);
-      let index=0;
+      let index=0;const started=performance.now();
       function next(){
         if(!shell.isConnected){resolve();return;}
         if(index===chars.length){p.classList.remove('typing');resolve();return;}
-        p.append(document.createTextNode(chars[index++]));
+        const due=Math.max(index+1,Math.min(chars.length,Math.floor((performance.now()-started)/bootCharMs)+1));
+        p.append(document.createTextNode(chars.slice(index,due).join('')));index=due;
         scroll.scrollTop=scroll.scrollHeight;
-        setTimeout(next,18);
+        setTimeout(next,bootCharMs);
       }
       next();
     });
@@ -165,11 +168,13 @@
     booting=true;
     input.disabled=true;
     (async()=>{
-      for(const [line,cls] of [
+      const bootLines=[
         ['Welcome to '+data.nickname+'’s space.\nhelp로 명령어를, ls로 기록을 둘러보세요.','terminal-comment'],
         ['~ $ whoami','shell-command'],
         [data.nickname+'\n// build. break. understand.','shell-result']
-      ]){
+      ];
+      bootCharMs=Math.min(18,1200/bootLines.reduce((n,[line])=>n+Array.from(line).length,0));
+      for(const [line,cls] of bootLines){
         if(!shell.isConnected)return;
         await typeBootLine(line,cls);
       }
