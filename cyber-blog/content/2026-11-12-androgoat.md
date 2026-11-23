@@ -2,8 +2,6 @@
 {"title":"AndroGoat 취약점 실증 라이트업 — Android 13 / targetSdk 33","date":"2026-11-12","category":"ctf","tags":["AndroGoat","Android","Frida","Burp Suite","SSL Pinning","WebView","Insecure Storage","Hardcoded Secret","OWASP MASVS"],"summary":"의도적 취약 앱 AndroGoat의 전 취약점 카테고리를 API 33 에뮬레이터에서 실증하고, adb·run-as·logcat·sqlite·Frida·프록시로 실제 값을 추출해 증명한 라이트업.","section":["AndroGoat"]}
 ---
 
-> 이 글은 내가 직접 만든 **로컬 Android 13 에뮬레이터**에서, 연습용으로 공개된 취약 앱 **AndroGoat**([github.com/satishpatnayak/AndroGoat](https://github.com/satishpatnayak/AndroGoat))만 가지고 진행한 기록이다. 중간에 나오는 AWS·OpenAI 키 같은 값은 앱이 연습용으로 넣어 둔 가짜라, 실제로는 아무 데도 접속되지 않는다. 당연한 얘기지만 같은 걸 남의 기기나 서비스에 하면 불법이다.
-
 ## 미션 목표
 
 AndroGoat는 한마디로 "일부러 허술하게 만든 안드로이드 앱"이다. 로그인 정보를 평문으로 저장하거나, 열어두면 안 될 문을 열어두거나, 비밀 키를 코드에 그대로 박아두는 식으로, 모바일 앱에서 자주 터지는 실수를 종류별로 모아 놨다. 목표는 단순하다. 이 실수들을 **직접 터뜨려 보고**, `adb·run-as·logcat·sqlite·Frida·프록시` 같은 도구로 **실제 값을 꺼내서** 정말 뚫린다는 걸 눈으로 확인하는 것.
