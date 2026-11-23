@@ -144,37 +144,3 @@ html.monitor-intro-pending::-webkit-scrollbar-track,html.monitor-intro-shrinking
 .category-submenu.drop{animation:category-drop .45s cubic-bezier(.22,.8,.24,1) both}
 
 .prose .katex-display{overflow-x:auto;overflow-y:hidden;padding:6px 0;margin:1.1em 0}.prose .katex{font-size:1.08em}
-/* Keep screenshots in the AndroGoat writeup aligned without changing its text. */
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose img[src^="/assets/androgoat/attachments/"] {
-  display: block;
-  width: auto;
-  max-width: min(100%, 360px);
-  height: auto;
-  margin: 18px auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-}
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose img[src*="/01_network/04_burp_http_request"],
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose img[src*="/01_network/07_burp_https_decrypted"],
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose img[src*="/01_network/12_burp_okhttp3_after_bypass"],
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose img[src*="/01_network/16_burp_nsc_after_bypass"] {
-  width: 100%;
-  max-width: 680px;
-}
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose p:has(> img + img) {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  align-items: start;
-  max-width: 750px;
-  margin-inline: auto;
-}
-.article-wrap[data-slug="2026-11-12-androgoat"] .prose p:has(> img + img) > img {
-  width: 100%;
-  margin: 0 auto;
-}
-@media (max-width: 950px) {
-  .article-wrap[data-slug="2026-11-12-androgoat"] .prose p:has(> img + img) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
