@@ -329,9 +329,12 @@ Burp: **84번** `https://www.cve.org` → `200` (12:42:12). `cve.org`가 `www.cv
   → 아래 공격이 성공한 이유는 **오직 `exported="true"` 때문**이다.
 
 ### 2-0. 정상 흐름: PIN이 있어야 들어갈 수 있다
-1. PIN을 `7391`로 설정 <img src="/assets/androgoat/attachments/02_components/02_set_pin_input.png" alt="PIN 설정" width="420">
-2. PIN 확인 화면 <img src="/assets/androgoat/attachments/02_components/03_pin_created_verify_screen.png" alt="PIN 확인 화면" width="420">
-3. 틀린 PIN `0000` 입력 → `Incorrect PIN entered` <img src="/assets/androgoat/attachments/02_components/04_wrong_pin_rejected.png" alt="틀린 PIN 거부" width="420">
+1. PIN을 `7391`로 설정 
+<img src="/assets/androgoat/attachments/02_components/02_set_pin_input.png" alt="PIN 설정" width="420">
+2. PIN 확인 화면
+<img src="/assets/androgoat/attachments/02_components/03_pin_created_verify_screen.png" alt="PIN 확인 화면" width="420">
+3. 틀린 PIN `0000` 입력 → `Incorrect PIN entered` 
+<img src="/assets/androgoat/attachments/02_components/04_wrong_pin_rejected.png" alt="틀린 PIN 거부" width="420">
 
 **취약 코드** (`AccessControlIssue1Activity.kt`): PIN이 맞으면 다음 화면을 연다.
 ```kotlin
@@ -510,7 +513,8 @@ editor.putString("username", username.text.toString())
 editor.putString("password", password.text.toString())   // 평문 그대로
 ```
 **발화**: `alice` / `Alic3_S3cret!` 입력 → VERIFY
-<img src="/assets/androgoat/attachments/03_storage/02_sp1_input.png" alt="입력" width="420"> <img src="/assets/androgoat/attachments/03_storage/03_sp1_saved.png" alt="저장됨" width="420">
+<img src="/assets/androgoat/attachments/03_storage/02_sp1_input.png" alt="입력" width="420">
+<img src="/assets/androgoat/attachments/03_storage/03_sp1_saved.png" alt="저장됨" width="420">
 
 **추출** ([원본](/posts/2026-11-12-ag-03_storage-04_sp1_extract_console.html))
 ```
@@ -560,7 +564,8 @@ mDB?.execSQL(qry)
 Log.v("Query", qry)          // 쿼리(비밀번호 포함)를 로그에도 출력
 ```
 **발화**: `bob` / `B0b_P4ssw0rd` 입력 → VERIFY
-<img src="/assets/androgoat/attachments/03_storage/10_sqlite_input.png" alt="입력" width="420"> <img src="/assets/androgoat/attachments/03_storage/11_sqlite_saved.png" alt="저장됨" width="420">
+<img src="/assets/androgoat/attachments/03_storage/10_sqlite_input.png" alt="입력" width="420"> 
+<img src="/assets/androgoat/attachments/03_storage/11_sqlite_saved.png" alt="저장됨" width="420">
 
 **추출: 3가지 경로** ([원본](/posts/2026-11-12-ag-03_storage-12_sqlite_extract_console.html))
 ```
@@ -589,7 +594,8 @@ fw.write("username is " + username.text + "\n")
 fw.write("password is " + password.text + "\n")
 ```
 **발화**: `carol` / `Car0l#Temp` 입력 → VERIFY
-<img src="/assets/androgoat/attachments/03_storage/13_temp_input.png" alt="입력" width="420"> <img src="/assets/androgoat/attachments/03_storage/14_temp_saved.png" alt="저장됨" width="420">
+<img src="/assets/androgoat/attachments/03_storage/13_temp_input.png" alt="입력" width="420">
+<img src="/assets/androgoat/attachments/03_storage/14_temp_saved.png" alt="저장됨" width="420">
 
 **추출** ([원본](/posts/2026-11-12-ag-03_storage-15_temp_extract_console.html))
 ```
@@ -610,7 +616,8 @@ val userinfo = File.createTempFile("users", "_tmp", getExternalFilesDir(null))
 Log.i("Info", "Data saved to" + userinfo.absolutePath)     // 저장 경로까지 로그에 출력
 ```
 **발화**: `dave` / `D4ve_Ext3rnal` 입력 → VERIFY
-<img src="/assets/androgoat/attachments/03_storage/16_sdcard_input.png" alt="입력" width="420"> <img src="/assets/androgoat/attachments/03_storage/17_sdcard_saved.png" alt="저장됨" width="420">
+<img src="/assets/androgoat/attachments/03_storage/16_sdcard_input.png" alt="입력" width="420">
+<img src="/assets/androgoat/attachments/03_storage/17_sdcard_saved.png" alt="저장됨" width="420">
 
 **추출: root나 run-as 없이 adb 일반 권한으로** ([원본](/posts/2026-11-12-ag-03_storage-18_sdcard_extract_console.html))
 ```
@@ -676,7 +683,8 @@ function displayContent() {
 ```html
 <img src=x onerror=alert(navigator.userAgent)>
 ```
-<img src="/assets/androgoat/attachments/04_input_validations/02_xss_screen.png" alt="XSS 화면" width="420"> <img src="/assets/androgoat/attachments/04_input_validations/03_xss_payload_input.png" alt="페이로드 입력" width="420">
+<img src="/assets/androgoat/attachments/04_input_validations/02_xss_screen.png" alt="XSS 화면" width="420"> 
+<img src="/assets/androgoat/attachments/04_input_validations/03_xss_payload_input.png" alt="페이로드 입력" width="420">
 
 **결과**: 이미지 로드가 실패하면서 `onerror`의 JavaScript가 실행됐다. WebView의 User-Agent(Android 13, Chrome 109 WebView)가 alert로 떴다.
 <img src="/assets/androgoat/attachments/04_input_validations/04_xss_alert_executed.png" alt="XSS 실행" width="420">
@@ -784,7 +792,8 @@ val p = Runtime.getRuntime().exec(ip1)
 | `-c 2 127.0.0.1` | ping 2회 실행 결과 출력 | **인자(옵션) 주입** 가능 |
 | `127.0.0.1;id` | 출력 없음 | `;` 뒤의 `id`가 실행되지 않음 |
 
-<img src="/assets/androgoat/attachments/04_input_validations/16_oscmd_argument_injection.png" alt="인자 주입" width="420"> <img src="/assets/androgoat/attachments/04_input_validations/17_oscmd_semicolon_not_injected.png" alt="세미콜론 미동작" width="420">
+<img src="/assets/androgoat/attachments/04_input_validations/16_oscmd_argument_injection.png" alt="인자 주입" width="420">
+<img src="/assets/androgoat/attachments/04_input_validations/17_oscmd_semicolon_not_injected.png" alt="세미콜론 미동작" width="420">
 
 - **정직한 결론**: `Runtime.exec(String)`은 쉘을 거치지 않는다. 문자열을 공백으로 잘라서 `ping`에 인자로 넘길 뿐이다. 그래서 `;`, `|`, `&&` 같은 쉘 문법은 동작하지 않고, **"OS 명령 인젝션"은 성립하지 않는다.**
 - 그래도 `ping`의 옵션을 마음대로 넣을 수 있는 **인자 주입**은 된다. 예를 들어 `-c` 없이 실행하면 ping이 끝나지 않아 `p.waitFor()`에서 UI 스레드가 멈춘다(앱 응답 없음).
@@ -829,7 +838,8 @@ Log.i("Info:", logMessage)
 System.out.println(logMessage)
 ```
 **발화**: `erin` / `Er1n_L0gged!` 입력 → VERIFY
-<img src="/assets/androgoat/attachments/05_side_channel/02_logging_input.png" alt="입력" width="420"> <img src="/assets/androgoat/attachments/05_side_channel/03_logging_verified.png" alt="검증" width="420">
+<img src="/assets/androgoat/attachments/05_side_channel/02_logging_input.png" alt="입력" width="420">
+<img src="/assets/androgoat/attachments/05_side_channel/03_logging_verified.png" alt="검증" width="420">
 
 **추출** ([원본](/posts/2026-11-12-ag-05_side_channel-04_logging_logcat.html))
 ```
@@ -951,7 +961,8 @@ $ adb pull <base.apk>   → 6,964,065 bytes
 ### 6-1. 하드코딩된 프로모 코드
 **취약 코드** (`HardCodeActivity.kt`): `private val promoCode = "NEW2019"`
 **발화**: 위에서 찾은 `NEW2019`를 입력 → 상품 가격이 **2000 → 0**
-<img src="/assets/androgoat/attachments/06_hardcode/03_shopping_before.png" alt="프로모 입력 전" width="420"> <img src="/assets/androgoat/attachments/06_hardcode/04_promocode_free.png" alt="무료 획득" width="420">
+<img src="/assets/androgoat/attachments/06_hardcode/03_shopping_before.png" alt="프로모 입력 전" width="420">
+<img src="/assets/androgoat/attachments/06_hardcode/04_promocode_free.png" alt="무료 획득" width="420">
 
 ### 6-2. 하드코딩된 AWS 키
 **취약 코드** (`CloudServicesActivity.kt`)
