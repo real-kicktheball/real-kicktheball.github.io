@@ -418,6 +418,7 @@ logcat: E NotificationService: Suppressing toast from package owasp.sat.agoat by
   [Toast.makeText] Username is CrazyUser, Password is CrazyPassword and Key is 123myKey456
   ```
 **[2] 앱이 화면에 떠 있을 때: 토스트로 그대로 노출**
+
 <img src="/assets/androgoat/attachments/02_components/14_receiver_foreground_toast_credentials.png" alt="계정 정보 토스트" width="420">
 
 ### 2-5. Content Provider로 PIN DB 읽기, 쓰기, SQL 인젝션
