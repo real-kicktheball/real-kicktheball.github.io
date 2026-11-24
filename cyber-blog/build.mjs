@@ -36,6 +36,13 @@ const gid=(category,parts)=>category+'--'+hash(parts.join('/'));
 const aliases={'블로그 구축':'blog','개요':'overview'};
 const folderName=name=>aliases[name]||(/^[a-zA-Z0-9 _.-]+$/.test(name)?name.toLowerCase().replace(/[^a-z0-9.-]+/g,'-'):('topic-'+hash(name)));
 const groups=new Map();
+// Embedded screenshots are PNG only. Keep the existing URL policy for links.
+function rejectNonPngDataImage(frame){
+ if(frame.tag!=='img')return false;
+ const src=frame.attribs.src||'';
+ const scheme=src.slice(0,src.indexOf(':')).replace(/[\x00-\x20]/g,'').toLowerCase();
+ return scheme==='data'&&!/^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/]*={0,2}$/.test(src);
+}
 const contentDir=path.join(root,'content');
 const posts=(fs.existsSync(contentDir)?fs.readdirSync(contentDir):[]).filter(f=>f.endsWith('.md')).map(f=>{
  const raw=fs.readFileSync(path.join(root,'content',f),'utf8'),m=raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
@@ -44,7 +51,7 @@ const posts=(fs.existsSync(contentDir)?fs.readdirSync(contentDir):[]).filter(f=>
  if(!site.categories.some(c=>c.id===p.category)||!p.title||!Array.isArray(p.tags)||!/^\d{4}-\d{2}-\d{2}$/.test(p.date))throw Error('Invalid post: '+f);
  p.section??=[];
  for(let i=1;i<=p.section.length;i++){const parts=p.section.slice(0,i),id=gid(p.category,parts);if(!groups.has(id))groups.set(id,{id,category:p.category,parts,name:parts.at(-1),count:0});groups.get(id).count++;}
- const html=sanitizeHtml(marked.parse(m[2]),{allowedTags:sanitizeHtml.defaults.allowedTags.concat(['img','details','summary']),allowedAttributes:{...sanitizeHtml.defaults.allowedAttributes,code:['class'],span:['class','style','aria-hidden'],pre:['data-language'],img:['src','alt','title','width','height','loading'],a:['href','title','rel']},allowedSchemes:['http','https','mailto'],allowProtocolRelative:false});
+ const html=sanitizeHtml(marked.parse(m[2]),{allowedTags:sanitizeHtml.defaults.allowedTags.concat(['img','details','summary']),allowedAttributes:{...sanitizeHtml.defaults.allowedAttributes,code:['class'],span:['class','style','aria-hidden'],pre:['data-language'],img:['src','alt','title','width','height','loading'],a:['href','title','rel']},allowedSchemes:['http','https','mailto'],allowedSchemesByTag:{img:['http','https','data']},exclusiveFilter:rejectNonPngDataImage,allowProtocolRelative:false});
  return {...p,slug:f.slice(0,-3),body:m[2],html:html.replace(/<img(?=\s)/g,'<img loading="lazy" decoding="async"')};
 }).sort((a,b)=>Number(!!a.imported)-Number(!!b.imported)||b.date.localeCompare(a.date)||a.title.localeCompare(b.title,'ko'));
 const recentPosts=[...posts].sort((a,b)=>b.date.localeCompare(a.date)||a.title.localeCompare(b.title,'ko')).slice(0,20);
@@ -129,7 +136,7 @@ write('about.html',layout('소개',`<section class="page-intro"><span class="eye
 for(const p of posts){
  const article=`<div class="article-layout">${sidebar('../',p.category,p.section,p.slug)}<section class="article-wrap" data-slug="${esc(p.slug)}">${articleBreadcrumbs(p.category,p.section)}<div class="article-header"><span class="eyebrow">${esc(cat(p.category).name)}</span><h1>${esc(p.title)}</h1><p>${esc(p.summary)}</p><div class="article-meta"><time datetime="${p.date}">${p.date.replaceAll('-','.')}</time><span>${Math.max(1,Math.ceil(p.body.length/650))}분 읽기</span><span>by ${esc(site.nickname)}</span></div>${p.imported?'<p class="import-note">게시일 기준 · Obsidian 노트에서 옮김</p>':''}</div><div class="article-terminal"><div class="terminal-bar"><span class="dots"><i></i><i></i><i></i></span><span>~/notes/${esc(p.slug)}.md</span></div><article class="prose">${p.html}</article></div><div class="article-bottom"><div class="tags">${p.tags.map(t=>`<span>#${esc(t)}</span>`).join('')}</div><a class="back" href="#${p.section.length?'folder-'+gid(p.category,p.section):'category-'+p.category}" data-sidebar-target="${p.section.length?'folder-'+gid(p.category,p.section):'category-'+p.category}">← 같은 폴더의 기록 보기</a></div></section></div>`;
  write('posts/'+p.slug+'.html',layout(p.title,article,{base:'../',description:p.summary,pathname:'/posts/'+p.slug+'.html',type:'article'}));
- write('terminal-content/'+p.slug+'.txt',p.body);
+ write('terminal-content/'+p.slug+'.txt',p.body.replace(/^\[[^\]\n]+\]: data:image\/png;base64,[A-Za-z0-9+/=]+\r?\n?/gm,''));
 }
 write('search-index.json',JSON.stringify(posts.map(p=>({slug:p.slug,title:p.title,category:p.category,categoryName:cat(p.category).name,section:p.section,date:p.date,summary:p.summary,tags:p.tags}))));
 write('search-body-index.json',JSON.stringify(Object.fromEntries(posts.map(p=>[p.slug,visibleText(p.html)]))));
