@@ -77,6 +77,8 @@ const b64encode=s=>{const b=new TextEncoder().encode(s);let x='';for(let i=0;i<b
 const b64decode=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
 const parse=raw=>{const m=raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);if(!m)throw Error('글 메타데이터 형식이 올바르지 않아요.');return{meta:JSON.parse(m[1]),body:m[2].replace(/^\r?\n/,'')};};
 const serialize=(meta,body)=>'---\n'+JSON.stringify(meta)+'\n---\n\n'+body.replace(/\s+$/,'')+'\n';
+const collapseEmbeddedImages=(body,images)=>body.replace(/<img src="data:image\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]+" alt="([^"\n]+)">/gi,(tag,name)=>{images.set(name,tag);return `![[${name}]]`;});
+const expandEmbeddedImages=(body,images)=>body.replace(/!\[\[([^\]\n]+)\]\]/g,(tag,name)=>images.get(name)||tag);
 async function gh(path,opt={}){
  const r=await fetch(API+path,{cache:'no-store',...opt,headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
  if(!r.ok){let m=r.status+'';try{m+=' '+(await r.json()).message}catch{}const e=Error(m);e.status=r.status;throw e;}
@@ -121,7 +123,7 @@ function init(){
  wrap.dataset.ieReady='1';
  const slug=wrap.dataset.slug,FILE=`${DIR}/${encodeURIComponent(slug)}.md`;
  const header=wrap.querySelector('.article-header'),terminal=wrap.querySelector('.article-terminal'),bottom=wrap.querySelector('.article-bottom'),prose=terminal.querySelector('.prose');
- let file=null,dirty=false,panel=null;
+ let file=null,dirty=false,panel=null,embeddedImages=new Map();
 
  const bar=el('div',{class:'ie-bar'});
  const editBtn=el('button',{class:'ie-btn',type:'button'},'✎ 수정');
@@ -189,7 +191,7 @@ function init(){
  function tab(t){
   panel.querySelectorAll('[data-ie-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.ieTab===t));
   q('body').classList.toggle('ie-hidden',t!=='write');q('preview').classList.toggle('ie-hidden',t!=='preview');
-  if(t==='preview')q('preview').innerHTML=render(q('body').value||'*본문이 비어 있어요.*');
+  if(t==='preview')q('preview').innerHTML=render(expandEmbeddedImages(q('body').value,embeddedImages)||'*본문이 비어 있어요.*');
  }
  async function open(){
   editBtn.disabled=true;status('불러오는 중...');
@@ -200,7 +202,8 @@ function init(){
    q('category').innerHTML=categoryOptions();
    q('title').value=m.title||'';q('summary').value=m.summary||'';q('date').value=m.date||'';
    q('category').value=m.category||'';q('section').value=(m.section||[]).join(' / ');q('tags').value=(m.tags||[]).join(', ');
-   q('pinned').checked=!!m.pinned;q('body').value=file.body;
+   embeddedImages=new Map();
+   q('pinned').checked=!!m.pinned;q('body').value=collapseEmbeddedImages(file.body,embeddedImages);
    panel.classList.remove('ie-hidden');terminal.classList.add('ie-hidden');bottom?.classList.add('ie-hidden');bar.classList.add('ie-hidden');
    tab('write');dirty=false;pStatus('Ctrl+S 저장');status('');
    panel.scrollIntoView({behavior:'smooth',block:'start'});q('body').focus({preventScroll:true});
@@ -222,7 +225,7 @@ function init(){
  }
  async function save(){
   let meta;try{meta=collect();}catch(e){pStatus(e.message,'err');return;}
-  const body=q('body').value;q('save').disabled=true;pStatus('저장 중...');
+  const body=expandEmbeddedImages(q('body').value,embeddedImages);q('save').disabled=true;pStatus('저장 중...');
   try{
    const res=await put(meta,body,'글 수정: '+meta.title);
    // Show the change right away; the rebuilt page (with code highlighting) takes over after deploy.
