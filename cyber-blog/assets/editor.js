@@ -130,7 +130,13 @@ function init(){
  bar.append(editBtn,pinBtn,barStatus);header.appendChild(bar);
  const status=(msg,cls='')=>{barStatus.textContent=msg;barStatus.className='ie-status '+cls;};
 
- async function loadFile(){const f=await gh(`/contents/${FILE}?ref=${BRANCH}`);file={sha:f.sha,...parse(b64decode(f.content))};return file;}
+ async function loadFile(){
+  const f=await gh(`/contents/${FILE}?ref=${BRANCH}`);
+  // The Contents API omits content for files larger than 1 MB; the Git Blob API includes it.
+  const content=f.encoding==='none'?(await gh(`/git/blobs/${f.sha}`)).content:f.content;
+  if(!content)throw Error('글 내용을 불러오지 못했어요.');
+  file={sha:f.sha,...parse(b64decode(content))};return file;
+ }
  const syncPin=()=>{pinBtn.textContent=file?.meta.pinned?'📌 고정 해제':'📌 홈에 고정';};
  async function put(meta,body,message){
   const res=await gh(`/contents/${FILE}`,{method:'PUT',body:JSON.stringify({message,content:b64encode(serialize(meta,body)),branch:BRANCH,sha:file.sha})});
