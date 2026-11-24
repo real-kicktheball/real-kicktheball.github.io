@@ -2,11 +2,6 @@
 {"title":"관심분야 논문 리뷰하기","date":"2026-11-24","category":"writing","tags":["ZELDA","PIR","IEEE S&P 2026"],"summary":"이 논문은 내가 무엇을 검색했는지를 서버에 숨기면서 빠르게 받을 수 있는가? 에 대한 논문이다.","section":[]}
 ---
 
-## 상위
-
-- [[Knights Frontier]]
-
-
 ### _ZELDA: Efficient Multi-Server Preprocessing PIR with Unconditional Security_
 
 이 논문은 내가 무엇을 검색했는지를 서버에 숨기면서 빠르게 받을 수 있는가? 에 대한 논문이다.
